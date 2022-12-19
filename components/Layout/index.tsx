@@ -1,34 +1,28 @@
 import React, { FC, ReactChild } from 'react'
-import styled from 'styled-components'
-
+import { SiteLayout, Main, Content, Aside } from './index.styles'
 import Header from './Header'
 import Footer from './Footer'
+import Navigation from './Navigation'
 
 interface LayoutProps {
-    children: ReactChild
+    children: ReactChild,
+    heading?: string
 }
 
-const SiteLayout = styled.div`
-    max-width: 1280px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 0px 15px;
-    height: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;    
-`
-
-const Main = styled.main`
-  overflow: auto;
-  flex: 1;
-`
-
-const Layout: FC<LayoutProps> = ({ children }) => (
+const Layout: FC<LayoutProps> = ({ children, heading }) => (
   <SiteLayout>
-    <Header heading="Blake's" />
-    <Main>
-      {children}
-    </Main>
+    <Navigation />
+    {heading && <Header heading={heading} />}
+    <Content>
+      <Main>
+        {children}
+      </Main>
+      {
+        //<Aside>
+          //<h4>Sidebar</h4>
+        //</Aside>
+       }
+    </Content>
     <Footer />
   </SiteLayout>
 )

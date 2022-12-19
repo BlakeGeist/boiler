@@ -1,8 +1,9 @@
 import React, { FC } from 'react'
+import Navigation from './Navigation'
 
 const Footer: FC = () => (
   <footer>
-    This is the footer
+    <Navigation borderTop />
   </footer>
 )
 
