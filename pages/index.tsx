@@ -7,7 +7,6 @@ import { collection, getDocs, getFirestore, query, limit } from "firebase/firest
 function Home({ sets }) {
 
   const loadMore = () => {
-    console.log('here')
   }
 
   return (

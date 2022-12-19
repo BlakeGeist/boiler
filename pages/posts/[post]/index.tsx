@@ -22,6 +22,14 @@ const Category = ({ post_data }) => {
                 <>
                     <h1>{post_data.post_heading}</h1>
                     <div dangerouslySetInnerHTML={{__html: html}}></div>
+
+                    <hr />
+                    <p>Categories: {post_data.post_categories.split(',').map((category, i) => {
+                        if(post_data.post_categories.split(',').length != i+1) {
+                            return `${category}, `
+                        }
+                        return `${category}`
+                    })}</p>
                 </>
             </Layout>
         </>

@@ -1,19 +1,35 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import Layout from 'components/Layout'
 import Head from 'next/head'
+import { useRouter } from "next/router";
+
+// Remove the 'capital' field from the document
 
 const Category = ({ category_data }) => {
-    console.log(category_data)
+
+    const catRef = doc(firebaseDb, 'categories', category_data.slug);
+    const router = useRouter()
+
+    const deleteCategory = async () => {
+        await deleteDoc(catRef).then(() => {
+            router.push(`/categories`)
+        })
+    }
+
     return (
         <>
             <Head>
                 <title>{category_data.meta_title}</title>
                 <meta name="description" content={category_data.meta_description} />
             </Head>
-            <Layout heading={category_data.category_heading}>
-                <p>{category_data.category_description}</p>
+            <Layout heading={category_data.category_name}>
+                <>
+                    <p><button onClick={() => deleteCategory()}>Delete</button></p>
+                    <p>{category_data.category_emoji}</p>
+                    <p>{category_data.category_description}</p>
+                </>
             </Layout>
         </>
     )
@@ -25,6 +41,7 @@ export const getServerSideProps = async (ctx) => {
 
     const category_data = category.data()
 
+  
     return {
         props: { category_data }, // will be passed to the page component as props
       }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Layout from 'components/Layout'
 import { firebaseDb } from 'utils/firebase';
-import { doc, setDoc, getDoc } from "firebase/firestore"; 
-
+import { doc, getDoc, query, setDoc, collection, limit, getDocs } from "firebase/firestore";
+import Chip from 'components/Chip'
 import dynamic from 'next/dynamic'
 
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
@@ -10,11 +10,19 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import Link from 'next/link'
 
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import createImagePlugin from '@draft-js-plugins/image';
+import { addListener } from 'process';
+
 const Editor = dynamic(() => import('react-draft-wysiwyg').then(({ Editor }) => Editor), {
     ssr: false
 });
 
-const EditPosts = ({ post_data }) => {
+const EditPosts = ({ post_data, categories }) => {
+
+    const imagePlugin = createImagePlugin();
 
     const initalEditorState = convertFromRaw(JSON.parse(post_data.post_content))
 
@@ -74,6 +82,7 @@ const EditPosts = ({ post_data }) => {
         const post_description = e.target.post_description.value
         const post_heading = e.target.post_heading.value
         const post_content = JSON.stringify(convertToRaw(contentState))
+        const post_categories = e.target.multiple_chip.value
         
         const post = {
             slug,
@@ -81,12 +90,16 @@ const EditPosts = ({ post_data }) => {
             meta_description,
             post_description,
             post_heading,
-            post_content
+            post_content,
+            post_categories
         }
 
         setDoc(doc(firebaseDb, "posts", slug), post);
 
-        console.log(post)
+    }
+
+    const uploadCallback = () => {
+        alert('here')
     }
 
     return (
@@ -97,7 +110,18 @@ const EditPosts = ({ post_data }) => {
                         <a>View Post</a>
                     </Link>
                 </div>
+
+
+      <IconButton color="primary" aria-label="upload picture" component="label">
+        <input hidden accept="image/*" type="file" />
+        <PhotoCamera />
+      </IconButton>
+
                 <form onSubmit={onSubmit}>
+                    <Chip initalNames={post_data.post_categories?.split(',')} names={categories.map((category) => {
+                        return (`${category.category_name} ${category.category_emoji}`)
+                    })}/>
+
                     <Input name="Slug" initalVal={post_data.slug} />
                     <Input name="Meta Title" initalVal={post_data.meta_title} />
                     <TextArea name="Meta Description" initalVal={post_data.meta_description} />
@@ -109,9 +133,31 @@ const EditPosts = ({ post_data }) => {
                         wrapperClassName="wrapperClassName"
                         editorClassName="editorClassName"
                         onEditorStateChange={onEditorStateChange}
+                        toolbar={{
+                            image:{
+                                uploadEnabled: true,
+                                uploadCallback: uploadCallback,
+                                previewImage: true,
+                                inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg',
+                                alt: { present: false, mandatory: false },
+                                defaultSize: {
+                                    height: 'auto',
+                                    width: 'auto',
+                                },
+                             },                            
+                            inline: { inDropdown: true },
+                            list: { inDropdown: true },
+                            bold: { inDropdown: true },
+                            textAlign: { inDropdown: true },
+                            link: { inDropdown: true },
+                            history: { inDropdown: true },
+   
+                          }}                        
                         />
                     <input type="submit" />
                 </form>
+
+
             </>
         </Layout>
     )
@@ -123,8 +169,13 @@ export const getServerSideProps = async (ctx) => {
 
     const post_data = post.data()
 
+    const orderedDocs = query(collection(firebaseDb, "categories"))
+    const querySnapshot = await getDocs(orderedDocs);
+    const categories = querySnapshot.docs.map(doc => doc.data())
+
+
     return {
-        props: { post_data }, // will be passed to the page component as props
+        props: { post_data, categories }, // will be passed to the page component as props
       }
 }
 
