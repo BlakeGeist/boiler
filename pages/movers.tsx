@@ -7,7 +7,6 @@ const Movers = ( { companies } ) => {
     const parser = new XMLParser();
 let jObj = parser.parse(companies);
 
-console.log(jObj.QUOTE)
 
     return (
         <div>
@@ -28,7 +27,6 @@ export const getServerSideProps = async (ctx) => {
       
       const companies = await axios.request(options).then(function (response) {
 
-          console.log(response.data)
 
           return response.data
       }).catch(function (error) {

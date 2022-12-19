@@ -22,6 +22,16 @@ export const Main = styled.main`
         left: auto !important;
     }
 
+    figure {
+        margin: 0;
+    }
+
+    p {
+        br {
+            display: none;
+        }
+    }
+
 `
 
 export const Content = styled.div`

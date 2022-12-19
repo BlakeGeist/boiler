@@ -5,12 +5,12 @@ import Layout from 'components/Layout'
 import Head from 'next/head'
 import { EditorState, convertToRaw } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
+import { stateToHTML } from "draft-js-export-html";
 
 import {Editor, convertFromRaw} from 'draft-js';
 
-
 const Category = ({ post_data }) => {
-    const html = convertToHTML(convertFromRaw(JSON.parse(post_data.post_content)))
+    const html = stateToHTML(convertFromRaw(JSON.parse(post_data.post_content))).replace('<p><br></p>', '')
 
     return (
         <>
@@ -18,11 +18,9 @@ const Category = ({ post_data }) => {
                 <title>{post_data.meta_title}</title>
                 <meta name="description" content={post_data.meta_description} />
             </Head>
-            <Layout>
+            <Layout heading={post_data.post_heading}>
                 <>
-                    <h1>{post_data.post_heading}</h1>
                     <div dangerouslySetInnerHTML={{__html: html}}></div>
-
                     <hr />
                     <p>Categories: {post_data.post_categories.split(',').map((category, i) => {
                         if(post_data.post_categories.split(',').length != i+1) {

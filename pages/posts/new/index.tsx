@@ -87,7 +87,6 @@ const NewPosts = () => {
             router.push(`/posts/${slug}`)
         })
 
-        console.log(post)
     }
 
     return (

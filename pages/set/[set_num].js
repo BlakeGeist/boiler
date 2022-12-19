@@ -19,7 +19,6 @@ const db = getFirestore(firebaseApp);
 const Set = (props) => {
   const {set, soldSets} = props
 
-  console.log(soldSets)
 
   return (
       <div>

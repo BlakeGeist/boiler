@@ -18,6 +18,7 @@
     "@mui/material": "^5.4.3",
     "axios": "^0.26.0",
     "draft-convert": "^2.1.13",
+    "draft-js-export-html": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
     "draftjs-to-markdown": "^0.6.0",
     "ebay-node-api": "^2.9.0",
