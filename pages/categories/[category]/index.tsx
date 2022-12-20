@@ -1,15 +1,15 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore"
 import Layout from 'components/Layout'
 import Head from 'next/head'
-import { useRouter } from "next/router";
+import { useRouter } from "next/router"
 
 // Remove the 'capital' field from the document
 
 const Category = ({ category_data }) => {
 
-    const catRef = doc(firebaseDb, 'categories', category_data.slug);
+    const catRef = doc(firebaseDb, 'categories', category_data.slug)
     const router = useRouter()
 
     const deleteCategory = async () => {
@@ -36,8 +36,8 @@ const Category = ({ category_data }) => {
 }
 
 export const getServerSideProps = async (ctx) => {
-    const docRef = doc(firebaseDb, "categories", ctx.query.category);
-    const category = await getDoc(docRef);
+    const docRef = doc(firebaseDb, "categories", ctx.query.category)
+    const category = await getDoc(docRef)
 
     const category_data = category.data()
 

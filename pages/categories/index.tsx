@@ -1,9 +1,9 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { collection, getDocs, getFirestore, query, limit } from "firebase/firestore";
+import { collection, getDocs, query, limit } from "firebase/firestore"
 import Layout from 'components/Layout'
 import Link from 'next/link'
-import { StyledList, StyledDivider, ReadMore } from './index.styles'
+import { StyledList, StyledDivider, ReadMore } from 'components/pages/category/index.styles'
 
 const Categories = ({ categories }) => {
     return (
@@ -11,7 +11,7 @@ const Categories = ({ categories }) => {
             <>
                 <h1>Categories</h1>
                 <StyledList>
-                    {categories.map((category, i) => {
+                    {categories.map((category) => {
                         return (
                             <li key={category.slug}>
                                 <h2>
@@ -38,9 +38,9 @@ const Categories = ({ categories }) => {
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps = async () => {
     const orderedDocs = query(collection(firebaseDb, "categories"), limit(100))
-    const querySnapshot = await getDocs(orderedDocs);
+    const querySnapshot = await getDocs(orderedDocs)
     const categories = querySnapshot.docs.map(doc => doc.data())
   
     return { props: { categories: categories || null  } }

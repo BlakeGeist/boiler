@@ -1,5 +1,5 @@
 import React, { FC, ReactChild } from 'react'
-import { SiteLayout, Main, Content, Aside } from './index.styles'
+import { SiteLayout, Main, Content } from './index.styles'
 import Header from './Header'
 import Footer from './Footer'
 import Navigation from './Navigation'

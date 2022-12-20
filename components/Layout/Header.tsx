@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const StyledHeader = styled.header`
   overflow: auto;
-`;
+`
 
 interface ChildProps {
     heading: string

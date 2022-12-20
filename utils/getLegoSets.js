@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { firebaseDb } from './firebase.js';
-import { doc, setDoc } from "firebase/firestore"; 
+import axios from 'axios'
+import { firebaseDb } from './firebase.js'
+import { doc, setDoc } from "firebase/firestore" 
 
 const importSets = async () => {
 
@@ -22,7 +22,7 @@ const importSets = async () => {
     
                 for(const set of sets) {
                     console.log(set)
-                    setDoc(doc(firebaseDb, "sets", set.set_num), set);
+                    setDoc(doc(firebaseDb, "sets", set.set_num), set)
                 }
                 
                 console.log(res.data.results.length)

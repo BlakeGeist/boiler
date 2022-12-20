@@ -1,18 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { addDoc, collection } from "firebase/firestore" 
+import { firebaseDb } from 'utils/firebase'
 
-const Faqs = ({ faq }) => {
-    const onFaqSubmit = (e) => {
+const Faqs = ({ faq, postSlug }) => {
+
+    const [faqData, setFaqData] = useState({
+        question: faq.question || '',
+        answer: faq.answer || ''
+    })
+
+    const onFaqSubmit = async (e) => {
         e.preventDefault()
-        console.log(e.target.question.value)
-        console.log(e.target.answer.value)
     
+        //TODO add an update FAQ feature
+
         //add the faq as a sub collection
+        addDoc(
+            collection(firebaseDb, "categories", postSlug, "faqs"),
+            faqData
+        )
     }
+
+    const onChange = (e) => {
+        const v = e.currentTarget.value
+        setFaqData({
+            ...faqData,
+            [e.currentTarget.name]: v
+        })
+    } 
 
     return (
         <form onSubmit={(e) => onFaqSubmit(e)}>
-            <input type="text" name="question"  />
-            <input type="text" name="answer"  />
+            <input type="text" onChange={(e) => onChange(e)} name="question" value={faq.question} />
+            <input type="text" onChange={(e) => onChange(e)} name="answer" value={faq.answer} />
             <input type="submit" />
         </form>
     )

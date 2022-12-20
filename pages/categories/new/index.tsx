@@ -1,53 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Layout from 'components/Layout'
-import { firebaseDb } from 'utils/firebase';
-import { doc, setDoc } from "firebase/firestore"; 
-import slugify from 'slugify';
-import { useRouter } from "next/router";
-
+import { firebaseDb } from 'utils/firebase'
+import { doc, setDoc } from "firebase/firestore" 
+import slugify from 'slugify'
+import { useRouter } from "next/router"
+import Input from 'components/pages/post/forms/Input'
+import TextArea from 'components/pages/post/forms/TextArea'
 
 const NewCategory = () => {
     const router = useRouter()
-
-    const Input = ({ name }) => {
-        const [value, setValue] = useState('')
-
-        const rawInputID = name.toLowerCase()
-        const check = chr  => `&\/#, +()$~%.'":*?<>{}`.includes(chr);
-        const inputID = [...rawInputID].reduce((s, c) => check(c) ? s+'_' : s + c, '')
-
-        const onChange = (e) => {
-            setValue( e.currentTarget.value)
-        }
-
-        return (
-            <div>
-                <label htmlFor={inputID}>{name}</label> <br />
-                <input onChange={(e) => onChange(e)} type="text" id={inputID} name={inputID} value={value} />
-                <div>Count: {value.length}</div>
-            </div>
-        )
-    }
-
-    const TextArea = ({ name }) => {
-        const [value, setValue] = useState('')
-
-        const rawInputID = name.toLowerCase()
-        const check = chr  => `&\/#, +()$~%.'":*?<>{}`.includes(chr);
-        const inputID = [...rawInputID].reduce((s, c) => check(c) ? s+'_' : s + c, '')
-
-        const onChange = (e) => {
-            setValue( e.currentTarget.value)
-        }
-
-        return (
-            <div>
-                <label htmlFor={inputID}>{name}</label> <br />
-                <textarea onChange={(e) => onChange(e)} id={inputID} name={inputID} value={value} />
-                <div>Count: {value.length}</div>
-            </div>
-        )
-    }    
 
     const onSubmit = (e) => {
         e.preventDefault()

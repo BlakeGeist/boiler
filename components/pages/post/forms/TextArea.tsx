@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
+// @ts-nocheck
 
-const TextArea = ({ name, initalVal }) => {
+interface TextAreaProps {
+    name: string,
+    initalVal?: string
+}
+
+const TextArea:FC<TextAreaProps> = ({ name, initalVal }) => {
     const [value, setValue] = useState(initalVal || '')
 
     const rawInputID = name.toLowerCase()
-    const check = chr  => `&\/#, +()$~%.'":*?<>{}`.includes(chr);
+    const check = (chr) => `&\/#, +()$~%.'":*?<>{}`.includes(chr)
     const inputID = [...rawInputID].reduce((s, c) => check(c) ? s+'_' : s + c, '')
 
     const onChange = (e) => {

@@ -1,7 +1,7 @@
-const axios = require("axios");
-const { getFirestore } = require("firebase/firestore"); 
-const { initializeApp } = require("firebase/app");
-const { doc, updateDoc, collection } = require("firebase/firestore"); 
+const axios = require("axios")
+const { getFirestore } = require("firebase/firestore") 
+const { initializeApp } = require("firebase/app")
+const { doc, updateDoc, collection } = require("firebase/firestore") 
 
 const firebaseConfig = {
     apiKey: "AIzaSyCBXCXdvpPYz1rY9Wximbz0OIAhPVpYdek",
@@ -11,10 +11,10 @@ const firebaseConfig = {
     messagingSenderId: "712892128313",
     appId: "1:712892128313:web:f76f772da24f7cd8f301e8",
     measurementId: "G-X3Q97THP7W"
-};
+}
 
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
+const firebaseApp = initializeApp(firebaseConfig)
+const db = getFirestore(firebaseApp)
 
 const data = {
     "keywords": "Lego 70751",
@@ -37,15 +37,15 @@ const options = {
     'X-RapidAPI-Host': 'ebay-average-selling-price.p.rapidapi.com'
   },
   data: data
-};
+}
 
 axios.request(options).then(function (response) {
     response.data.products.forEach(async product => {
         const docRef = doc(db, "sets", '70751-1')
         const colRef = collection(docRef, "soldItems")
 
-        await updateDoc(colRef, product);
+        await updateDoc(colRef, product)
     })
 }).catch(function (error) {
-	console.error(error);
-});
+	console.error(error)
+})

@@ -1,31 +1,28 @@
 import React, { useState } from 'react'
 import Layout from 'components/Layout'
-import { firebaseDb } from 'utils/firebase';
-import { doc, getDoc, query, setDoc, collection, limit, getDocs } from "firebase/firestore";
+import { firebaseDb } from 'utils/firebase'
+import { doc, getDoc, query, setDoc, collection, getDocs } from "firebase/firestore"
 import Chip from 'components/Chip'
 import dynamic from 'next/dynamic'
 
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import Link from 'next/link'
 
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import createImagePlugin from '@draft-js-plugins/image';
-import Faqs from 'components/pages/post/forms/Faqs';
-import Input from 'components/pages/post/forms/Input';
-import TextArea from 'components/pages/post/forms/TextArea';
+import Faqs from 'components/pages/post/forms/Faqs'
+import Input from 'components/pages/post/forms/Input'
+import TextArea from 'components/pages/post/forms/TextArea'
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then(({ Editor }) => Editor), {
     ssr: false
-});
+})
 
-const EditPosts = ({ post_data, categories }) => {
+const EditPosts = ({ post_data, categories, faqs }) => {
 
     const initalEditorState = convertFromRaw(JSON.parse(post_data.post_content))
 
-    const [postFaqs, setPostFaqs] = useState([])
+    const [postFaqs, setPostFaqs] = useState(faqs || [])
 
     const [editorState, setEditorState] = useState(EditorState.createWithContent(initalEditorState))
 
@@ -35,7 +32,7 @@ const EditPosts = ({ post_data, categories }) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        const contentState = editorState.getCurrentContent();
+        const contentState = editorState.getCurrentContent()
 
         const slug = e.target.slug.value
         const meta_title = e.target.meta_title.value
@@ -44,9 +41,8 @@ const EditPosts = ({ post_data, categories }) => {
         const post_heading = e.target.post_heading.value
         const post_content = JSON.stringify(convertToRaw(contentState))
         const post_categories = e.target.multiple_chip.value
+        const summary = e.target.summary.value
 
-        const faqs = e.target.questions.value
-        
         const post = {
             slug,
             meta_title,
@@ -55,12 +51,13 @@ const EditPosts = ({ post_data, categories }) => {
             post_heading,
             post_content,
             post_categories,
-            faqs
+            faqs,
+            summary
         }
 
         console.log(post)
 
-        setDoc(doc(firebaseDb, "posts", slug), post);
+        setDoc(doc(firebaseDb, "posts", slug), post)
     }
 
     const uploadCallback = () => {
@@ -92,6 +89,7 @@ const EditPosts = ({ post_data, categories }) => {
                     <TextArea name="Meta Description" initalVal={post_data.meta_description} />
                     <Input name="post Heading" initalVal={post_data.post_heading} />
                     <TextArea name="post Description" initalVal={post_data.post_description} />
+                    <TextArea name="Summary" initalVal={post_data.summary} />
                     <Editor
                         editorState={editorState}
                         toolbarClassName="toolbarClassName"
@@ -126,7 +124,7 @@ const EditPosts = ({ post_data, categories }) => {
 
                 <h2>Faqs</h2>
                 <div>
-                    {postFaqs?.map((faq, i) => <Faqs faq={faq}/>)}
+                    {postFaqs?.map((faq, i) => <Faqs postSlug={post_data.slug} key={i} faq={faq}/>)}
                     <button onClick={(e) => addFAQ(e)}>Add FAQ</button>
                 </div>
             </>
@@ -137,17 +135,21 @@ const EditPosts = ({ post_data, categories }) => {
 export const getServerSideProps = async (ctx) => {
     //Get the post
     const docRef = doc(firebaseDb, "posts", ctx.query.post)
-    const post = await getDoc(docRef);
+    const post = await getDoc(docRef)
     const post_data = post.data()
 
     //Get the categories
     const orderedDocs = query(collection(firebaseDb, "categories"))
-    const querySnapshot = await getDocs(orderedDocs);
-    
+    const querySnapshot = await getDocs(orderedDocs)
     const categories = querySnapshot.docs.map(doc => doc.data())
 
+    //Get the faqs
+    const orderedFaqDocs = query(collection(firebaseDb, "categories", ctx.query.post, "faqs"))
+    const queryFaqSnapshot = await getDocs(orderedFaqDocs)
+    const faqs = queryFaqSnapshot.docs.map(doc => doc.data())
+            
     return {
-        props: { post_data, categories }
+        props: { post_data, categories, faqs }
     }
 }
 
