@@ -3,7 +3,7 @@ import { firebaseDb } from 'utils/firebase'
 import { collection, getDocs, query, limit } from "firebase/firestore"
 import Layout from 'components/Layout'
 import Link from 'next/link'
-import { StyledList, StyledDivider, ReadMore } from 'components/pages/post/index.styles'
+import { StyledList, StyledDivider, ReadMore } from 'components/pages/sites/index.styles'
 
 const Posts = ({ posts }) => {
     return (

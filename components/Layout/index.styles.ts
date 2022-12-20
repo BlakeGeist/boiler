@@ -8,7 +8,7 @@ export const SiteLayout = styled.div`
 `
 
 export const Main = styled.main`
-    flex: 0 1 770px;
+    flex: 1 1 770px;
     overflow: auto;
 
     ul, ol {
@@ -16,6 +16,22 @@ export const Main = styled.main`
             margin-bottom: 15px;
         }
     }
+
+    .rdw-image-modal {
+        right: 5px !important;
+        left: auto !important;
+    }
+
+    figure {
+        margin: 0;
+    }
+
+    p {
+        br {
+            display: none;
+        }
+    }
+
 `
 
 export const Content = styled.div`

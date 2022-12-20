@@ -4,7 +4,7 @@
     "paths": {
       "components/*": ["components/*"]
     },
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -27,7 +27,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "utils/getGoogleSearchResults.js"  ],
+, "utils/getGoogleSearchResults.js", "pages/sites/[site]/posts/new/index.js", "pages/posts/new/index.js", "pages/posts/[post]/edit.js", "pages/sites/[site]/posts/[post]/edit.js"  ],
   "exclude": [
     "node_modules"
   ]

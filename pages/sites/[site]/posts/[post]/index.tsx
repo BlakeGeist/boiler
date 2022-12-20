@@ -42,7 +42,7 @@ const Category = ({ post_data, faqs, recent_posts }) => {
 
                     <hr />
 
-                    <p>Categories: {post_data.post_categories.split(',').map((category, i) => {
+                    <p>Categories: {post_data?.post_categories?.split(',').map((category, i) => {
                         if(post_data.post_categories.split(',').length != i+1) {
                             return `${category}, `
                         }
@@ -68,7 +68,7 @@ const Category = ({ post_data, faqs, recent_posts }) => {
 }
 
 export const getServerSideProps = async (ctx) => {
-    const docRef = doc(firebaseDb, "posts", ctx.query.post)
+    const docRef = doc(firebaseDb, "sites", "example.com", "posts", ctx.query.post)
     const post = await getDoc(docRef)
 
     const post_data = post.data()

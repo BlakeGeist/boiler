@@ -1,13 +1,13 @@
 import React from 'react'
 import Layout from 'components/Layout'
 import { firebaseDb } from 'utils/firebase'
-import { doc, setDoc } from "firebase/firestore" 
+import { doc, setDoc, getDoc } from "firebase/firestore" 
 import slugify from 'slugify'
 import { useRouter } from "next/router"
 import Input from 'components/pages/post/forms/Input'
 import TextArea from 'components/pages/post/forms/TextArea'
 
-const NewCategory = () => {
+const NewCategory = ({ category_data }) => {
     const router = useRouter()
 
     const onSubmit = (e) => {
@@ -41,17 +41,28 @@ const NewCategory = () => {
         <Layout heading="New Category">
             <>
                 <form onSubmit={onSubmit}>
-                    <Input name="Meta Title" />
-                    <TextArea name="Meta Description" />
-                    <Input name="Category Heading" />
-                    <Input name="Category Name" />
-                    <Input name="Category Emoji" />
-                    <TextArea name="Category Description" />
+                    <Input name="Meta Title" initalVal={category_data.meta_title} />
+                    <TextArea name="Meta Description" initalVal={category_data.meta_description} />
+                    <Input name="Category Heading" initalVal={category_data.category_heading} />
+                    <Input name="Category Name" initalVal={category_data.category_name} />
+                    <Input name="Category Emoji" initalVal={category_data.category_emoji} />
+                    <TextArea name="Category Description" initalVal={category_data.category_description} />
                     <input type="submit" />
                 </form>
             </>
         </Layout>
     )
+}
+
+export const getServerSideProps = async (ctx) => {
+    const docRef = doc(firebaseDb, "categories", ctx.query.category)
+    const category = await getDoc(docRef)
+
+    const category_data = category.data()
+
+    return {
+        props: { category_data }, // will be passed to the page component as props
+      }
 }
 
 export default NewCategory

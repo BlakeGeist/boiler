@@ -1,23 +1,50 @@
 import React, { FC } from 'react'
 import Layout from '../Layout'
-import Link from 'next/link'
+import { firebaseDb } from 'utils/firebase'
+import { doc, setDoc } from "firebase/firestore"
+import slugify from 'slugify'
+import { useRouter } from "next/router"
 
 interface HomeProps {
-  sets: any
+  sitesArray: any
 }
 
-const Home:FC<HomeProps> = ({ sets }) => {
+const Home:FC<HomeProps> = ({ sitesArray }) => {
+  const router = useRouter()
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    const url = e.target.url.value
+    const domain = e.target.domain.value
+    const slug = slugify(domain)
+    const site = {
+      url,
+      slug,
+      domain
+    }
+
+    setDoc(doc(firebaseDb, "sites", slug), site).then(() => {
+      router.push(`/sites/${slug}`)
+    })
+  }
+
   return (
-    <Layout heading="Dog Walking">
+    <Layout heading="Sites">
       <>
-        <h2>This is the main content</h2>
-        {sets.map(set => {
+        {sitesArray?.map((site) => {
           return (
-            <p key={set.set_num}>
-              Set Number: <Link href={`/set/${set.set_num}`}><a>{set.set_num}</a></Link>
+            <p key={site.url}>
+              Site: {site.domain}
             </p>
           )
         })}
+
+        <form onSubmit={e => onSubmit(e)}>
+          <input type="url" name="url" />
+          <input type="text" name="domain" />
+          <input type="submit" value="Add Site" />
+        </form>
       </>
     </Layout>
   )

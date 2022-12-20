@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Layout from 'components/Layout'
-import { firebaseDb } from 'utils/firebase';
-import { doc, setDoc } from "firebase/firestore"; 
-import { useRouter } from "next/router";
-import slugify from 'slugify';
+import { firebaseDb } from 'utils/firebase'
+import { doc, setDoc } from "firebase/firestore" 
+import { useRouter } from "next/router"
+import slugify from 'slugify'
 
 import dynamic from 'next/dynamic'
 
-import { EditorState, convertToRaw } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { EditorState, convertToRaw } from 'draft-js'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import Input from 'components/pages/post/forms/Input'
+import TextArea from 'components/pages/post/forms/TextArea'
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then(({ Editor }) => Editor), {
     ssr: false
-});
+})
 
 const NewPosts = () => {
     const router = useRouter()
@@ -23,49 +25,9 @@ const NewPosts = () => {
       setEditorState(editorState)
     }
 
-    const Input = ({ name }) => {
-        const [value, setValue] = useState('')
-
-        const rawInputID = name.toLowerCase()
-        const check = chr  => `&\/#, +()$~%.'":*?<>{}`.includes(chr);
-        const inputID = [...rawInputID].reduce((s, c) => check(c) ? s+'_' : s + c, '')
-
-        const onChange = (e) => {
-            setValue( e.currentTarget.value)
-        }
-
-        return (
-            <div>
-                <label htmlFor={inputID}>{name}</label> <br />
-                <input onChange={(e) => onChange(e)} type="text" id={inputID} name={inputID} value={value} />
-                <div>Count: {value.length}</div>
-            </div>
-        )
-    }
-
-    const TextArea = ({ name }) => {
-        const [value, setValue] = useState('')
-
-        const rawInputID = name.toLowerCase()
-        const check = chr  => `&\/#, +()$~%.'":*?<>{}`.includes(chr);
-        const inputID = [...rawInputID].reduce((s, c) => check(c) ? s+'_' : s + c, '')
-
-        const onChange = (e) => {
-            setValue( e.currentTarget.value)
-        }
-
-        return (
-            <div>
-                <label htmlFor={inputID}>{name}</label> <br />
-                <textarea onChange={(e) => onChange(e)} id={inputID} name={inputID} value={value} />
-                <div>Count: {value.length}</div>
-            </div>
-        )
-    }    
-
     const onSubmit = (e) => {
         e.preventDefault()
-        const contentState = editorState.getCurrentContent();
+        const contentState = editorState.getCurrentContent()
 
         const slug = slugify(e.target.post_heading.value.toLowerCase())
         const meta_title = e.target.meta_title.value
@@ -83,11 +45,11 @@ const NewPosts = () => {
             post_content
         }
 
-        setDoc(doc(firebaseDb, "posts", slug), post).then(() => {
-            router.push(`/posts/${slug}`)
+
+        setDoc(doc(firebaseDb, "sites", "example.com", "posts", slug), post).then(() => {
+            router.push(`/sites/example.com/posts/${slug}`)
         })
 
-        console.log(post)
     }
 
     return (
