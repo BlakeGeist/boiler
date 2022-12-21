@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from 'components/Layout'
 import { firebaseDb } from 'utils/firebase'
-import { doc, getDoc, query, setDoc, collection, getDocs } from "firebase/firestore"
+import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore"
 import Chip from 'components/Chip'
 import dynamic from 'next/dynamic'
 
@@ -18,7 +18,9 @@ const Editor = dynamic(() => import('react-draft-wysiwyg').then(({ Editor }) => 
     ssr: false
 })
 
-const EditPosts = ({ post_data, categories, faqs }) => {
+const EditPosts = ({ post_data, categories, faqs, host }) => {
+
+    console.log(faqs)
 
     const initalEditorState = convertFromRaw(JSON.parse(post_data.post_content))
 
@@ -57,7 +59,7 @@ const EditPosts = ({ post_data, categories, faqs }) => {
 
         console.log(post)
 
-        setDoc(doc(firebaseDb, "posts", slug), post)
+        setDoc(doc(firebaseDb, "sites", host, "posts", slug), post)
     }
 
     const uploadCallback = () => {
@@ -80,7 +82,7 @@ const EditPosts = ({ post_data, categories, faqs }) => {
                 </div>
 
                 <form onSubmit={onSubmit}>
-                    <Chip initalNames={post_data.post_categories?.split(',')} names={categories.map((category) => {
+                    <Chip initalNames={post_data.post_categories?.split(',')} names={categories?.map((category) => {
                         return (`${category.category_name} ${category.category_emoji}`)
                     })}/>
 
@@ -124,7 +126,7 @@ const EditPosts = ({ post_data, categories, faqs }) => {
 
                 <h2>Faqs</h2>
                 <div>
-                    {postFaqs?.map((faq, i) => <Faqs postSlug={post_data.slug} key={i} faq={faq}/>)}
+                    {postFaqs?.map((faq, i) => <Faqs postSlug={post_data.slug} key={i} faq={faq} host={host} />)}
                     <button onClick={(e) => addFAQ(e)}>Add FAQ</button>
                 </div>
             </>
@@ -132,25 +134,24 @@ const EditPosts = ({ post_data, categories, faqs }) => {
     )
 }
 
-export const getServerSideProps = async (ctx) => {
-    //Get the post
-    const docRef = doc(firebaseDb, "posts", ctx.query.post)
+export const getServerSideProps = async ({ req, query }) => {
+    const host = req.headers.host
+    const docRef = doc(firebaseDb, "sites", host, "posts", query.post)
     const post = await getDoc(docRef)
+
     const post_data = post.data()
 
-    //Get the categories
-    const orderedDocs = query(collection(firebaseDb, "categories"))
-    const querySnapshot = await getDocs(orderedDocs)
-    const categories = querySnapshot.docs.map(doc => doc.data())
-
     //Get the faqs
-    const orderedFaqDocs = query(collection(firebaseDb, "categories", ctx.query.post, "faqs"))
-    const queryFaqSnapshot = await getDocs(orderedFaqDocs)
-    const faqs = queryFaqSnapshot.docs.map(doc => doc.data())
-            
+    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/posts/${query.post}/faqs`))
+    const faqs = docsSnap.docs.map(doc => doc.data())
+    
+    //Get recent posts
+    const recentPostsSnap = await getDocs(collection(firebaseDb,`sites/${host}/posts`))
+    const recent_posts = recentPostsSnap.docs.map(doc => doc.data())
+
     return {
-        props: { post_data, categories, faqs }
-    }
+        props: { post_data, faqs, recent_posts, host }, // will be passed to the page component as props
+      }
 }
 
 export default EditPosts
