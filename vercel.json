@@ -1,0 +1,6 @@
+{
+    "rewrites": [
+      { "source": "/pet-tips-n-tricks.com/:asset*", "destination": "https://boiler-ecru.vercel.app/:asset*" },
+      { "source": "/(.*)", "destination": "/" }
+    ]
+  }
