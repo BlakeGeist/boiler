@@ -7,17 +7,15 @@
   module.exports = {
     async rewrites() {
       return [
-        // if the header `x-rewrite-me` is present,
-        // this rewrite will be applied
         {
-          source: '/:path*',
-          has: [
-            {
-              type: 'host',
-              value: 'pet-tips-n-tricks.com/*',
-            },
-          ],
-          destination: "/sites/pet-tips-n-tricks.com/:path*"
+            source: '/:path*',
+            has: [
+                {
+                type: 'host',
+                value: 'pet-tips-n-tricks.com',
+                },
+            ],
+            destination: 'https://pet-tips-n-tricks.com/sites/pet-tips-n-tricks.com/:path*/',
         }
       ]
     }
