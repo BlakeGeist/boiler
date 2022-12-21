@@ -49,7 +49,6 @@ const Site = ({ site, posts, host }) => {
         setDoc(doc(firebaseDb, "sites", host, "posts", slug), post).then(() => {
             router.push(`/posts/${slug}`)
         })
-
     }
 
     return (
