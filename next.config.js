@@ -4,17 +4,23 @@
   /**
  * @type {import('next').NextConfig}
  */
-const nextConfig = {
-    "rewrites": [{
-        "source": "/:path*",
-        "has": [
+  module.exports = {
+    async rewrites() {
+      return [
+        // if the header `x-rewrite-me` is present,
+        // this rewrite will be applied
+        {
+          source: '/:path*',
+          has: [
             {
-                "type": "host",
-                "value": "pet-tips-n-tricks.com"
-            }
-        ],
-        "destination": "/sites/pet-tips-n-tricks.com/:path*"
-    }]
-  }
+              type: 'host',
+              key: 'pet-tips-n-tricks.com',
+            },
+          ],
+          destination: "/sites/pet-tips-n-tricks.com/:path*"
+        }
+      ]
+    }
+}
+
   
-  module.exports = nextConfig
