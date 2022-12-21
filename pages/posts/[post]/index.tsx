@@ -17,7 +17,7 @@ const Category = ({ post_data, faqs, recent_posts }) => {
     const myRef = useRef(null)
     const executeScroll = () => myRef.current.scrollIntoView()
 
-    const html = stateToHTML(convertFromRaw(JSON.parse(post_data?.post_content))).replace('<p><br></p>', '')
+    const html = stateToHTML(convertFromRaw(JSON.parse(post_data?.post_content)))
 
     return (
         <>
