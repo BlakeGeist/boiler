@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { doc, getDoc, query, collection, getDocs, limit } from "firebase/firestore"
+import { doc, getDoc, collection, getDocs } from "firebase/firestore"
 import Layout from 'components/Layout'
 import Head from 'next/head'
 import { stateToHTML } from "draft-js-export-html"
@@ -42,7 +42,7 @@ const Category = ({ post_data, faqs, recent_posts }) => {
 
                     <hr />
 
-                    <p>Categories: {post_data.post_categories.split(',').map((category, i) => {
+                    <p>Categories: {post_data.post_categories?.split(',').map((category, i) => {
                         if(post_data.post_categories.split(',').length != i+1) {
                             return `${category}, `
                         }
@@ -67,21 +67,20 @@ const Category = ({ post_data, faqs, recent_posts }) => {
     )
 }
 
-export const getServerSideProps = async (ctx) => {
-    const docRef = doc(firebaseDb, "posts", ctx.query.post)
+export const getServerSideProps = async ({ req, query }) => {
+    const host = req.headers.host
+    const docRef = doc(firebaseDb, "sites", host, "posts", query.post)
     const post = await getDoc(docRef)
 
     const post_data = post.data()
 
     //Get the faqs
-    const orderedFaqDocs = query(collection(firebaseDb, "categories", ctx.query.post, "faqs"))
-    const queryFaqSnapshot = await getDocs(orderedFaqDocs)
-    const faqs = queryFaqSnapshot.docs.map(doc => doc.data())
+    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/faqs`))
+    const faqs = docsSnap.docs.map(doc => doc.data())
     
     //Get recent posts
-    const orderedDocs = query(collection(firebaseDb, "posts"), limit(5))
-    const querySnapshot = await getDocs(orderedDocs)
-    const recent_posts = querySnapshot.docs.map(doc => doc.data())
+    const recentPostsSnap = await getDocs(collection(firebaseDb,`sites/${host}/posts`))
+    const recent_posts = recentPostsSnap.docs.map(doc => doc.data())
 
     return {
         props: { post_data, faqs, recent_posts }, // will be passed to the page component as props

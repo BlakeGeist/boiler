@@ -1,6 +1,6 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { collection, getDocs, query, limit } from "firebase/firestore"
+import { collection, getDocs } from "firebase/firestore"
 import Layout from 'components/Layout'
 import Link from 'next/link'
 import { StyledList, StyledDivider, ReadMore } from 'components/pages/post/index.styles'
@@ -38,10 +38,10 @@ const Posts = ({ posts }) => {
     )
 }
 
-export const getServerSideProps = async () => {
-    const orderedDocs = query(collection(firebaseDb, "posts"), limit(100))
-    const querySnapshot = await getDocs(orderedDocs)
-    const posts = querySnapshot.docs.map(doc => doc.data())
+export const getServerSideProps = async ({ req }) => {
+    const host = req.headers.host
+    const postsSnap = await getDocs(collection(firebaseDb,`sites/${host}/posts`))
+    const posts = postsSnap.docs.map(doc => doc.data())
   
     return { props: { posts: posts || null  } }
   }
