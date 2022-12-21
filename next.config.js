@@ -10,7 +10,7 @@ const nextConfig = {
         "has": [
             {
                 "type": "host",
-                "value": ":pet-tips-n-tricks.com"
+                "value": "pet-tips-n-tricks.com"
             }
         ],
         "destination": "/sites/pet-tips-n-tricks.com/:path*"
