@@ -16,7 +16,7 @@ const Editor = dynamic(() => import('react-draft-wysiwyg').then(({ Editor }) => 
     ssr: false
 })
 
-const Site = ({ site, posts }) => {
+const Site = ({ site, posts, host }) => {
 
     const router = useRouter()
 
@@ -46,7 +46,7 @@ const Site = ({ site, posts }) => {
             post_content
         }
 
-        setDoc(doc(firebaseDb, "sites", "localhost:3000", "posts", slug), post).then(() => {
+        setDoc(doc(firebaseDb, "sites", host, "posts", slug), post).then(() => {
             router.push(`/posts/${slug}`)
         })
 
@@ -94,7 +94,7 @@ export const getServerSideProps = async ({req}) => {
     const posts = qSnap.docs?.map(d => ({id: d.id, ...d.data()}))
   
     return {
-        props: { site, posts: posts || null }
+        props: { site, posts: posts || null, host }
     }
 }
 
