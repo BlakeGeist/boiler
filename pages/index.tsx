@@ -11,10 +11,8 @@ const Home = ({ site }) => (
       <meta name="description" content="Blake's create blog sites app" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    
-    <div>
-      <HomePage site={site} />
-    </div>
+  
+    <HomePage site={site} />
   </>
 )
 
