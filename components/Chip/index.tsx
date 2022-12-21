@@ -66,7 +66,7 @@ const MultipleSelectChip = ({ names, initalNames }) => {
           )}}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {names?.map((name) => (
             <MenuItem
               key={name}
               value={name}

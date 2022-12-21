@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { addDoc, collection } from "firebase/firestore" 
 import { firebaseDb } from 'utils/firebase'
 
-const Faqs = ({ faq, postSlug }) => {
+const Faqs = ({ faq, postSlug, host }) => {
 
     const [faqData, setFaqData] = useState({
         question: faq.question || '',
@@ -16,7 +16,7 @@ const Faqs = ({ faq, postSlug }) => {
 
         //add the faq as a sub collection
         addDoc(
-            collection(firebaseDb, "categories", postSlug, "faqs"),
+            collection(firebaseDb, "sites", host, "posts", postSlug, "faqs"),
             faqData
         )
     }

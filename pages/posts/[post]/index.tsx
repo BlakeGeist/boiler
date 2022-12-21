@@ -27,9 +27,10 @@ const Category = ({ post_data, faqs, recent_posts }) => {
             </Head>
             <Layout heading={post_data.post_heading}>
                 <>
+                    <img style={{marginBottom: '25px'}} src="https://media.istockphoto.com/id/1327276218/photo/the-picturesque-mountain-landscape-on-the-sunset-background.jpg?b=1&s=170667a&w=0&k=20&c=8tzAabsLYLhMW6iDoeuBZUuaozi-F0lL2KcE49JVVaI=" />
 
-                    <div style={{border: '1px solid #f1f1f1'}}>
-                        <h2>Table of contents</h2>
+                    <div style={{border: '1px solid #f1f1f1', float: 'right', marginLeft: '15px'}}>
+                        <h2 style={{margin: '0 10px'}}>Table of contents</h2>
                         <TableOfContents executeScroll={executeScroll}/>
                     </div>
 
@@ -75,7 +76,7 @@ export const getServerSideProps = async ({ req, query }) => {
     const post_data = post.data()
 
     //Get the faqs
-    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/faqs`))
+    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/posts/${query.post}/faqs`))
     const faqs = docsSnap.docs.map(doc => doc.data())
     
     //Get recent posts
