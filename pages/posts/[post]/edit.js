@@ -34,6 +34,7 @@ const EditPosts = ({ post_data, categories, faqs, host }) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
+        
         const contentState = editorState.getCurrentContent()
 
         const slug = e.target.slug.value
