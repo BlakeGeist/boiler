@@ -19,7 +19,7 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.4.3",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "draft-convert": "^2.1.13",
     "draft-js-export-html": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
