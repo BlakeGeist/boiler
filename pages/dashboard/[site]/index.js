@@ -1,44 +1,38 @@
-import React, { useState } from 'react'
-import {Configuration, OpenAIApi } from 'openai'
+import React from 'react'
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import Layout from 'components/Layout'
+import axios from 'axios'
+import { useRouter } from "next/router"
 
 //import { EditorState } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
-const Site = ({ site, posts }) => {
-
-    const configuration = new Configuration({
-        apiKey: "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"
-      })
-    
-    const openai = new OpenAIApi(configuration)
-
+const Site = ({ site, posts, host }) => {
     //const [setEditorState] = useState(EditorState.createEmpty())
     //const [postFaqs, setPostFaqs] = useState(faqs || [])
-    const [resp, setResp] = useState({})
+    //const [resp, setResp] = useState({})
+    const router = useRouter()
 
     //const onEditorStateChange = (editorState) => {
       //setEditorState(editorState)
     //}
 
-    const onClick = async (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
 
-        const response = await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: "Create an article related to the stresses of moving homes for pets, use at least 900 words, site at least 2 sources, create a meta title for the article, create a meta description for the article",
-            temperature: 0,
-            max_tokens: 4000,
-            top_p: 1,
-            frequency_penalty: 0.2,
-            presence_penalty: 0,
-          })
+        const params = {
+            host,
+            prompt: e.target.prompt.value
+        }
 
-        console.log(response)
-
-        setResp(response)
+        await axios.get('/api/buildArticle', { params })
+            .then((res) => {
+                router.push(`/posts/${res.data.slug}`)
+            })
+            .catch(e => {
+                console.log(e)
+            })
     }
 
     return (
@@ -49,15 +43,15 @@ const Site = ({ site, posts }) => {
                 <ul>
                     {posts.map((post) => {
                         return (
-                            <li key={post.slug}>{post.post_heading}</li>
+                            <li key={post.slug}>{post.heading}</li>
                         )
                     })}
                 </ul>
 
-                {resp?.data?.choices[0].text}
-
-
-                <button onClick={onClick}>Generate</button>             
+                <form onSubmit={onSubmit}>
+                    <input type="input" name="prompt" />
+                    <button>Generate</button>
+                </form>
             </>
         </Layout>
     )
