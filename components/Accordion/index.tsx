@@ -17,7 +17,7 @@ const ControlledAccordions = ({faqs}) => {
     <div>
         {faqs.map((faq, i) => {
             return (
-                <Accordion key={faq.question} expanded={expanded === `panel${i+1}`} onChange={handleChange(`panel${i+1}`)}>
+                <Accordion key={faq.question+i} expanded={expanded === `panel${i+1}`} onChange={handleChange(`panel${i+1}`)}>
                     <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1bh-content"

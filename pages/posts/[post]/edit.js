@@ -22,7 +22,7 @@ const EditPosts = ({ post_data, categories, faqs, host }) => {
 
     console.log(faqs)
 
-    const initalEditorState = convertFromRaw(JSON.parse(post_data.post_content))
+    const initalEditorState = convertFromRaw(JSON.parse(post_data.article))
 
     const [postFaqs, setPostFaqs] = useState(faqs || [])
 
@@ -34,7 +34,7 @@ const EditPosts = ({ post_data, categories, faqs, host }) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        
+
         const contentState = editorState.getCurrentContent()
 
         const slug = e.target.slug.value
@@ -42,7 +42,7 @@ const EditPosts = ({ post_data, categories, faqs, host }) => {
         const meta_description = e.target.meta_description.value
         const post_description = e.target.post_description.value
         const post_heading = e.target.post_heading.value
-        const post_content = JSON.stringify(convertToRaw(contentState))
+        const article = JSON.stringify(convertToRaw(contentState))
         const post_categories = e.target.multiple_chip.value
         const summary = e.target.summary.value
 
@@ -52,7 +52,7 @@ const EditPosts = ({ post_data, categories, faqs, host }) => {
             meta_description,
             post_description,
             post_heading,
-            post_content,
+            article,
             post_categories,
             faqs,
             summary

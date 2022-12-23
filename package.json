@@ -18,7 +18,8 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.4.3",
+    "@mui/lab": "^5.0.0-alpha.113",
+    "@mui/material": "^5.11.1",
     "axios": "^0.26.1",
     "draft-convert": "^2.1.13",
     "draft-js-export-html": "^1.4.1",
@@ -29,6 +30,7 @@
     "fast-xml-parser": "^4.0.7",
     "firebase": "^9.15.0",
     "form-data": "^4.0.0",
+    "got": "^12.5.3",
     "i": "^0.3.7",
     "moment": "^2.29.3",
     "next": "12.1.0",
@@ -39,10 +41,12 @@
     "react-dom": "17.0.2",
     "react-draft-wysiwyg": "^1.15.0",
     "react-json-to-table": "^0.1.7",
+    "sharp": "^0.31.3",
     "slugify": "^1.6.5",
     "styled-components": "^5.3.3",
     "wikijs": "^6.3.3",
-    "wtf_wikipedia": "^10.0.0"
+    "wtf_wikipedia": "^10.0.0",
+    "xhr2": "^0.2.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
