@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import Layout from 'components/Layout'
 import axios from 'axios'
 import { useRouter } from "next/router"
+import { LoadingButton } from '@mui/lab'
 
 //import { EditorState } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -14,12 +15,15 @@ const Site = ({ site, posts, host }) => {
     //const [resp, setResp] = useState({})
     const router = useRouter()
 
+    const [loading, setLoading] = useState(false)
+
     //const onEditorStateChange = (editorState) => {
       //setEditorState(editorState)
     //}
 
     const onSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
 
         const params = {
             host,
@@ -28,6 +32,7 @@ const Site = ({ site, posts, host }) => {
 
         await axios.get('/api/buildArticle', { params })
             .then((res) => {
+                setLoading(false)
                 router.push(`/posts/${res.data.slug}`)
             })
             .catch(e => {
@@ -50,8 +55,11 @@ const Site = ({ site, posts, host }) => {
 
                 <form onSubmit={onSubmit}>
                     <input type="input" name="prompt" />
-                    <button>Generate</button>
+                    <LoadingButton type="submit" loading={loading} loadingIndicator="Loading…" variant="outlined">
+                        Generate
+                    </LoadingButton>                    
                 </form>
+
             </>
         </Layout>
     )
