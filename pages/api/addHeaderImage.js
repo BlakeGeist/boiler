@@ -10,7 +10,6 @@ export default async function handler(req, res) {
     const { host, prompt, slug } = req.query
 
     let headerImage
-
     const image = await imageResponse(prompt, 'large')
     let dafile = await got(image)
     
