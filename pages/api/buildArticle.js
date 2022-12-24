@@ -1,49 +1,22 @@
-import slugify from 'slugify'
-import { firebaseDb } from 'utils/firebase'
-import { setDoc, doc, addDoc, collection } from 'firebase/firestore'
-import { EditorState, convertToRaw, ContentState } from 'draft-js'
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import got from 'got'
-import sharp from 'sharp'
-import { promptResponse, imageResponse } from 'utils/apiHelpers'
+//import slugify from 'slugify'
+//import { firebaseDb } from 'utils/firebase'
+//import { setDoc, doc, addDoc, collection } from 'firebase/firestore'
+//import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
+//import got from 'got'
+//import sharp from 'sharp'
+//import { promptResponse, imageResponse } from 'utils/apiHelpers'
 
-export default async function handler(req, res) {
-    const { host, prompt } = req.query
+export default async function handler() {
+    //req, res
+   /* const { host, prompt } = req.query
 
     const concept = prompt
 
-    const articlePromt = `Create an article related to ${concept}, use at least 900 words, site at least 2 sources`
-    const metaTitlePrompt = `Create a meta title for the previous ${concept} article`
-    const metaDescriptionPrompt = `Create a meta description for the previous ${concept} article`
-    const headingPrompt = `Create an article heading description for the previous ${concept} article`
-    const shortDescriptionPromt = `Create a short description using at least 250 words for the previous ${concept} article`
-    const summaryPrompt = `Create a summary of the previous ${concept} article`
     const listiclePrompt  = `Create a listicle related to the previous ${concept} article`
     const faqsPrompt = `Create 5 frequently asked questions and answers related to the previous ${concept} article`
-    const categoriesPrompt = `Create 3 to 5 categories previous ${concept} article could fall into`
 
-    const articleResponse = await promptResponse(articlePromt)
-    const metaTitleResponse = await promptResponse(metaTitlePrompt)
-    const metaDescriptionResponse = await promptResponse(metaDescriptionPrompt)
-    const headingResponse = await promptResponse(headingPrompt)
-    const shortDescriptionResponse = await promptResponse(shortDescriptionPromt)
-    const summaryResponse = await promptResponse(summaryPrompt)
-    const listicleResponse = await promptResponse(listiclePrompt)
+    //const listicleResponse = await promptResponse(listiclePrompt)
     const faqsResponse = await promptResponse(faqsPrompt)
-    const categoriesResponse = await promptResponse(categoriesPrompt)
-
-    const slug = slugify(headingResponse)
-        .trim()
-        .replace(":", "")
-        .toLowerCase()
-
-    const heading = headingResponse
-        .trim()
-    
-    const rawArticleResponse = articleResponse
-        .slice(1)
-        .slice(0, -1)
-        .trim()
 
     const faqsArray = faqsResponse.split(/\r?\n/)
     const faqsAsArrayItems = faqsArray.map(faq => {if(faq.length > 0) return faq}).filter(Boolean)
@@ -74,6 +47,7 @@ export default async function handler(req, res) {
         return tempFaq
     }).filter(Boolean)
 
+    /*
     const listicleArray = listicleResponse.split(/\r?\n/)
     const listicleArrayItems = listicleArray.map(listItem => {if(listItem.length > 0) return listItem}).filter(Boolean)
 
@@ -85,20 +59,6 @@ export default async function handler(req, res) {
 
         return listItem
     })
-
-    const categoriesArray = categoriesResponse.split(/\r?\n/)
-    const categoriesArrayItems = categoriesArray.map(listItem => {if(listItem.length > 0) return listItem}).filter(Boolean)
-    const categories = categoriesArrayItems.map((category, i) => {
-        const checkFor = `${i+1}. `
-        if(category.startsWith(checkFor)) category = category.slice(checkFor.length).trim()
-
-        return category
-    })
-
-    const content = ContentState.createFromText(rawArticleResponse)
-    const editorState = EditorState.createWithContent(content)
-    const contentFromText = editorState.getCurrentContent()
-    const article = JSON.stringify(convertToRaw(contentFromText))
 
     let headerImage
 
@@ -138,20 +98,12 @@ export default async function handler(req, res) {
     }).catch(e => console.log(e))
 
     const post = {
-        article: article,
-        metaTitle: metaTitleResponse,
-        metaDescription: metaDescriptionResponse,
-        shortDescription: shortDescriptionResponse,
-        summary: summaryResponse,
         listicleHeading,
-        slug,
-        heading,
-        categories,
         headerImage,
         mediumImageSrc
     }
 
-    await setDoc(doc(firebaseDb, "sites", host, "posts", slug), post)
+   /* await setDoc(doc(firebaseDb, "sites", host, "posts", slug), post)
         .then(() => {
             faqs.forEach(faq => {
                 addDoc(
@@ -166,9 +118,10 @@ export default async function handler(req, res) {
                 )                
             })
         })
-
     //console.log(post)
 
     res.status(200).json(post)
+*/
+
 }
   
