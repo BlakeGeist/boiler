@@ -38,7 +38,7 @@ const NewCategory = () => {
     }
 
     return (
-        <Layout heading="New Category">
+        <Layout>
             <>
                 <form onSubmit={onSubmit}>
                     <Input name="Meta Title" />

@@ -38,7 +38,7 @@ const NewCategory = ({ category_data }) => {
     }
 
     return (
-        <Layout heading="New Category">
+        <Layout>
             <>
                 <form onSubmit={onSubmit}>
                     <Input name="Meta Title" initalVal={category_data.meta_title} />

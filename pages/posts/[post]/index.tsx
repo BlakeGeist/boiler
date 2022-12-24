@@ -71,7 +71,7 @@ const Category = ({ post, faqs, recent_posts, listItems }) => {
                 <title>{post.metaTitle}</title>
                 <meta name="description" content={post.metaDescription} />
             </Head>
-            <Layout heading={post.heading}>
+            <Layout>
                 <>
                     <img style={{marginBottom: '25px'}} src={post.headerImage} width="100%" />
 
