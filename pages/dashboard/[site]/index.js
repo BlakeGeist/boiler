@@ -30,9 +30,11 @@ const Site = ({ site, posts, host }) => {
             prompt: e.target.prompt.value
         }
 
-        await axios.get('/api/buildArticle', { params })
+        await axios.get('/api/createPost', { params })
             .then((res) => {
                 setLoading(false)
+                console.log(res.data)
+
                 router.push(`/posts/${res.data.slug}`)
             })
             .catch(e => {
