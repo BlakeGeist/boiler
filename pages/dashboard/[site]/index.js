@@ -34,7 +34,6 @@ const Site = ({ site, posts, host }) => {
 
         await axios.get('/api/createPost', { params })
             .then(async (res) => {
-                setLoading(false)
 
                 const params = {
                     slug: res.data.slug,
@@ -44,6 +43,22 @@ const Site = ({ site, posts, host }) => {
 
                 await axios.get('/api/addSecondaryPostData', { params })
 
+                return params
+            })
+            .then(async (params) => { 
+                await axios.get('/api/addFaqsToPost', { params })
+                return params
+            })
+            .then(async (params) => { 
+                await axios.get('/api/addListicle', { params })
+                return params
+            })
+            .then(async (params) => { 
+                await axios.get('/api/addHeaderImage', { params })
+                return params
+            })
+            .then(async (params) => { 
+                await axios.get('/api/addMediumImage', { params })
                 return params
             })
             .then((params) => { 
