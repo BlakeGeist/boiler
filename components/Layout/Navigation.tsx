@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { NavigationStyles } from './Navigation.styles'
 import Link from 'next/link'
 import styled from 'styled-components'
+import { useRouter } from "next/router"
 
 const StyledInput = styled.input`
     font-size: 0.8rem;
@@ -16,6 +17,7 @@ interface NavProps {
 }
 
 const Nav:FC<NavProps> = ({ borderTop }) => {
+    const router = useRouter()
 
     const NavItem = ({ href, text }) => {
         return (
@@ -27,12 +29,22 @@ const Nav:FC<NavProps> = ({ borderTop }) => {
         )
     }
 
+    const onSubmit = (e) => {
+        e.preventDefault()
+
+        const searchTerm = e.target.search.value
+        router.push(`/search?search=${searchTerm}`)
+    }
+
     return (
         <NavigationStyles borderTop={borderTop}>
             <ol>
                 <NavItem href="/posts" text="Posts" />
                 <NavItem href="/categories" text="Categories" />
-                <StyledInput placeholder='Search' type="search" />
+                <form onSubmit={(e) => onSubmit(e)}>
+                    <StyledInput name="search" placeholder='Search' type="search" />
+                    <input type="submit" />
+                </form>
             </ol>
         </NavigationStyles>
     )
