@@ -28,7 +28,7 @@ interface CardImageProps {
 }
 
 const FeaturedCardImageLink = styled.a<CardImageProps>`
-    flex: 1 0 33%;
+    flex: 1 0 200px;
     background-image: url(${props => props.src});
     background-repeat: no-repeat;
     background-position: center;
@@ -98,6 +98,9 @@ const Card = styled.div`
     display: flex;
     margin-bottom: 15px;
     flex-direction: column;
+
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 `
 
 const CardContent = styled.div`
