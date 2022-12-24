@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from 'components/Layout'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 const FeaturedCards = styled.div`
     display: flex;
@@ -26,12 +27,18 @@ interface CardImageProps {
     src: string
 }
 
-const FeaturedCardImage = styled.div<CardImageProps>`
-    flex: 0 1 33%;
+const FeaturedCardImageLink = styled.a<CardImageProps>`
+    flex: 1 0 33%;
     background-image: url(${props => props.src});
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    cursor: pointer;
+`
+
+const FeaturedCardImage = styled.div<CardImageProps>`
+
+    width: 100%;
 `
 
 const FeaturedCardContent = styled.div`
@@ -125,10 +132,16 @@ const Home = ({ posts }) => {
 
       const FeaturedCardContainer = ({ post }) => (
         <FeaturedCard>
-            <FeaturedCardImage src={post.mediumImageSrc} />
+            <Link href={`/posts/${post.slug}`}>
+                <FeaturedCardImageLink src={post.mediumImageSrc} />
+            </Link>
             <FeaturedCardContent>
                 <FeaturedCardText>
-                    <h2>{post.heading}</h2>
+                    <h2>
+                        <Link href={`/posts/${post.slug}`}>
+                            <a>{post.heading}</a>
+                        </Link>
+                    </h2>
                     <p>{truncateString(post.shortDescription, 75)}</p>                                
                 </FeaturedCardText>
                 <FeaturedCardContentAurthor>
@@ -144,11 +157,17 @@ const Home = ({ posts }) => {
 
     const CardContainer = ({ post }) => (
         <Card>
-            <CardImage src={post.mediumImageSrc} />
+            <Link href={`/posts/${post.slug}`}>
+                <a><CardImage src={post.mediumImageSrc} /></a>
+            </Link>
             <CardContent>
                 <div>
                     <div>
-                        <h2>{post.heading}</h2>
+                        <h2>
+                            <Link href={`/posts/${post.slug}`}>
+                                <a>{post.heading}</a>
+                            </Link>
+                        </h2>
                         <p>{truncateString(post.shortDescription, 75)}</p>                                
                     </div>
                 </div>
