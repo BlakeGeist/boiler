@@ -25,17 +25,29 @@ const Site = ({ site, posts, host }) => {
         e.preventDefault()
         setLoading(true)
 
+        const promptText = e.target.prompt.value
+
         const params = {
             host,
-            prompt: e.target.prompt.value
+            prompt: promptText
         }
 
         await axios.get('/api/createPost', { params })
-            .then((res) => {
+            .then(async (res) => {
                 setLoading(false)
-                console.log(res.data)
 
-                router.push(`/posts/${res.data.slug}`)
+                const params = {
+                    slug: res.data.slug,
+                    prompt: promptText,
+                    host
+                }
+
+                await axios.get('/api/addSecondaryPostData', { params })
+
+                return params
+            })
+            .then((params) => { 
+                router.push(`/posts/${params.slug}`)
             })
             .catch(e => {
                 console.log(e)
