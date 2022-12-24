@@ -36,11 +36,6 @@ const FeaturedCardImageLink = styled.a<CardImageProps>`
     cursor: pointer;
 `
 
-const FeaturedCardImage = styled.div<CardImageProps>`
-
-    width: 100%;
-`
-
 const FeaturedCardContent = styled.div`
     flex: 0 1 67%;
     margin-left: 15px;
