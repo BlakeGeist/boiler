@@ -18,8 +18,13 @@ export default async function handler(req, res) {
         .slice(0, -1)
         .trim()
 
-    const heading = headingResponse
-        .trim()
+    const cleanHeading = (heading) => {
+        if(heading.startsWith('"')) heading = heading.slice(1)
+        if(heading.endsWith('"')) heading = heading.slice(0, -1)
+
+        return heading
+    }
+    const heading = cleanHeading(headingResponse)
 
     const content = ContentState.createFromText(rawArticleResponse)
     const editorState = EditorState.createWithContent(content)

@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export const SiteLayout = styled.div`
-    max-width: 800px;
+    max-width: 1110px;
     margin: 20px auto;
     background-color: #fff;
-    padding: 0px 15px;
+    font-family: Verdana;
 `
 
 export const Main = styled.main`

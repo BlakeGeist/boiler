@@ -1,10 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
 import { firebaseDb } from 'utils/firebase'
-import { doc, getDoc } from "firebase/firestore"
+import { getDocs, collection, query, limit } from "firebase/firestore"
 import HomePage from 'components/pages/Home'
 
-const Home = ({ site }) => (
+const Home = ({ posts }) => (
   <>
     <Head>
       <title>Geist App</title>
@@ -12,17 +12,18 @@ const Home = ({ site }) => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
   
-    <HomePage site={site} />
+    <HomePage posts={posts} />
   </>
 )
 
 export const getServerSideProps = async ({ req }) => {
   const host = req.headers.host
-  const docRef = doc(firebaseDb, "sites", host)
-  const siteDoc = await getDoc(docRef)
-  const site = siteDoc.data()
+  const postsQuery = query(collection(firebaseDb, `sites/${host}/posts`), limit(10))
+  const postsSnap = await getDocs(postsQuery)
+  const posts = postsSnap.docs.map(doc => doc.data())
 
-  return { props: { site: site || null  } }
+  return { props: { posts: posts || null  } }
+
 }
 
 export default Home

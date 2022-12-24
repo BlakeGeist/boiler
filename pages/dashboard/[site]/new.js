@@ -3,7 +3,7 @@ import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import Layout from 'components/Layout'
 import axios from 'axios'
-import { useRouter } from "next/router"
+//import { useRouter } from "next/router"
 import { LoadingButton } from '@mui/lab'
 
 //import { EditorState } from 'draft-js'
@@ -13,7 +13,7 @@ const NewPost = ({ site, host }) => {
     //const [setEditorState] = useState(EditorState.createEmpty())
     //const [postFaqs, setPostFaqs] = useState(faqs || [])
     //const [resp, setResp] = useState({})
-    const router = useRouter()
+    //const router = useRouter()
 
     const [articleIdeas, setArticleIdeas] = useState([])
 
@@ -63,8 +63,8 @@ const NewPost = ({ site, host }) => {
                 await axios.get('/api/addMediumImage', { params })
                 return params
             })
-            .then((params) => { 
-                router.push(`/posts/${params.slug}`)
+            .then(() => { 
+                //router.push(`/posts/${params.slug}`)
             })
             .catch(e => {
                 console.log(e)
@@ -124,8 +124,8 @@ const NewPost = ({ site, host }) => {
                 await axios.get('/api/addMediumImage', { params })
                 return params
             })
-            .then((params) => { 
-                router.push(`/posts/${params.slug}`)
+            .then(() => { 
+                //router.push(`/posts/${params.slug}`)
             })
             .catch(e => {
                 console.log(e)
