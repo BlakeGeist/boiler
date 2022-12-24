@@ -1,4 +1,3 @@
-import { Configuration, OpenAIApi } from 'openai'
 import slugify from 'slugify'
 import { firebaseDb } from 'utils/firebase'
 import { setDoc, doc, addDoc, collection } from 'firebase/firestore'
@@ -6,40 +5,7 @@ import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import got from 'got'
 import sharp from 'sharp'
-
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API
-})
-
-const openai = new OpenAIApi(configuration)
-
-const promptResponse = async (propmt) => {
-    const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: propmt,
-        temperature: 0,
-        max_tokens: 4000,
-        top_p: 1,
-        frequency_penalty: 0.2,
-        presence_penalty: 0,
-    }).catch(e => console.log(e.response.data.error))
-
-    return response?.data?.choices[0].text
-}
-
-const imageResponse = async (propmt, size) => {
-    
-    let daSize = '1024x1024'
-    if(size === 'medium') daSize = '512x512' 
-    if(size === 'small') daSize = '256x256' 
-    
-    const response = await openai.createImage({
-        prompt: propmt,
-        n: 1,
-        size: daSize,
-      }).catch(e => console.log(e.response.data.error))
-    return response.data.data[0].url
-}
+import { promptResponse, imageResponse } from 'utils/apiHelpers'
 
 export default async function handler(req, res) {
     const { host, prompt } = req.query
@@ -53,7 +19,7 @@ export default async function handler(req, res) {
     const shortDescriptionPromt = `Create a short description using at least 250 words for the previous ${concept} article`
     const summaryPrompt = `Create a summary of the previous ${concept} article`
     const listiclePrompt  = `Create a listicle related to the previous ${concept} article`
-    const faqsPrompt = `Create 5 faqs related to the previous ${concept} article`
+    const faqsPrompt = `Create 5 frequently asked questions and answers related to the previous ${concept} article`
     const categoriesPrompt = `Create 3 to 5 categories previous ${concept} article could fall into`
 
     const articleResponse = await promptResponse(articlePromt)
@@ -81,10 +47,12 @@ export default async function handler(req, res) {
 
     const faqsArray = faqsResponse.split(/\r?\n/)
     const faqsAsArrayItems = faqsArray.map(faq => {if(faq.length > 0) return faq}).filter(Boolean)
+    console.log(faqsAsArrayItems)
     const faqs = faqsAsArrayItems.map((faq, i) => {
         if(i % 2 !== 0) return 
 
         const cleanAnswer = (string) => {
+            if(!string) return ''
             if(string.startsWith('Answer: ')) string = string.slice(8)
             if(string.startsWith('Answer:')) string = string.slice(7)
             if(string.startsWith('A: ')) string = string.slice(3)
