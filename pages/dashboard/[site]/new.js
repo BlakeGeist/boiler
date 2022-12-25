@@ -6,74 +6,17 @@ import axios from 'axios'
 //import { useRouter } from "next/router"
 import { LoadingButton } from '@mui/lab'
 
-//import { EditorState } from 'draft-js'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const NewPost = ({ site, host }) => {
-    //const [setEditorState] = useState(EditorState.createEmpty())
-    //const [postFaqs, setPostFaqs] = useState(faqs || [])
-    //const [resp, setResp] = useState({})
-    //const router = useRouter()
-
     const [articleIdeas, setArticleIdeas] = useState([])
 
     const [loading, setLoading] = useState(false)
 
-    //const onEditorStateChange = (editorState) => {
-      //setEditorState(editorState)
-    //}
-
-    const onSubmit = async (e) => {
-        e.preventDefault()
-        setLoading(true)
-
-        const promptText = e.target.prompt.value
-
-        const params = {
-            host,
-            prompt: promptText
-        }
-
-        await axios.get('/api/createPost', { params })
-            .then(async (res) => {
-
-                const params = {
-                    slug: res.data.slug,
-                    prompt: promptText,
-                    host
-                }
-
-                await axios.get('/api/addSecondaryPostData', { params })
-
-                return params
-            })
-            .then(async (params) => { 
-                await axios.get('/api/addFaqsToPost', { params })
-                return params
-            })
-            .then(async (params) => { 
-                await axios.get('/api/addListicle', { params })
-                return params
-            })
-            .then(async (params) => { 
-                await axios.get('/api/addHeaderImage', { params })
-                return params
-            })
-            .then(async (params) => { 
-                await axios.get('/api/addMediumImage', { params })
-                return params
-            })
-            .then(() => { 
-                //router.push(`/posts/${params.slug}`)
-            })
-            .catch(e => {
-                console.log(e)
-            })
-    }
-
     const getArticleIdeas = async (e) => {
         e.preventDefault()
         const promptText = e.target.prompt.value
+        setLoading(true)
 
         const params = {
             host,
@@ -83,14 +26,14 @@ const NewPost = ({ site, host }) => {
         await axios.get('/api/getArticleIdeas', { params })
             .then((res) => {
                 console.log(res)
-
+                setLoading(false)
                 setArticleIdeas(res.data)
             })
             .catch(e => console.log(e))
 
     }
 
-    const generate = async (promptText, e) => {
+    const submitArticle = async (promptText, e) => {
         e.preventDefault()
         const params = {
             host,
@@ -102,7 +45,8 @@ const NewPost = ({ site, host }) => {
                 const params = {
                     slug: res.data.slug,
                     prompt: promptText,
-                    host
+                    host,
+                    headingText: promptText
                 }
 
                 await axios.get('/api/addSecondaryPostData', { params })
@@ -116,11 +60,22 @@ const NewPost = ({ site, host }) => {
                 await axios.get('/api/addListicle', { params })
                 return params
             })
-            .then(async (params) => { 
+            .then(async (params) => {
+                console.log(e.target)
+                params = {
+                    ...params,
+                    headerImagePrompt: e.target.headerImage.value
+                }
+                console.log(params)
                 await axios.get('/api/addHeaderImage', { params })
                 return params
             })
             .then(async (params) => { 
+                params = {
+                    ...params,
+                    mediumImagePrompt: e.target.mediumImage.value
+                }
+                console.log(params)
                 await axios.get('/api/addMediumImage', { params })
                 return params
             })
@@ -144,7 +99,11 @@ const NewPost = ({ site, host }) => {
                         return (
                             <li key={`${idea}-${i}`}>
                                 {idea}
-                                <button onClick={(e) => generate(idea, e)}>Generate</button>
+                                <form onSubmit={(e) => submitArticle(idea, e)}>
+                                    <input type="text" name="headerImage" />
+                                    <input type="text" name="mediumImage" />
+                                    <input type="submit" />
+                                </form>
                             </li>
                         )
                     })}
@@ -153,14 +112,7 @@ const NewPost = ({ site, host }) => {
                 <form onSubmit={getArticleIdeas}>
                     <input type="input" name="prompt" />
                     <LoadingButton type="submit" loading={loading} loadingIndicator="Loading…" variant="outlined">
-                    Get Article Ideas
-                    </LoadingButton>                    
-                </form>
-
-                <form onSubmit={onSubmit}>
-                    <input type="input" name="prompt" />
-                    <LoadingButton type="submit" loading={loading} loadingIndicator="Loading…" variant="outlined">
-                        Generate
+                        Get Article Ideas
                     </LoadingButton>                    
                 </form>
 

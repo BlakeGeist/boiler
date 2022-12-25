@@ -6,10 +6,12 @@ import got from 'got'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 export default async function handler(req, res) {
-    const { host, prompt, slug } = req.query
+    const { host, mediumImagePrompt, slug } = req.query
+
+    console.log(mediumImagePrompt)
 
     let mediumImageSrc
-    const mediumImage = await imageResponse(prompt, 'medium')
+    const mediumImage = await imageResponse(mediumImagePrompt, 'medium')
     let mediumImageFile = await got(mediumImage)
 
     const storage = getStorage()

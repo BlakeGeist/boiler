@@ -1,5 +1,5 @@
 import React, { FC, ReactChild } from 'react'
-import { SiteLayout, Main, Content } from './index.styles'
+import { SiteLayout, Main } from './index.styles'
 import Header from './Header'
 import Footer from './Footer'
 
@@ -10,16 +10,9 @@ interface LayoutProps {
 const Layout: FC<LayoutProps> = ({ children }) => (
   <SiteLayout>
     <Header />
-    <Content>
-      <Main>
+    <Main>
         {children}
       </Main>
-      {
-        //<Aside>
-          //<h4>Sidebar</h4>
-        //</Aside>
-       }
-    </Content>
     <Footer />
   </SiteLayout>
 )

@@ -4,7 +4,6 @@ import Navigation from 'components/Layout/Navigation'
 import Link from 'next/link'
 
 const StyledHeader = styled.header`
-  overflow: auto;
   display: flex;
   align-items: center;
   width: 100%;

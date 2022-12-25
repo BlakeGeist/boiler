@@ -4,9 +4,10 @@ import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import slugify from 'slugify'
 import { setDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
+import timestamp from 'time-stamp'
 
 export default async function handler(req, res) {
-    const { host, prompt } = req.query
+    const { host, prompt, headingText } = req.query
     const articlePromt = `Create an article related to ${prompt}, use at least 900 words, site at least 2 sources`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
 
@@ -24,7 +25,12 @@ export default async function handler(req, res) {
 
         return heading
     }
-    const heading = cleanHeading(headingResponse)
+    
+    let heading = cleanHeading(headingResponse)
+
+    if(headingText) {
+        heading = cleanHeading(headingText)
+    }
 
     const content = ContentState.createFromText(rawArticleResponse)
     const editorState = EditorState.createWithContent(content)
@@ -44,10 +50,13 @@ export default async function handler(req, res) {
 
     const slug = cleanSug(heading)
 
+    const createdAt = timestamp('YYYY/MM/DD:mm:ss')
+
     const post = {
         article: article,
         slug,
-        heading
+        heading,
+        createdAt
     }
 
     await setDoc(doc(firebaseDb, "sites", host, "posts", slug), post)

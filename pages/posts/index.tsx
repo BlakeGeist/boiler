@@ -16,11 +16,11 @@ const Posts = ({ posts }) => {
                             <li key={post.slug}>
                                 <h2>
                                     <Link href={`/posts/${post.slug}`}>
-                                        <a>{post.post_heading}</a>
+                                        <a>{post.heading}</a>
                                     </Link>
                                 </h2>
 
-                                <p>{post.post_description}</p>
+                                <p>{post.shortDescription}</p>
                             
                                 <ReadMore>
                                     <Link href={`/posts/${post.slug}`}>

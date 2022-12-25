@@ -4,18 +4,10 @@ export const SiteLayout = styled.div`
     max-width: 1110px;
     margin: 20px auto;
     background-color: #fff;
-    font-family: Verdana;
+    font-family: 'Open Sans', sans-serif;
 `
 
 export const Main = styled.main`
-    flex: 1 1 770px;
-    overflow: auto;
-
-    ul, ol {
-        li {
-            margin-bottom: 15px;
-        }
-    }
 
     .rdw-image-modal {
         right: 5px !important;
@@ -31,7 +23,6 @@ export const Main = styled.main`
             display: none;
         }
     }
-
 `
 
 export const Content = styled.div`

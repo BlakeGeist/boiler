@@ -107,6 +107,20 @@ const CardContent = styled.div`
     padding: 0 1.25rem 1.25rem;
 `
 
+const Heading = styled.div`
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 27px;
+
+    span {
+        border-bottom: 1px solid rgba(0,0,0,.44);
+        display: inline-block;
+        padding: 20px 0;
+    }
+`
+
 const Home = ({ posts }) => {
 
     const daPosts = posts
@@ -183,14 +197,14 @@ const Home = ({ posts }) => {
     return (
         <Layout>
             <>
-                <h1>Site heading 1</h1>
+                <Heading><span>Featured</span></Heading>
 
                 <FeaturedCards>
                     {featuredPosts.map((post, i) => {
                         return <FeaturedCardContainer key={`${post.slug}-${i}-key`} post={post} />
                     })}
                 </FeaturedCards>
-                <h2>All Stories</h2>
+                <Heading><span>All Stories</span></Heading>
                 <FeaturedCards>
                     {regularPosts?.map((post, i) => {
                         return <CardContainer key={`${post.slug}-${i}-key`} post={post} />
