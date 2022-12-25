@@ -7,12 +7,12 @@ import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 import Accordion from 'components/Accordion'
 import RecentPosts from 'components/RecentPosts'
-import TableOfContents from 'components/TableOfContents'
 
 import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 
 import styled from 'styled-components'
+import { useStickyBox } from "react-sticky-box"
 
 const Article = styled.div`
 
@@ -20,11 +20,97 @@ const Article = styled.div`
             float: left;
             margin: 0 15px 5px 0;
         }
-
 `
 
-const Category = ({ post, faqs, recent_posts, listItems }) => {
+const Category = styled.div`
+    background: rgba(0,0,0,.05);
+    color: rgba(0,0,0,.6);
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 0 5px;
 
+    &:first-of-type {
+        margin: 0;
+    }
+`
+
+const Categories = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+`
+
+const Body = styled.div`
+    flex: 0 1 770px;
+
+    h2 {
+        border-bottom: 1px solid rgba(0,0,0,.15);
+        margin-bottom: 25px;
+        font-weight: 700;
+        font-size: 1.4rem;
+        margin-bottom: 27px;
+    
+        span {
+            border-bottom: 1px solid rgba(0,0,0,.44);
+            display: inline-block;
+            padding: 20px 0;
+        }
+    }    
+`
+
+const PostContainer = styled.div`
+    display: flex;
+    justify-content: center;
+`
+
+const TableOfContentsContainer = styled.div`
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    border-radius: 8px;
+
+    position: sticky;
+    top: 0;    
+
+    h2 {
+        font-size: 16px;
+        margin: 10px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        padding: 0;
+        margin: 0;
+        &:last-of-type {
+
+            button {
+                border-bottom: none;
+            }
+        }
+    }
+
+    button {
+        background: #ccc;
+        border: none;
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+        cursor: pointer;
+    }
+`
+
+const Aside = styled.div`
+    margin: 0 0 0 15px;
+    flex: 0 1 200px;
+`
+
+const Post = ({ post, faqs, recent_posts, listItems }) => {
 
     const article = JSON.parse(post?.article)
 
@@ -61,9 +147,22 @@ const Category = ({ post, faqs, recent_posts, listItems }) => {
     article.blocks = blocks
     article.entityMap = entity
 
-    const myRef = useRef(null)
-    const executeScroll = () => myRef.current.scrollIntoView()
+    const topRef = useRef(null)
+    const summaryRef = useRef(null)
+    const faqsRef = useRef(null)
+    const listicleRef = useRef(null)
+    const articleRef = useRef(null)
+    const recentPostsRef = useRef(null)
+    
     const html = stateToHTML(convertFromRaw(article))
+
+    const stickyRef = useStickyBox({offsetTop: 20, offsetBottom: 20})
+
+    const scrollTo = (ref) => {
+        if (ref && ref.current /* + other conditions */) {
+          ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }
 
     return (
         <>
@@ -71,53 +170,79 @@ const Category = ({ post, faqs, recent_posts, listItems }) => {
                 <title>{post.metaTitle}</title>
                 <meta name="description" content={post.metaDescription} />
             </Head>
-            <Layout heading={post.heading}>
+            <Layout>
                 <>
+                    <h1 ref={topRef}>{post.heading}</h1>
+
                     <img style={{marginBottom: '25px'}} src={post.headerImage} width="100%" />
 
-                    <div style={{border: '1px solid #f1f1f1', float: 'right', marginLeft: '15px'}}>
-                        <h2 style={{margin: '0 10px'}}>Table of contents</h2>
-                        <TableOfContents executeScroll={executeScroll}/>
-                    </div>
+                    <PostContainer>
+                        <Body>
+                            <Alert ref={summaryRef} id="summary" style={{marginBottom: '15px'}} severity="info">
+                                <AlertTitle style={{fontWeight: 'bold'}}>Summary</AlertTitle>
+                                {post.summary}
+                            </Alert>
 
-                    <Alert id="summary" style={{marginBottom: '15px'}} severity="info">
-                        <AlertTitle>Summary</AlertTitle>
-                        {post.summary}
-                    </Alert>
+                            <Article ref={articleRef} dangerouslySetInnerHTML={{__html: html}} />
 
-                    <Article ref={myRef} dangerouslySetInnerHTML={{__html: html}} />
+                            <Categories>
+                                {post?.categories?.map((category, i) => {
+                                    return (
+                                        <Category key={`${category}-${i}-key`}>
+                                            {category}
+                                        </Category>
+                                    )
+                                })}
+                            </Categories>
 
-                    <hr />
+                            {faqs &&
+                                <>
+                                    <h2 id="faqs" ref={faqsRef}><span>FAQS</span></h2>
+                                    <Accordion faqs={faqs} /> 
+                                </>
+                            }
+                        
+                            <h2 ref={listicleRef}><span>{post.listicleHeading}</span></h2>
+                            <ul style={{padding: "0", listStyle: "none"}}>
+                                {listItems.map(item => {
+                                    return (
+                                        <li key={item.listItem}>{item.listItem}</li>
+                                    )
+                                })}
+                            </ul>
 
-                    <p>Categories: {post?.categories?.map((category, i) => {
-                        if(i+1 !== post.categories.length) return `${category}, `
-                        return category
-                    })}</p>
+                            <hr />
 
-                    <hr />
+                            <h2 ref={recentPostsRef} id="recent-posts"><span>Recent Posts</span></h2>
+                            <RecentPosts recentPosts={recent_posts} />
 
-                    {faqs &&
-                        <>
-                            <h2 id="faqs">FAQS</h2>
-                            <Accordion faqs={faqs} /> 
-                        </>
-                    }
-                   
-                    <hr />
-
-                    <h2>{post.listicleHeading}</h2>
-
-                    <ul style={{padding: "0", listStyle: "none"}}>
-                        {listItems.map(item => {
-                            return (
-                                <li key={item.listItem}>{item.listItem}</li>
-                            )
-                        })}
-                    </ul>
-
-                    <hr />
-
-                    <RecentPosts recentPosts={recent_posts} />
+                        </Body>
+                        <Aside>
+                            <TableOfContentsContainer ref={stickyRef}>
+                                <h2>Table of contents</h2>
+                                <ul>
+                                    <li>
+                                        <button onClick={() => {scrollTo(topRef)}}>Top</button>
+                                    </li>
+                                    <li>
+                                        <button onClick={() => {scrollTo(summaryRef)}}>Summary</button>
+                                    </li>                                
+                                    <li>
+                                        <button onClick={() => {scrollTo(articleRef)}}>Article</button>
+                                    </li>
+                                    <li>
+                                        <button onClick={() => {scrollTo(faqsRef)}}>Faqs</button>
+                                    </li>
+                                    <li>
+                                        <button onClick={() => {scrollTo(listicleRef)}}>Listicle</button>
+                                    </li>                                
+                                    <li>
+                                        <button onClick={() => {scrollTo(listicleRef)}}>Recent Posts</button>
+                                    </li>                                                                                                                             
+                                </ul>
+                            </TableOfContentsContainer>  
+                        </Aside>
+                    </PostContainer>
                 </>
             </Layout>
         </>
@@ -152,4 +277,4 @@ export const getServerSideProps = async (ctx) => {
       }
 }
 
-export default Category
+export default Post

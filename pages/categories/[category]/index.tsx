@@ -24,7 +24,7 @@ const Category = ({ category_data }) => {
                 <title>{category_data.meta_title}</title>
                 <meta name="description" content={category_data.meta_description} />
             </Head>
-            <Layout heading={category_data.category_name}>
+            <Layout>
                 <>
                     <p><button onClick={() => deleteCategory()}>Delete</button></p>
                     <p>{category_data.category_emoji}</p>

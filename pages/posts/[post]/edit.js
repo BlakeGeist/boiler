@@ -74,7 +74,7 @@ const EditPosts = ({ post_data, categories, faqs, host }) => {
     }
 
     return (
-        <Layout heading="Edit post">
+        <Layout>
             <>
                 <div>
                     <Link href={`/posts/${post_data.slug}`}>

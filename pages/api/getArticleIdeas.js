@@ -8,9 +8,11 @@ export default async function handler(req, res) {
 
     const articleResponse = await promptResponse(articleIdeaPromot)
     
-    console.log(articleResponse)
-
     const articleIdeasArray = articleResponse.split(/\r?\n/).filter(Boolean)
 
-    res.status(200).json(articleIdeasArray)
+    const articleIdeas = articleIdeasArray.map((item, i) => {
+        return item.replace(`${i+1}. `, '')
+    })
+
+    res.status(200).json(articleIdeas)
 }

@@ -30,7 +30,7 @@ const Home:FC<HomeProps> = ({ sitesArray }) => {
   }
 
   return (
-    <Layout heading="Sites">
+    <Layout>
       <>
         {sitesArray?.map((site) => {
           return (

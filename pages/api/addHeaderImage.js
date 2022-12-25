@@ -7,17 +7,19 @@ import sharp from 'sharp'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 export default async function handler(req, res) {
-    const { host, prompt, slug } = req.query
+    const { host, slug, headerImagePrompt } = req.query
+
+    console.log(headerImagePrompt)
 
     let headerImage
-    const image = await imageResponse(prompt, 'large')
+    const image = await imageResponse(headerImagePrompt, 'large')
     let dafile = await got(image)
     
     const dastorage = getStorage()
     const dastorageRef = ref(dastorage, `${slug}-header.jpg`)    
 
     await sharp(dafile['rawBody'])
-        .extract({ left: 0, top: 450, width: 1024, height: 350 })
+        .extract({ left: 0, top: 250, width: 1024, height: 500 })
         .jpeg({ mozjpeg: true })
         .toBuffer()
         .then( async (data) => {

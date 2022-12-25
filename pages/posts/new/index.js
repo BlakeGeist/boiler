@@ -52,7 +52,7 @@ const NewPosts = () => {
     }
 
     return (
-        <Layout heading="New post">
+        <Layout>
             <>
                 <form onSubmit={onSubmit}>
                     <Input name="Meta Title" />
