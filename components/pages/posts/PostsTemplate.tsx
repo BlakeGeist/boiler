@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { StyledList, StyledDivider, ReadMore } from 'components/pages/post/index.styles'
+import { StyledList } from 'components/pages/post/index.styles'
 import { truncateString } from 'utils/helpers'
 import Link from 'next/link'
 import { LoadingButton } from '@mui/lab'
@@ -136,7 +136,7 @@ const PostsTemplate = ({ posts, host }) => {
             <StyledList>
                 {postsData.map((post, i) => {
                     return (
-                        <Post key={post.slug}>
+                        <Post key={`${post.slug}-${i}-key`}>
                             <Link href={`/post/${post.slug}`}>
                                 <a style={{flex: '1 1 auto'}}><PostImage src={post.mediumImageSrc} /></a>
                             </Link>
