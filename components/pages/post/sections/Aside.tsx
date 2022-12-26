@@ -54,7 +54,7 @@ const AsideContainer = styled.div`
     flex: 0 1 200px;
 `
 
-const Aside = ({ topRef, summaryRef, articleRef, faqsRef, listicleRef, recentPostsRef }) => {
+const Aside = ({ topRef, summaryRef, articleRef, faqsRef, listicleRef, recentPostsRef, quoteRef }) => {
     const scrollTo = (ref) => {
         if (ref && ref.current /* + other conditions */) {
             ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -75,6 +75,9 @@ const Aside = ({ topRef, summaryRef, articleRef, faqsRef, listicleRef, recentPos
                     <li>
                         <button onClick={() => {scrollTo(articleRef)}}>Article</button>
                     </li>
+                    <li>
+                        <button onClick={() => {scrollTo(quoteRef)}}>Quote</button>
+                    </li>                    
                     <li>
                         <button onClick={() => {scrollTo(faqsRef)}}>Faqs</button>
                     </li>

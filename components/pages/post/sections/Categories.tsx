@@ -12,16 +12,12 @@ const Category = styled.div`
     color: rgba(0,0,0,.6);
     border-radius: 3px;
     padding: 5px 10px;
-    margin: 0 5px;
-
-    &:first-of-type {
-        margin: 0;
-    }
+    margin: 10px 10px 0 0;
 `
 
 const Categories = ({ categories }) => {
     if(!categories) return null
-    
+
     return (
         <CategoriesContainer>
             {categories?.map((category, i) => {

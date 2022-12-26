@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Body = styled.div`
-    flex: 0 1 770px;
+    flex: 0 1 550px;
 
     h2 {
         border-bottom: 1px solid rgba(0,0,0,.15);
@@ -15,6 +15,14 @@ export const Body = styled.div`
             display: inline-block;
             padding: 20px 0;
         }
+    }    
+
+    blockquote {
+        border-left: 4px solid #00ab6b;
+        padding: 0 20px;
+        font-style: italic;
+        color: rgba(0,0,0,.5);
+        margin: 35px 0 0;
     }    
 `
 
