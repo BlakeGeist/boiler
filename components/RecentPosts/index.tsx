@@ -9,7 +9,7 @@ const Li = styled.li`
 const Post = ({post}) => {
     return (
         <Li>
-            <Link href={`/posts/${post.slug}`}>
+            <Link href={`/post/${post.slug}`}>
                 <a>{post.heading}</a>
             </Link>
         </Li>

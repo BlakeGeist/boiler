@@ -46,9 +46,8 @@ const NewPosts = () => {
         }
 
         setDoc(doc(firebaseDb, "posts", slug), post).then(() => {
-            router.push(`/posts/${slug}`)
+            router.push(`/post/${slug}`)
         })
-
     }
 
     return (
