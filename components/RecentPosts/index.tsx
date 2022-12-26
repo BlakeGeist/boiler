@@ -12,6 +12,8 @@ const Post = ({post}) => {
 }
 
 const RecentPosts = ({ recentPostsRef, recentPosts }) => {
+    if(!recentPosts) return null
+    
     return (
         <>
             <h2 ref={recentPostsRef} id="recent-posts"><span>Recent Posts</span></h2>
