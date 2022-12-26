@@ -37,7 +37,8 @@ const NewPost = ({ site, host }) => {
         e.preventDefault()
         const params = {
             host,
-            prompt: promptText
+            prompt: promptText,
+            headingText: promptText
         }
 
         await axios.get('/api/createPost', { params })
@@ -45,8 +46,7 @@ const NewPost = ({ site, host }) => {
                 const params = {
                     slug: res.data.slug,
                     prompt: promptText,
-                    host,
-                    headingText: promptText
+                    host
                 }
 
                 await axios.get('/api/addSecondaryPostData', { params })

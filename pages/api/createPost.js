@@ -8,11 +8,12 @@ import timestamp from 'time-stamp'
 
 export default async function handler(req, res) {
     const { host, prompt, headingText } = req.query
+
     const articlePromt = `Create an article related to ${prompt}, use at least 900 words, site at least 2 sources`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
 
     const articleResponse = await promptResponse(articlePromt)
-    const headingResponse = await promptResponse(headingPrompt)
+    const headingResponse = headingText ? headingText : await promptResponse(headingPrompt)
 
     const rawArticleResponse = articleResponse
         .slice(1)
@@ -27,10 +28,6 @@ export default async function handler(req, res) {
     }
     
     let heading = cleanHeading(headingResponse)
-
-    if(headingText) {
-        heading = cleanHeading(headingText)
-    }
 
     const content = ContentState.createFromText(rawArticleResponse)
     const editorState = EditorState.createWithContent(content)

@@ -62,7 +62,7 @@ const Site = ({ site, posts, host }) => {
                 return params
             })
             .then((params) => { 
-                router.push(`/posts/${params.slug}`)
+                router.push(`/post/${params.slug}`)
             })
             .catch(e => {
                 console.log(e)

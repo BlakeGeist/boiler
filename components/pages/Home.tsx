@@ -2,6 +2,7 @@ import React from 'react'
 import Layout from 'components/Layout'
 import styled from 'styled-components'
 import Link from 'next/link'
+import { truncateString } from 'utils/helpers'
 
 const FeaturedCards = styled.div`
     display: flex;
@@ -129,28 +130,15 @@ const Home = ({ posts }) => {
 
     const regularPosts = posts.slice(4, posts.length)
 
-    const truncateString = (str, num) => {
-        // If the length of str is less than or equal to num
-        // just return str--don't truncate it.
-
-        if(!str) return null
-
-        if (str.length <= num) {
-          return str
-        }
-        // Return str truncated with '...' concatenated to the end of str.
-        return str.slice(0, num) + '...'
-      }
-
       const FeaturedCardContainer = ({ post }) => (
         <FeaturedCard>
-            <Link href={`/posts/${post.slug}`}>
+            <Link href={`/post/${post.slug}`}>
                 <FeaturedCardImageLink src={post.mediumImageSrc} />
             </Link>
             <FeaturedCardContent>
                 <FeaturedCardText>
                     <h2>
-                        <Link href={`/posts/${post.slug}`}>
+                        <Link href={`/post/${post.slug}`}>
                             <a>{post.heading}</a>
                         </Link>
                     </h2>
@@ -169,14 +157,14 @@ const Home = ({ posts }) => {
 
     const CardContainer = ({ post }) => (
         <Card>
-            <Link href={`/posts/${post.slug}`}>
+            <Link href={`/post/${post.slug}`}>
                 <a><CardImage src={post.mediumImageSrc} /></a>
             </Link>
             <CardContent>
                 <div>
                     <div>
                         <h2>
-                            <Link href={`/posts/${post.slug}`}>
+                            <Link href={`/post/${post.slug}`}>
                                 <a>{post.heading}</a>
                             </Link>
                         </h2>

@@ -11,12 +11,14 @@ export default async function handler(req, res) {
     const shortDescriptionPromt = `Create a short description using at least 250 words for the previous ${prompt} article`
     const summaryPrompt = `Create a summary of the previous ${prompt} article`
     const categoriesPrompt = `Create 3 to 5 categories previous ${prompt} article could fall into`
+    const quotePrompt = `return a random famous quote related to ${prompt}`
     
     const metaTitleResponse = await promptResponse(metaTitlePrompt)
     const metaDescriptionResponse = await promptResponse(metaDescriptionPrompt)
     const shortDescriptionResponse = await promptResponse(shortDescriptionPromt)
     const summaryResponse = await promptResponse(summaryPrompt)
     const categoriesResponse = await promptResponse(categoriesPrompt)
+    const quoteResponse = await promptResponse(quotePrompt)
 
     const categoriesArray = categoriesResponse.split(/\r?\n/)
     const categoriesArrayItems = categoriesArray.map(listItem => {if(listItem.length > 0) return listItem}).filter(Boolean)
@@ -27,12 +29,28 @@ export default async function handler(req, res) {
         return category
     })
 
+    const cleanResponse = (string) => {
+        if(!string) return ''
+
+        if(string.startsWith('"')) string = string.slice(1)
+        if(string.endsWith('"')) string = string.slice(0, -1)
+
+        return string
+    }
+
+    const metaTitle = cleanResponse(metaTitleResponse)
+    const metaDescription = cleanResponse(metaDescriptionResponse)
+    const shortDescription = cleanResponse(shortDescriptionResponse)
+    const summary = cleanResponse(summaryResponse)
+    const quote = cleanResponse(quoteResponse)
+
     const post = {
-        metaTitle: metaTitleResponse,
-        metaDescription: metaDescriptionResponse,
-        shortDescription: shortDescriptionResponse,
-        summary: summaryResponse,
-        categories
+        metaTitle,
+        metaDescription,
+        shortDescription,
+        summary,
+        categories,
+        quote
     }
 
     const postRef = doc(firebaseDb, "sites", host, "posts", slug)
