@@ -11,11 +11,15 @@ const Post = ({post}) => {
     )
 }
 
-const RecentPosts = ({recentPosts}) => {
+const RecentPosts = ({ recentPostsRef, recentPosts }) => {
     return (
-        <ul style={{listStyle: 'none', padding: '0'}}>
-            {recentPosts.map(post => <Post key={post.slug} post={post} />)}
-        </ul>
+        <>
+            <h2 ref={recentPostsRef} id="recent-posts"><span>Recent Posts</span></h2>
+            <ul style={{listStyle: 'none', padding: '0'}}>
+                {recentPosts.map(post => <Post key={post.slug} post={post} />)}
+            </ul>            
+        </>
+
     )
 }
 

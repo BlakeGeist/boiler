@@ -5,40 +5,16 @@ import Layout from 'components/Layout'
 import Head from 'next/head'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
-import Accordion from 'components/Accordion'
 import RecentPosts from 'components/RecentPosts'
 
-import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
-
 import styled from 'styled-components'
-import { useStickyBox } from "react-sticky-box"
 
-const Article = styled.div`
-
-    img {
-            float: left;
-            margin: 0 15px 5px 0;
-        }
-`
-
-const Category = styled.div`
-    background: rgba(0,0,0,.05);
-    color: rgba(0,0,0,.6);
-    border-radius: 3px;
-    padding: 5px 10px;
-    margin: 0 5px;
-
-    &:first-of-type {
-        margin: 0;
-    }
-`
-
-const Categories = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 14px;
-`
+import Aside from 'components/pages/post/sections/Aside'
+import Listicle from 'components/pages/post/sections/Listicle'
+import Faqs from 'components/pages/post/sections/Faqs'
+import Categories from 'components/pages/post/sections/Categories'
+import Summary from 'components/pages/post/sections/Summary'
+import Article from 'components/pages/post/sections/Article'
 
 const Body = styled.div`
     flex: 0 1 770px;
@@ -63,57 +39,9 @@ const PostContainer = styled.div`
     justify-content: center;
 `
 
-const TableOfContentsContainer = styled.div`
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    border-radius: 8px;
-
-    position: sticky;
-    top: 0;    
-
-    h2 {
-        font-size: 16px;
-        margin: 10px;
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    li {
-        padding: 0;
-        margin: 0;
-        &:last-of-type {
-
-            button {
-                border-bottom: none;
-            }
-        }
-    }
-
-    button {
-        background: #ccc;
-        border: none;
-        width: 100%;
-        margin: 0;
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-        text-align: left;
-        cursor: pointer;
-    }
-`
-
-const Aside = styled.div`
-    margin: 0 0 0 15px;
-    flex: 0 1 200px;
-`
-
 const Post = ({ post, faqs, recent_posts, listItems }) => {
 
     const article = JSON.parse(post?.article)
-
 
     const blocks = article.blocks
 
@@ -156,14 +84,6 @@ const Post = ({ post, faqs, recent_posts, listItems }) => {
     
     const html = stateToHTML(convertFromRaw(article))
 
-    const stickyRef = useStickyBox({offsetTop: 20, offsetBottom: 20})
-
-    const scrollTo = (ref) => {
-        if (ref && ref.current /* + other conditions */) {
-          ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-      }
-
     return (
         <>
             <Head>
@@ -173,75 +93,25 @@ const Post = ({ post, faqs, recent_posts, listItems }) => {
             <Layout>
                 <>
                     <h1 ref={topRef}>{post.heading}</h1>
-
                     <img style={{marginBottom: '25px'}} src={post.headerImage} width="100%" />
 
                     <PostContainer>
                         <Body>
-                            <Alert ref={summaryRef} id="summary" style={{marginBottom: '15px'}} severity="info">
-                                <AlertTitle style={{fontWeight: 'bold'}}>Summary</AlertTitle>
-                                {post.summary}
-                            </Alert>
-
-                            <Article ref={articleRef} dangerouslySetInnerHTML={{__html: html}} />
-
-                            <Categories>
-                                {post?.categories?.map((category, i) => {
-                                    return (
-                                        <Category key={`${category}-${i}-key`}>
-                                            {category}
-                                        </Category>
-                                    )
-                                })}
-                            </Categories>
-
-                            {faqs &&
-                                <>
-                                    <h2 id="faqs" ref={faqsRef}><span>FAQS</span></h2>
-                                    <Accordion faqs={faqs} /> 
-                                </>
-                            }
-                        
-                            <h2 ref={listicleRef}><span>{post.listicleHeading}</span></h2>
-                            <ul style={{padding: "0", listStyle: "none"}}>
-                                {listItems.map(item => {
-                                    return (
-                                        <li key={item.listItem}>{item.listItem}</li>
-                                    )
-                                })}
-                            </ul>
-
-                            <hr />
-
-                            <h2 ref={recentPostsRef} id="recent-posts"><span>Recent Posts</span></h2>
-                            <RecentPosts recentPosts={recent_posts} />
-
+                            <Summary summaryRef={summaryRef} summary={post.summary} />
+                            <Article html={html} articleRef={articleRef} />
+                            <Categories categories={post.categories} />
+                            <Faqs faqs={faqs} faqsRef={faqsRef} />
+                            <Listicle post={post} listItems={listItems} listicleRef={listicleRef} />                            
+                            <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
                         </Body>
-                        <Aside>
-                            <TableOfContentsContainer ref={stickyRef}>
-                                <h2>Table of contents</h2>
-                                <ul>
-                                    <li>
-                                        <button onClick={() => {scrollTo(topRef)}}>Top</button>
-                                    </li>
-                                    <li>
-                                        <button onClick={() => {scrollTo(summaryRef)}}>Summary</button>
-                                    </li>                                
-                                    <li>
-                                        <button onClick={() => {scrollTo(articleRef)}}>Article</button>
-                                    </li>
-                                    <li>
-                                        <button onClick={() => {scrollTo(faqsRef)}}>Faqs</button>
-                                    </li>
-                                    <li>
-                                        <button onClick={() => {scrollTo(listicleRef)}}>Listicle</button>
-                                    </li>                                
-                                    <li>
-                                        <button onClick={() => {scrollTo(listicleRef)}}>Recent Posts</button>
-                                    </li>                                                                                                                             
-                                </ul>
-                            </TableOfContentsContainer>  
-                        </Aside>
+                        <Aside
+                            topRef={topRef}
+                            summaryRef={summaryRef}
+                            articleRef={articleRef}
+                            faqsRef={faqsRef}
+                            listicleRef={listicleRef}
+                            recentPostsRef={recentPostsRef}
+                        />
                     </PostContainer>
                 </>
             </Layout>
