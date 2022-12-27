@@ -7,7 +7,6 @@ import { convertFromRaw } from 'draft-js'
 import PostTemplate from 'components/pages/post/Post'
 
 const Post = ({ post, faqs, recent_posts, listItems, host, categories }) => {
-
     const article = JSON.parse(post?.article)
     const blocks = article.blocks
 
@@ -85,6 +84,7 @@ export const getServerSideProps = async (ctx) => {
     const listicleSnap = await getDocs(q)
     const listItems = listicleSnap.docs.map(doc => doc.data())
 
+    //this needs to be updated, it gets all the cats, and we only want this posts cats
     const categoriesSnap = await getDocs(collection(firebaseDb,`sites/${host}/categories`))
     const categories = categoriesSnap.docs.map(doc => doc.data())
 

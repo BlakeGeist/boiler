@@ -15,6 +15,7 @@ const Category = ({ category, posts, host }) => {
             </Head>
             <Layout>
                 <>
+                    <h1>{category.name}</h1>
                     <p>{category.description}</p>
                     <PostsTemplate host={host} posts={posts} />
                 </>

@@ -29,7 +29,7 @@ interface CardImageProps {
 }
 
 const FeaturedCardImageLink = styled.a<CardImageProps>`
-    flex: 1 0 200px;
+    flex: 1 0 280px;
     background-image: url(${props => props.src});
     background-repeat: no-repeat;
     background-position: center;
