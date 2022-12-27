@@ -2,23 +2,21 @@ import React from 'react'
 import Layout from 'components/Layout'
 import Link from 'next/link'
 
-const Dashboard = ({ sites }) => {
+const Dashboard = ({ posts }) => {
     return (
         <Layout>
             <>
-                <h1>Dashboard</h1>
+                <h2>Posts</h2>
+
                 <ul>
-                    {sites.map((site) => {
+                    {posts.map((post) => {
                         return (
-                            <li key={site.domain}>
-                                <Link href={`/dashboard/${site.domain}`}>
-                                    <a>{site.domain}</a>
-                                </Link>
-                            </li>
+                            <li key={post.slug}>
+                                <Link href={`/post/${post.slug}`}><a>{post.heading}</a></Link></li>
                         )
                     })}
                 </ul>
-            </>            
+            </>
         </Layout>
     )
 }

@@ -32,6 +32,7 @@ export default async function handler(req, res) {
     const cleanResponse = (string) => {
         if(!string) return ''
 
+        string=string.trim()
         if(string.startsWith('"')) string = string.slice(1)
         if(string.endsWith('"')) string = string.slice(0, -1)
 

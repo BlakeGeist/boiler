@@ -29,7 +29,7 @@ interface CardImageProps {
 }
 
 const FeaturedCardImageLink = styled.a<CardImageProps>`
-    flex: 1 0 200px;
+    flex: 1 0 280px;
     background-image: url(${props => props.src});
     background-repeat: no-repeat;
     background-position: center;
@@ -79,6 +79,7 @@ const FeaturedCardContentAuthorText = styled.div`
 
 const FeaturedCardContentPostDate = styled.div`
     color: rgba(0,0,0,.44);
+    margin-top: 5px;
 `
 
 interface CardImage2Props {
@@ -122,6 +123,14 @@ const Heading = styled.div`
     }
 `
 
+const CardHeader = styled.h2`
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    min-height: 84px;
+`
+
 const Home = ({ posts }) => {
 
     const daPosts = posts
@@ -142,7 +151,7 @@ const Home = ({ posts }) => {
                             <a>{post.heading}</a>
                         </Link>
                     </h2>
-                    <p>{truncateString(post.shortDescription, 75)}</p>                                
+                    <p>{truncateString(post.shortDescription, 275)}</p>                                
                 </FeaturedCardText>
                 <FeaturedCardContentAurthor>
                     <FeaturedCardContentAurthorImage />
@@ -163,19 +172,19 @@ const Home = ({ posts }) => {
             <CardContent>
                 <div>
                     <div>
-                        <h2>
+                        <CardHeader>
                             <Link href={`/post/${post.slug}`}>
                                 <a>{post.heading}</a>
                             </Link>
-                        </h2>
-                        <p>{truncateString(post.shortDescription, 75)}</p>                                
+                        </CardHeader>
+                        <p>{truncateString(post.shortDescription, 375)}</p>                                
                     </div>
                 </div>
                 <FeaturedCardContentAurthor>
                     <FeaturedCardContentAurthorImage />
                     <FeaturedCardContentAuthorText>
                         <div>name</div>
-                        <FeaturedCardContentPostDate>22 July 2045 - 6 min read</FeaturedCardContentPostDate>
+                        <FeaturedCardContentPostDate>{post.createdAt} - 6 min read</FeaturedCardContentPostDate>
                     </FeaturedCardContentAuthorText>
                 </FeaturedCardContentAurthor>
             </CardContent>
