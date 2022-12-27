@@ -1,11 +1,12 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { doc, getDoc } from "firebase/firestore"
+import { doc, getDoc, query, collection, where, getDocs, orderBy } from "firebase/firestore"
 import Layout from 'components/Layout'
 import Head from 'next/head'
-import { useRouter } from "next/router"
+import PostsTemplate from 'components/pages/posts/PostsTemplate'
 
-const Category = ({ category }) => {
+const Category = ({ category, posts, host }) => {
+    console.log(posts)
     return (
         <>
             <Head>
@@ -15,6 +16,7 @@ const Category = ({ category }) => {
             <Layout>
                 <>
                     <p>{category.description}</p>
+                    <PostsTemplate host={host} posts={posts} />
                 </>
             </Layout>
         </>
@@ -29,8 +31,13 @@ export const getServerSideProps = async (ctx) => {
     const postDoc = await getDoc(docRef)
     const category = postDoc.data()
 
+    const postsRef = collection(firebaseDb, "sites", host, 'posts')
+    const q = query(postsRef, where("categories", "array-contains", category.name), orderBy("createdAt", "desc"))
+    const querySnapshot = await getDocs(q)
+    const posts = querySnapshot.docs.map(doc => doc.data())
+
     return {
-        props: { category, host } // will be passed to the page component as props
+        props: { category, host, posts } // will be passed to the page component as props
     }
 }
 

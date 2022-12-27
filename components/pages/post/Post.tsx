@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import Layout from 'components/Layout'
-import { doc, deleteDoc } from "firebase/firestore";
-import { firebaseDb } from 'utils/firebase';
+import { doc, deleteDoc } from "firebase/firestore"
+import { firebaseDb } from 'utils/firebase'
 import { useRouter } from "next/router"
 
 import Share from 'components/pages/post/sections/Share'
