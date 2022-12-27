@@ -32,11 +32,16 @@ interface PostImageProps {
 }
 
 const PostImage = styled.div<PostImageProps>`
-    background-image: url(${props => props.src});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    min-height: 100%;
+    flex: 1 1 400px;
+
+    a {
+        background-image: url(${props => props.src});
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;     
+        min-height: 100%;
+        display: block;        
+    }
 `
 
 const PostContent = styled.div`
@@ -137,9 +142,11 @@ const PostsTemplate = ({ posts, host }) => {
                 {postsData.map((post, i) => {
                     return (
                         <Post key={`${post.slug}-${i}-key`}>
-                            <Link href={`/post/${post.slug}`}>
-                                <a style={{flex: '1 1 auto'}}><PostImage src={post.mediumImageSrc} /></a>
-                            </Link>
+                            <PostImage src={post.mediumImageSrc}>
+                                <Link href={`/post/${post.slug}`}>
+                                    <a></a>
+                                </Link>
+                            </PostImage>
                             <PostContent>
                                 <PostContentText>
                                     <h2>
@@ -147,7 +154,7 @@ const PostsTemplate = ({ posts, host }) => {
                                             <a>{post.heading}</a>
                                         </Link>
                                     </h2>
-                                    <p>{truncateString(post.shortDescription, 250)}</p>                                
+                                    <p>{truncateString(post.shortDescription, 200)}</p>                                
                                 </PostContentText>
                                 <PostContentAuthor>
                                     <PostContentAuthorImage />
