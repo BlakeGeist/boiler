@@ -1,5 +1,8 @@
 import React, { useRef } from 'react'
 import Layout from 'components/Layout'
+import { doc, deleteDoc } from "firebase/firestore";
+import { firebaseDb } from 'utils/firebase';
+import { useRouter } from "next/router"
 
 import Share from 'components/pages/post/sections/Share'
 import Aside from 'components/pages/post/sections/Aside'
@@ -12,9 +15,13 @@ import Header from 'components/pages/post/sections/Header'
 import RecentPosts from 'components/RecentPosts'
 import Quote from 'components/pages/post/sections/Quote'
 
+
 import { PostContainer, Body } from './post.styles'
 
-const Post = ({ post, faqs, html, listItems, recent_posts }) => {
+const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) => {
+
+    console.log(categories)
+
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -22,17 +29,30 @@ const Post = ({ post, faqs, html, listItems, recent_posts }) => {
     const articleRef = useRef(null)
     const quoteRef = useRef(null)
     const recentPostsRef = useRef(null)
+    const router = useRouter()
+
+    const deletePost = async (e) => {
+        e.preventDefault()
+
+        await deleteDoc(doc(firebaseDb, "sites", host, "posts", post.slug))
+            .then(() => {
+                router.push(`/dashboard/${host}`)
+            })
+            .catch(e => console.log(e))
+     
+    }
 
     return (
         <Layout>
             <>
+                <button onClick={(e) => deletePost(e)}>Delete</button>
                 <Header topRef={topRef} heading={post.heading} headerImage={post.headerImage} />
                 <PostContainer>
                     <Share />
                     <Body>
                         <Summary summaryRef={summaryRef} summary={post.summary} />
                         <Article articleRef={articleRef} html={html} />
-                        <Categories categories={post.categories} />                        
+                        <Categories categories={categories} />                        
                         <Quote quoteRef={quoteRef} quote={post.quote} />
                         <Faqs faqs={faqs} faqsRef={faqsRef} />
                         <Listicle post={post} listItems={listItems} listicleRef={listicleRef} />                            
@@ -40,6 +60,7 @@ const Post = ({ post, faqs, html, listItems, recent_posts }) => {
 
                         {
                             // might be cool to make a pros and cons list
+                            // might be cool to add a guide type
                         }
                     </Body>
                     <Aside

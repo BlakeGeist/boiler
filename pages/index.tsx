@@ -23,7 +23,6 @@ export const getServerSideProps = async ({ req }) => {
   const posts = postsSnap.docs.map(doc => doc.data())
 
   return { props: { posts: posts || null  } }
-
 }
 
 export default Home

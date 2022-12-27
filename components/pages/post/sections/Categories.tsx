@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 const CategoriesContainer = styled.div`
     display: flex;
@@ -21,10 +22,15 @@ const Categories = ({ categories }) => {
     return (
         <CategoriesContainer>
             {categories?.map((category, i) => {
+                console.log(category)
                 return (
-                    <Category key={`${category}-${i}-key`}>
-                        {category}
-                    </Category>
+                    <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
+                        <a>
+                            <Category>
+                                {category.name}
+                            </Category>
+                        </a>
+                    </Link>
                 )
             })}
         </CategoriesContainer>

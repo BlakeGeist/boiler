@@ -10,9 +10,10 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const NewPost = ({ site, host }) => {
     const [articleIdeas, setArticleIdeas] = useState([])
-
     const [loading, setLoading] = useState(false)
-
+    const [articleLoading, setArticleLoading] = useState(false)
+    const [step, setStep] = useState(1)
+    
     const getArticleIdeas = async (e) => {
         e.preventDefault()
         const promptText = e.target.prompt.value
@@ -23,9 +24,10 @@ const NewPost = ({ site, host }) => {
             prompt: promptText
         }
 
+
         await axios.get('/api/getArticleIdeas', { params })
             .then((res) => {
-                console.log(res)
+                setStep(2)
                 setLoading(false)
                 setArticleIdeas(res.data)
             })
@@ -40,7 +42,8 @@ const NewPost = ({ site, host }) => {
             prompt: promptText,
             headingText: promptText
         }
-
+        setStep(3)
+        setArticleLoading(true)
         await axios.get('/api/createPost', { params })
             .then(async (res) => {
                 const params = {
@@ -48,19 +51,27 @@ const NewPost = ({ site, host }) => {
                     prompt: promptText,
                     host
                 }
-
+                setStep(4)
                 await axios.get('/api/addSecondaryPostData', { params })
                 return params
             })
-            .then(async (params) => { 
-                await axios.get('/api/addFaqsToPost', { params })
+            .then(async (params) => {
+                setStep(5)
+                await axios.get('/api/addAndCreateCategories', { params })
                 return params
             })
             .then(async (params) => { 
+                setStep(6)
+                await axios.get('/api/addFaqsToPost', { params })
+                return params
+            })
+            .then(async (params) => {
+                setStep(7)
                 await axios.get('/api/addListicle', { params })
                 return params
             })
             .then(async (params) => {
+                setStep(8)
                 console.log(e.target)
                 params = {
                     ...params,
@@ -70,7 +81,8 @@ const NewPost = ({ site, host }) => {
                 await axios.get('/api/addHeaderImage', { params })
                 return params
             })
-            .then(async (params) => { 
+            .then(async (params) => {
+                setStep(9)
                 params = {
                     ...params,
                     mediumImagePrompt: e.target.mediumImage.value
@@ -80,12 +92,39 @@ const NewPost = ({ site, host }) => {
                 return params
             })
             .then(() => { 
+                setArticleLoading(false)
                 //router.push(`/posts/${params.slug}`)
             })
             .catch(e => {
                 console.log(e)
             })
 
+    }
+
+    const stepButtonText = () => {
+        switch(step) {
+            case 1:
+                return 'Generate Article Ideas'         
+            case 2:
+                return 'Add Image Desc Fields'
+            case 3:
+                return 'Creating Post'
+            case 4:
+                return 'Creating Post Secondary Data'
+            case 5:
+                return 'Create Categories'                  
+            case 6:
+                return 'Creating Faqs'
+            case 7:
+                return 'Creating Listicle' 
+            case 8:
+                return 'Creating Header Image' 
+            case 9:
+                return 'Creating Medium Image'
+              
+            default:
+                return 'Create Article'                 
+        }
     }
 
     return (
@@ -102,7 +141,9 @@ const NewPost = ({ site, host }) => {
                                 <form onSubmit={(e) => submitArticle(idea, e)}>
                                     <input type="text" name="headerImage" />
                                     <input type="text" name="mediumImage" />
-                                    <input type="submit" />
+                                    <LoadingButton type="submit" loading={articleLoading} loadingIndicator={stepButtonText()} variant="outlined">
+                                        Create Article
+                                    </LoadingButton>
                                 </form>
                             </li>
                         )

@@ -6,7 +6,7 @@ import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 import PostTemplate from 'components/pages/post/Post'
 
-const Post = ({ post, faqs, recent_posts, listItems }) => {
+const Post = ({ post, faqs, recent_posts, listItems, host, categories }) => {
 
     const article = JSON.parse(post?.article)
     const blocks = article.blocks
@@ -55,6 +55,8 @@ const Post = ({ post, faqs, recent_posts, listItems }) => {
                 faqs={faqs}
                 recent_posts={recent_posts}
                 listItems={listItems}
+                host={host}
+                categories={categories}
                 />
         </>
     )
@@ -83,8 +85,11 @@ export const getServerSideProps = async (ctx) => {
     const listicleSnap = await getDocs(q)
     const listItems = listicleSnap.docs.map(doc => doc.data())
 
+    const categoriesSnap = await getDocs(collection(firebaseDb,`sites/${host}/categories`))
+    const categories = categoriesSnap.docs.map(doc => doc.data())
+
     return {
-        props: { post, faqs, recent_posts, listItems }, // will be passed to the page component as props
+        props: { post, faqs, recent_posts, listItems, host, categories }, // will be passed to the page component as props
       }
 }
 

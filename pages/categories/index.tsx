@@ -1,11 +1,12 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { collection, getDocs, query, limit } from "firebase/firestore"
+import { getDocs, collection } from "firebase/firestore"
 import Layout from 'components/Layout'
 import Link from 'next/link'
-import { StyledList, StyledDivider, ReadMore } from 'components/pages/category/index.styles'
+import { StyledList, ReadMore } from 'components/pages/category/index.styles'
 
 const Categories = ({ categories }) => {
+    console.log(categories)
     return (
         <Layout>
             <>
@@ -16,19 +17,17 @@ const Categories = ({ categories }) => {
                             <li key={category.slug}>
                                 <h2>
                                     <Link href={`/categories/${category.slug}`}>
-                                        <a>{category.category_name} {category.category_emoji}</a>
+                                        <a>{category.name}</a>
                                     </Link>
                                 </h2>
 
-                                <p>{category.category_description}</p>
+                                <p>{category.description}</p>
                             
                                 <ReadMore>
                                     <Link href={`/categories/${category.slug}`}>
                                         <a>Full Category &#8594;</a>
                                     </Link>
                                 </ReadMore>
-
-                                <StyledDivider emoji={category.category_emoji}/>                      
                             </li>
                         )
                     })}
@@ -38,12 +37,12 @@ const Categories = ({ categories }) => {
     )
 }
 
-export const getServerSideProps = async () => {
-    const orderedDocs = query(collection(firebaseDb, "categories"), limit(100))
-    const querySnapshot = await getDocs(orderedDocs)
-    const categories = querySnapshot.docs.map(doc => doc.data())
+export const getServerSideProps = async ({ req }) => {
+    const host = req.headers.host
+    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/categories`))
+    const categories = docsSnap.docs.map(doc => doc.data())
   
-    return { props: { categories: categories || null  } }
+    return { props: { categories } }
   }
   
 
