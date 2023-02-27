@@ -5,15 +5,15 @@ import Layout from 'components/Layout'
 import Head from 'next/head'
 import PostsTemplate from 'components/pages/posts/PostsTemplate'
 
-const Category = ({ category, posts, host }) => {
-    console.log(posts)
+const Category = ({ category, posts, host, site }) => {
+    console.log(site)
     return (
         <>
             <Head>
                 <title>{category.categoryMetaTitle}</title>
                 <meta name="description" content={category.categoryMetaDesc} />
             </Head>
-            <Layout>
+            <Layout site={site}>
                 <>
                     <h1>{category.name}</h1>
                     <p>{category.description}</p>
@@ -37,8 +37,12 @@ export const getServerSideProps = async (ctx) => {
     const querySnapshot = await getDocs(q)
     const posts = querySnapshot.docs.map(doc => doc.data())
 
+    const siteRef = doc(firebaseDb, "sites", host)
+    const siteDoc = await getDoc(siteRef)
+    const site = siteDoc.data()
+
     return {
-        props: { category, host, posts } // will be passed to the page component as props
+        props: { category, host, posts, site } // will be passed to the page component as props
     }
 }
 

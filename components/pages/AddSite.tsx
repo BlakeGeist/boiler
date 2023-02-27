@@ -6,10 +6,11 @@ import slugify from 'slugify'
 import { useRouter } from "next/router"
 
 interface HomeProps {
-  sitesArray: any
+  sitesArray: any,
+  site: any
 }
 
-const Home:FC<HomeProps> = ({ sitesArray }) => {
+const Home:FC<HomeProps> = ({ sitesArray, site }) => {
   const router = useRouter()
 
   const onSubmit = (e) => {
@@ -30,7 +31,7 @@ const Home:FC<HomeProps> = ({ sitesArray }) => {
   }
 
   return (
-    <Layout>
+    <Layout site={site}>
       <>
         {sitesArray?.map((site) => {
           return (

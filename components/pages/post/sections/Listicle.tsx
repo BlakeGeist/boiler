@@ -3,6 +3,29 @@ import React from 'react'
 const Listicle = ({ listicleRef, post, listItems}) => {
     if(!listItems) return null
 
+    const listicleArray = listItems.map((listItem, i) => {
+        return {
+            "@type": "ListItem",
+            "position": i+1,
+            "item": {
+              "@type": "listItem",
+              "name": listItem.listItem
+            }
+          }
+        })
+
+    const listicleSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": post.listicleHeading,
+        "description": post.listicleDescription,
+        "itemListElement": listicleArray
+    }
+
+    function createMarkup() {
+        return {__html: JSON.stringify(listicleSchema) }
+    }
+
     return (
         <>
             <h2 ref={listicleRef}><span>{post.listicleHeading}</span></h2>
@@ -12,7 +35,8 @@ const Listicle = ({ listicleRef, post, listItems}) => {
                         <li key={item.listItem}><p>{item.listItem}</p></li>
                     )
                 })}
-            </ol>        
+            </ol>
+            <script type="application/ld+json" dangerouslySetInnerHTML={createMarkup()} />            
         </>
     )
 }

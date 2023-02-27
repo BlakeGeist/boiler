@@ -5,8 +5,9 @@ import Head from 'next/head'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 import PostTemplate from 'components/pages/post/Post'
+import Layout from 'components/Layout'
 
-const Post = ({ post, faqs, recent_posts, listItems, host, categories }) => {
+const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
     const article = JSON.parse(post?.article)
     const blocks = article.blocks
 
@@ -47,16 +48,17 @@ const Post = ({ post, faqs, recent_posts, listItems, host, categories }) => {
                 <title>{post.metaTitle}</title>
                 <meta name="description" content={post.metaDescription} />
             </Head>
-
-            <PostTemplate 
-                post={post}
-                html={html}
-                faqs={faqs}
-                recent_posts={recent_posts}
-                listItems={listItems}
-                host={host}
-                categories={categories}
+            <Layout site={site}>
+                <PostTemplate 
+                    post={post}
+                    html={html}
+                    faqs={faqs}
+                    recent_posts={recent_posts}
+                    listItems={listItems}
+                    host={host}
+                    categories={post.categories}
                 />
+            </Layout>
         </>
     )
 }
@@ -84,12 +86,12 @@ export const getServerSideProps = async (ctx) => {
     const listicleSnap = await getDocs(q)
     const listItems = listicleSnap.docs.map(doc => doc.data())
 
-    //this needs to be updated, it gets all the cats, and we only want this posts cats
-    const categoriesSnap = await getDocs(collection(firebaseDb,`sites/${host}/categories`))
-    const categories = categoriesSnap.docs.map(doc => doc.data())
+    const siteRef = doc(firebaseDb, "sites", host)
+    const siteDoc = await getDoc(siteRef)
+    const site = siteDoc.data()
 
     return {
-        props: { post, faqs, recent_posts, listItems, host, categories }, // will be passed to the page component as props
+        props: { post, faqs, recent_posts, listItems, host, site }, // will be passed to the page component as props
       }
 }
 

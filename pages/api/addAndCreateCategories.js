@@ -5,6 +5,18 @@ import { firebaseDb } from 'utils/firebase'
 import slugify from 'slugify'
 
 export default async function handler(req, res) {
+
+    const cleanSug = (rawSlug) => {
+        let slug = slugify(rawSlug).trim().toLowerCase()
+
+        if(slug.startsWith('"')) slug = slug.slice(1)
+        if(slug.endsWith('"')) slug = slug.slice(0, -1)
+        slug = slug.replace("'", '')
+        slug = slug.replace(":", '')
+
+        return slug
+    }
+
     const { host, prompt, slug } = req.query
 
     const categoriesPrompt = `Create 3 to 5 categories previous ${prompt} article could fall into`
@@ -17,7 +29,10 @@ export default async function handler(req, res) {
         const checkFor = `${i+1}. `
         if(category.startsWith(checkFor)) category = category.slice(checkFor.length).trim()
 
-        return category
+        return {
+            name: category,
+            slug: cleanSug(`${category}`)
+        }
     })
 
     const post = {
@@ -35,17 +50,6 @@ export default async function handler(req, res) {
             const categoryDescResponse = await promptResponse(categoryDesc)
             const categoryMetaDescResponse = await promptResponse(categoryMetaDesc)
             const categoryMetaTitleResponse = await promptResponse(categoryMetaTitle)
-
-            const cleanSug = (rawSlug) => {
-                let slug = slugify(rawSlug).trim().toLowerCase()
-        
-                if(slug.startsWith('"')) slug = slug.slice(1)
-                if(slug.endsWith('"')) slug = slug.slice(0, -1)
-                slug = slug.replace("'", '')
-                slug = slug.replace(":", '')
-        
-                return slug
-            }
 
             const slug = cleanSug(category)
 

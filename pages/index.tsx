@@ -1,18 +1,18 @@
 import React from 'react'
 import Head from 'next/head'
 import { firebaseDb } from 'utils/firebase'
-import { getDocs, collection, query, limit, orderBy } from "firebase/firestore"
+import { getDocs, collection, query, limit, orderBy, doc, getDoc } from "firebase/firestore"
 import IndexPage from 'components/pages/IndexPage'
 
-const Home = ({ posts }) => (
+const Home = ({ posts, site }) => (
   <>
     <Head>
       <title>Geist App</title>
       <meta name="description" content="Blake's create blog sites app" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-  
-    <IndexPage posts={posts} />
+
+    <IndexPage posts={posts} site={site} />
   </>
 )
 
@@ -22,7 +22,11 @@ export const getServerSideProps = async ({ req }) => {
   const postsSnap = await getDocs(postsQuery)
   const posts = postsSnap.docs.map(doc => doc.data())
 
-  return { props: { posts: posts || null  } }
+  const docRef = doc(firebaseDb, "sites", host)
+  const siteDoc = await getDoc(docRef)
+  const site = siteDoc.data()
+
+  return { props: { posts: posts || null, site  } }
 }
 
 export default Home

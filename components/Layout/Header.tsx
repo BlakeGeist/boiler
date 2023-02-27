@@ -11,14 +11,17 @@ const StyledHeader = styled.header`
   background: rgba(255,255,255,.97);
   box-shadow: 0 2px 2px -2px rgb(0 0 0 / 15%);
 `
+interface HeaderProps {
+  logoSrc: string
+}
 
-const Index: FC = () => (
+const Header:FC<HeaderProps> = ({ logoSrc }) => (
   <StyledHeader>
     <Link href="/">
-      <a><img src="https://static.vecteezy.com/system/resources/previews/005/484/042/original/dog-logo-illustration-free-vector.jpg" height="75px" /></a>
+      <a><img src={logoSrc} height="75px" /></a>
     </Link>
     <Navigation />
   </StyledHeader>
 )
 
-export default Index
+export default Header

@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import Layout from 'components/Layout'
 import { doc, deleteDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import { useRouter } from "next/router"
@@ -43,7 +42,6 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
     }
 
     return (
-        <Layout>
             <>
                 <button onClick={(e) => deletePost(e)}>Delete</button>
                 <Header topRef={topRef} heading={post.heading} headerImage={post.headerImage} />
@@ -74,7 +72,6 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
                     />
                 </PostContainer>
             </>
-        </Layout>
     )
 }
 

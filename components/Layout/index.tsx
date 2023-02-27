@@ -5,15 +5,16 @@ import Footer from './Footer'
 
 interface LayoutProps {
     children: ReactChild,
+    site: any
 }
 
-const Layout: FC<LayoutProps> = ({ children }) => (
+const Layout: FC<LayoutProps> = ({ children, site }) => (
   <SiteLayout>
-    <Header />
+    <Header logoSrc={site.logoSrc} />
     <Main>
         {children}
       </Main>
-    <Footer />
+    <Footer site={site} />
   </SiteLayout>
 )
 
