@@ -1,13 +1,17 @@
 import React from 'react'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import DashboardTemplate from 'components/pages/DashboardPage'
 
-const Site = ({ posts }) => {
+const Site = ({ posts, site }) => {
     return (
-        <DashboardTemplate 
-            posts={posts}
-        />
+        <main>
+
+            <DashboardTemplate 
+                posts={posts}
+                site={site}
+            />
+        </main>
     )
 }
 
@@ -18,8 +22,12 @@ export const getServerSideProps = async ({req}) => {
     const postsDocs = await getDocs(postsCollRef)
     const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()}))
 
+    const siteRef = doc(firebaseDb, "sites", host)
+    const siteDoc = await getDoc(siteRef)
+    const site = siteDoc.data()
+
     return {
-        props: { posts: posts || null }
+        props: { posts: posts || null, site }
     }
 }
 

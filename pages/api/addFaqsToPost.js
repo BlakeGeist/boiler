@@ -23,6 +23,9 @@ export default async function handler(req, res) {
             if(string.startsWith('A: ')) string = string.slice(3)
             if(string.startsWith('A:')) string = string.slice(2)
             if(string.startsWith('A')) string = string.slice(1)
+            if(string.startsWith(`${i+1}: `)) string = string.slice(3)
+            if(string.startsWith(`${i+1}:`)) string = string.slice(2)
+            if(string.startsWith(`${i+1}`)) string = string.slice(1)
 
             return string
         }

@@ -5,6 +5,10 @@ export const SiteLayout = styled.div`
     margin: 20px auto;
     background-color: #fff;
     font-family: 'Open Sans', sans-serif;
+
+    iframe {
+        border: none;
+    }
 `
 
 export const Main = styled.main`

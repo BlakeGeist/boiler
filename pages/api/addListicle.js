@@ -17,9 +17,11 @@ export default async function handler(req, res) {
 
     const listiclePrompt  = `Create a numbered listicle without a header related to the previous ${prompt} article`
     const listicleHeaderPrompt = `Create a header for the previous ${prompt} listicle, do not include html tags`
+    const listicleDescriptionPrompt = `Create a description for the previous ${prompt} listicle, do not include html tags, use no more that 300 words total`
 
     const listicleResponse = await promptResponse(listiclePrompt)
     const listicleHeaderResponse = await promptResponse(listicleHeaderPrompt)
+    const listicleDescriptionResponse = await promptResponse(listicleDescriptionPrompt)
 
     const listicleArray = listicleResponse.split(/\r?\n/)
     const listicleArrayItems = listicleArray.map(listItem => {if(listItem.length > 0) return listItem}).filter(Boolean)
@@ -32,9 +34,11 @@ export default async function handler(req, res) {
     })
 
     const listicleHeading = cleanResponse(listicleHeaderResponse)
+    const listicleDescription = cleanResponse(listicleDescriptionResponse)
 
     const post = {
-        listicleHeading
+        listicleHeading,
+        listicleDescription
     }
 
     listicleItems.forEach(listItem => {

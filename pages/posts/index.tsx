@@ -1,12 +1,12 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { collection, getDocs, limit, query, orderBy } from "firebase/firestore"
+import { collection, getDocs, limit, query, orderBy, doc, getDoc } from "firebase/firestore"
 import Layout from 'components/Layout'
 import PostsTemplate from 'components/pages/posts/PostsTemplate'
 
-const Posts = ({ posts, host }) => {
+const Posts = ({ posts, host, site }) => {
     return (
-        <Layout>
+        <Layout site={site}>
             <PostsTemplate host={host} posts={posts} />
         </Layout>
     )
@@ -18,7 +18,11 @@ export const getServerSideProps = async ({ req }) => {
     const postsSnap = await getDocs(postsQuery)
     const posts = postsSnap.docs.map(doc => doc.data())
 
-    return { props: { posts: posts || null, host } }
+    const siteRef = doc(firebaseDb, "sites", host)
+    const siteDoc = await getDoc(siteRef)
+    const site = siteDoc.data()
+
+    return { props: { posts: posts || null, host, site } }
   }
   
 
