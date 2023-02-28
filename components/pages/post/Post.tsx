@@ -19,8 +19,6 @@ import { PostContainer, Body } from './post.styles'
 
 const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) => {
 
-    console.log(categories)
-
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)

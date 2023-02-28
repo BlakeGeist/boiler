@@ -42,6 +42,7 @@ const GetArticleIdeas = ({ loading, setLoading, host, setStep, setArticleIdeas }
         <div>
             <GetArticleIdeasForm onSubmit={getArticleIdeas}>
                 <div>
+                    <p>Enter a topic and get article ideas</p>
                     <input type="input" name="prompt" />                                
                 </div>
                 <LoadingButton type="submit" loading={loading} loadingIndicator="Loading..." variant="outlined">

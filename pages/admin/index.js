@@ -64,6 +64,7 @@ const Admin = ({ site }) => {
     return (
         <Layout site={site}>
             <main>
+
                 <h1>Admin</h1>
 
                 <form onSubmit={(e) => updateSite(e)}>

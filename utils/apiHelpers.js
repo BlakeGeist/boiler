@@ -31,5 +31,5 @@ export const imageResponse = async (propmt, size) => {
         size: daSize,
       }).catch(e => console.log(e.response.data.error))
 
-    return response.data.data[0].url
+    return response?.data?.data[0].url
 }
