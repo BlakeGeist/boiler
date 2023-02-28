@@ -2,9 +2,9 @@ import React from 'react'
 import Accordion from 'components/Accordion'
 
 const Faqs = ({ faqsRef, faqs }) => {
-    if(faqs.length === 0) return null
+    if(!faqs || faqs.length === 0) return null
     
-    const faqsArray = faqs.map((faq) => {
+    const faqsArray = faqs?.map((faq) => {
         return {
             "@type":"Question",
             "name": faq.question,

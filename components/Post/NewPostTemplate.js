@@ -9,11 +9,13 @@ import PostTemplate from 'components/pages/post/Post'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 import Link from 'next/link'
+import { useRouter } from "next/router"
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 import GetArticleIdeas from 'components/Post/GetArticleIdeas'
 import ArticleIdeas from 'components/Post/ArticleIdeas'
+import BuildArticle from 'components/Post/BuildArticle'
 
 const CreateArticleHeading = styled.h1`
     span {
@@ -26,10 +28,22 @@ const NewPostTemplate = ({ site, host }) => {
     const [loading, setLoading] = useState(false)
     const [articleLoading, setArticleLoading] = useState(false)
     const [step, setStep] = useState(1)
-    
+    const [selectedIdea, setSelectedIdea] = useState('')
 
     const [post, setPost] = useState({})
     const [html, setHtml] = useState()
+
+    const [articleSections, setArticleSections] = useState([])
+    const router = useRouter()
+
+    const stepUp = () => {
+        setStep(step+1)
+    }
+
+    const stepDown = () => {
+        if(step === 1) return
+        setStep(step-1)
+    }
 
     const submitArticle = async (promptText, e) => {
         e.preventDefault()
@@ -38,6 +52,7 @@ const NewPostTemplate = ({ site, host }) => {
             prompt: promptText,
             headingText: promptText
         }
+
         setStep(3)
         setArticleLoading(true)
 
@@ -128,9 +143,9 @@ const NewPostTemplate = ({ site, host }) => {
                 await axios.get('/api/addMediumImage', { params })
                 return params
             })
-            .then(() => { 
+            .then((params) => { 
                 setArticleLoading(false)
-                //router.push(`/posts/${params.slug}`)
+                router.push(`/post/${params.slug}`)
             })
             .catch(e => {
                 console.log(e)
@@ -164,11 +179,40 @@ const NewPostTemplate = ({ site, host }) => {
         }
     }
 
+    const clearSelectedIdea = (e) => {
+        e.preventDefault()
+        setSelectedIdea('')
+    }
+
+    const handlePrev = (e) => {
+        e.preventDefault()
+        stepDown()
+    }
+
+    const handleNext = (e) => {
+        e.preventDefault()
+        stepUp()
+    }
 
     return (
         <Layout site={site}>
             <>
                 <CreateArticleHeading><strong>Step {step} of 9 : <span>{stepText()}</span></strong></CreateArticleHeading>
+
+                <hr />
+
+                {articleSections}
+
+                <hr />
+
+                    <div>
+                        {step > 1 &&
+                            <button onClick={(e) => handlePrev(e)}>Prev</button>
+                        }
+                        {step < 12 &&
+                            <button onClick={(e) => handleNext(e)}>Next</button>
+                        }                        
+                    </div>
 
                 {post?.slug &&
                     <Link href={`/post/${post.slug}`}>
@@ -180,8 +224,15 @@ const NewPostTemplate = ({ site, host }) => {
                     <GetArticleIdeas loading={loading} setLoading={setLoading} host={host} setArticleIdeas={setArticleIdeas} setStep={setStep} />
                 }
 
-                {step === 2 &&
-                    <ArticleIdeas articleIdeas={articleIdeas} submitArticle={submitArticle} articleLoading={articleLoading} />
+                {step === 2 && selectedIdea.length === 0 &&
+                    <ArticleIdeas articleIdeas={articleIdeas} setSelectedIdea={setSelectedIdea} />
+                }
+
+                {step === 2 && selectedIdea.length > 0 &&
+                    <>
+                        <button onClick={(e) => clearSelectedIdea(e)}>Clear Selected Idea</button>
+                        <BuildArticle setArticleSections={setArticleSections} selectedIdea={selectedIdea} submitArticle={submitArticle} articleLoading={articleLoading} />
+                    </>
                 }
 
                 {post?.heading &&
