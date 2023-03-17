@@ -9,7 +9,7 @@ import timestamp from 'time-stamp'
 export default async function handler(req, res) {
     const { host, prompt, headingText, map, keywords } = req.query
 
-    const articlePromt = `Using at least 900 words and including the following phrases at least once ${keywords} create an article realted to "${prompt}"`
+    const articlePromt = `Using at least 900 words and including the following phrases at least once ${keywords} within the main contents body create an article realted to "${prompt}"`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
 
     const articleResponse = await promptResponse(articlePromt)
