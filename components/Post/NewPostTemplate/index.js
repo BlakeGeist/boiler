@@ -34,10 +34,12 @@ const NewPostTemplate = ({ site, host }) => {
         setListItems([])
     }
 
+    console.log(post)
+
     return (
         <Layout site={site}>
             <>
-                <StepHeading><strong>Step {step} of 9 : <span><StepText step={step} /></span></strong></StepHeading>
+                <StepHeading><strong>Step {step} of 4 : <span><StepText step={step} /></span></strong></StepHeading>
 
                 <hr />
 
@@ -86,6 +88,7 @@ const NewPostTemplate = ({ site, host }) => {
                             site={site}
                             faqs={faqs}
                             listItems={listItems}
+                            categories={post.categories}
                         />
                     </div>
                 }

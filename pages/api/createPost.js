@@ -35,11 +35,12 @@ export default async function handler(req, res) {
     const article = JSON.stringify(convertToRaw(contentFromText))    
 
     const cleanSug = (rawSlug) => {
-        let slug = slugify(rawSlug).trim().toLowerCase()
+        let slug = `${rawSlug}`.trim().toLowerCase()
         slug = slug.replace("'", '')
         slug = slug.replace('"', '')
         slug = slug.replace(":", '')
         slug = slug.replace(".", '')
+        slug = slugify(slug)
 
         return slug
     }

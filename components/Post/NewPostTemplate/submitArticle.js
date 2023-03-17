@@ -77,7 +77,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             const addHeaderImage         = axios.get('/api/addHeaderImage',         { params }) 
             const addMediumImage         = axios.get('/api/addMediumImage',         { params }) 
 
-            addHeaderImage.then(res => {
+            await addHeaderImage.then(res => {
                 posttemp = {
                     ...posttemp,
                     ...res.data
@@ -87,7 +87,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                 console.log(`there was an error while creating the HeaderImage: ${e}`)
             }) 
 
-            addMediumImage.then(res => {
+            await addMediumImage.then(res => {
                 posttemp = {
                     ...posttemp,
                     ...res.data
@@ -129,7 +129,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                 console.log(`there was an error while creating the MediumImage: ${e}`)
             }) 
 
-            addSecondaryPostData.then(res => {
+            await addSecondaryPostData.then(res => {
                 posttemp = {
                     ...posttemp,
                     ...res.data
@@ -139,7 +139,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                 console.log(`there was an error while creating the SectiondaryPostData: ${e}`)
             })
 
-            addAndCreateCategories.then(res => {
+            await addAndCreateCategories.then(res => {
                 posttemp = {
                     ...posttemp,
                     ...res.data
@@ -149,13 +149,13 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                 console.log(`there was an error while creating the Categories: ${e}`)
             })
 
-            addFaqsToPost.then(res => {
+            await addFaqsToPost.then(res => {
                 setFaqs(res.data)
             }).catch(e => {
                 console.log(`there was an error while creating the Faqs: ${e}`)
             })
 
-            addListicle.then(res => {
+            await addListicle.then(res => {
                 const { listicleHeading, listicleDescription } = res.data
                 const listicleItems = res.data.listicleItems.map(listItem => ({ listItem }))
                 posttemp = {
@@ -173,7 +173,6 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
         })
 
         .then(() => { 
-            setPost(posttemp)            
             setLoading(false)
         })
         .catch(e => {
