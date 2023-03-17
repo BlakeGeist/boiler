@@ -33,10 +33,6 @@ const BuildArticle = ({ selectedIdea, submitArticle, articleLoading }) => {
     const CheckBox = ({ defaultChecked, labelText, name }) => {
         const [isChecked, setIsChecked] = useState(defaultChecked)
         
-        ///const addToArticleSections = () => {
-            //setArticleSections([...articleSection, articleSection])
-        //}
-
         return (
             <CheckboxContainer>
                 <input type="checkbox" name={`${name}Checkbox`} id={`${name}Checkbox`} defaultChecked={isChecked} onChange={() => setIsChecked(!isChecked)} />
@@ -64,6 +60,12 @@ const BuildArticle = ({ selectedIdea, submitArticle, articleLoading }) => {
                     <div>
                         <input type="text" name="keywordsArray" id="keywordsArray" placeholder="Keywords , seperated" />
                     </div>
+                }
+                
+                {name === "video" && isChecked &&
+                    <div>
+                        <input type="text" name="video" id="video" placeholder="Video url" />
+                    </div>
                 }                
                 
             </CheckboxContainer>
@@ -81,6 +83,7 @@ const BuildArticle = ({ selectedIdea, submitArticle, articleLoading }) => {
                     <CheckBox name="listicle" labelText="Listicle" defaultChecked={true} />
                     <CheckBox name="categories" labelText="Categories" defaultChecked={true} />
                     <CheckBox name="quote" labelText="Quote" defaultChecked={true} />
+                    <CheckBox name="video" labelText="Video" defaultChecked={false} />
                     <CheckBox name="map" labelText="Map" defaultChecked={false} />
                     <CheckBox name="keywords" labelText="Keywords" defaultChecked={false} />
                 </div>

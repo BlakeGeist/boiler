@@ -16,34 +16,24 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import GetArticleIdeas from 'components/Post/GetArticleIdeas'
 import ArticleIdeas from 'components/Post/ArticleIdeas'
 import BuildArticle from 'components/Post/BuildArticle'
+import SectionsBuilder from 'components/Post/SectionsBuilder'
 
-const CreateArticleHeading = styled.h1`
-    span {
-        font-size: 16px;
-    }
-`
+import Heading from 'components/Post/Sections/Heading'
+import Article from 'components/Post/Sections/Article'
+
+import Stepper from 'components/Post/Stepper'
+import StepText from 'components/Post/StepText'
+import { StepHeading } from 'components/Post/NewPostTemplate.styles'
 
 const NewPostTemplate = ({ site, host }) => {
     const [articleIdeas, setArticleIdeas] = useState([])
     const [loading, setLoading] = useState(false)
-    const [articleLoading, setArticleLoading] = useState(false)
     const [step, setStep] = useState(1)
     const [selectedIdea, setSelectedIdea] = useState('')
-
     const [post, setPost] = useState({})
     const [html, setHtml] = useState()
 
-    const [articleSections, setArticleSections] = useState([])
     const router = useRouter()
-
-    const stepUp = () => {
-        setStep(step+1)
-    }
-
-    const stepDown = () => {
-        if(step === 1) return
-        setStep(step-1)
-    }
 
     const submitArticle = async (promptText, e) => {
         e.preventDefault()
@@ -54,7 +44,6 @@ const NewPostTemplate = ({ site, host }) => {
         }
 
         setStep(3)
-        setArticleLoading(true)
 
         await axios.get('/api/createPost', { params })
             .then(async (res) => {
@@ -144,7 +133,6 @@ const NewPostTemplate = ({ site, host }) => {
                 return params
             })
             .then((params) => { 
-                setArticleLoading(false)
                 router.push(`/post/${params.slug}`)
             })
             .catch(e => {
@@ -153,66 +141,21 @@ const NewPostTemplate = ({ site, host }) => {
 
     }
 
-    const stepText = () => {
-        switch(step) {
-            case 1:
-                return 'Generate article ideas'         
-            case 2:
-                return 'Add image desc fields'
-            case 3:
-                return 'Creating post'
-            case 4:
-                return 'Creating post secondary data'
-            case 5:
-                return 'Create categories'
-            case 6:
-                return 'Creating faqs'
-            case 7:
-                return 'Creating listicle' 
-            case 8:
-                return 'Creating header image' 
-            case 9:
-                return 'Creating medium image'
-              
-            default:
-                return 'Create Article'                 
-        }
-    }
+
 
     const clearSelectedIdea = (e) => {
         e.preventDefault()
         setSelectedIdea('')
     }
 
-    const handlePrev = (e) => {
-        e.preventDefault()
-        stepDown()
-    }
-
-    const handleNext = (e) => {
-        e.preventDefault()
-        stepUp()
-    }
-
     return (
         <Layout site={site}>
             <>
-                <CreateArticleHeading><strong>Step {step} of 9 : <span>{stepText()}</span></strong></CreateArticleHeading>
+                <StepHeading><strong>Step {step} of 9 : <span><StepText step={step} /></span></strong></StepHeading>
 
                 <hr />
 
-                {articleSections}
-
-                <hr />
-
-                    <div>
-                        {step > 1 &&
-                            <button onClick={(e) => handlePrev(e)}>Prev</button>
-                        }
-                        {step < 12 &&
-                            <button onClick={(e) => handleNext(e)}>Next</button>
-                        }                        
-                    </div>
+                <Stepper step={step} setStep={setStep} />
 
                 {post?.slug &&
                     <Link href={`/post/${post.slug}`}>
@@ -228,11 +171,8 @@ const NewPostTemplate = ({ site, host }) => {
                     <ArticleIdeas articleIdeas={articleIdeas} setSelectedIdea={setSelectedIdea} />
                 }
 
-                {step === 2 && selectedIdea.length > 0 &&
-                    <>
-                        <button onClick={(e) => clearSelectedIdea(e)}>Clear Selected Idea</button>
-                        <BuildArticle setArticleSections={setArticleSections} selectedIdea={selectedIdea} submitArticle={submitArticle} articleLoading={articleLoading} />
-                    </>
+                {selectedIdea.length > 0 &&
+                    <button onClick={(e) => clearSelectedIdea(e)}>Clear Selected Idea</button>
                 }
 
                 {post?.heading &&
