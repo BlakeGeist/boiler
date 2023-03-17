@@ -8,7 +8,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 export default async function handler(req, res) {
     const { host, mediumImagePrompt, slug } = req.query
 
-    console.log(mediumImagePrompt)
+    console.log('mediumImagePrompt, ', mediumImagePrompt)
 
     let mediumImageSrc
     const mediumImage = await imageResponse(mediumImagePrompt, 'medium')

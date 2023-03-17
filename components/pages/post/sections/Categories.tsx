@@ -17,12 +17,12 @@ const Category = styled.div`
 `
 
 const Categories = ({ categories }) => {
+    console.log(categories, ' here')
     if(!categories) return null
 
     return (
         <CategoriesContainer>
             {categories?.map((category, i) => {
-                console.log(category)
                 return (
                     <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
                         <a>

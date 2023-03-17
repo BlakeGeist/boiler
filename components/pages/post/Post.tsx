@@ -42,7 +42,7 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
     return (
             <>
                 <button onClick={(e) => deletePost(e)}>Delete</button>
-                <Header topRef={topRef} heading={post.heading} headerImage={post.headerImage} />
+                <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />
                 <PostContainer>
                     <Share />
                     <Body>

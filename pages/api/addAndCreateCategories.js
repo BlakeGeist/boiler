@@ -7,12 +7,12 @@ import slugify from 'slugify'
 export default async function handler(req, res) {
 
     const cleanSug = (rawSlug) => {
-        let slug = slugify(rawSlug).trim().toLowerCase()
-
-        if(slug.startsWith('"')) slug = slug.slice(1)
-        if(slug.endsWith('"')) slug = slug.slice(0, -1)
+        let slug = `${rawSlug}`.trim().toLowerCase()
         slug = slug.replace("'", '')
+        slug = slug.replace('"', '')
         slug = slug.replace(":", '')
+        slug = slug.replace(".", '')
+        slug = slugify(slug)
 
         return slug
     }
@@ -23,7 +23,8 @@ export default async function handler(req, res) {
 
     const categoriesResponse = await promptResponse(categoriesPrompt)
 
-    const categoriesArray = categoriesResponse.split(/\r?\n/)
+    const categoriesArray = categoriesResponse.split(/\r?\n/).filter(Boolean)
+
     const categoriesArrayItems = categoriesArray.map(listItem => {if(listItem.length > 0) return listItem}).filter(Boolean)
     const categories = categoriesArrayItems.map((category, i) => {
         const checkFor = `${i+1}. `

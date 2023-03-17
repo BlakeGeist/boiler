@@ -38,7 +38,8 @@ export default async function handler(req, res) {
 
     const post = {
         listicleHeading,
-        listicleDescription
+        listicleDescription,
+        listicleItems
     }
 
     listicleItems.forEach(listItem => {
