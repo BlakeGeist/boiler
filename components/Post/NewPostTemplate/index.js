@@ -34,8 +34,6 @@ const NewPostTemplate = ({ site, host }) => {
         setListItems([])
     }
 
-    console.log(post)
-
     return (
         <Layout site={site}>
             <>
@@ -72,7 +70,15 @@ const NewPostTemplate = ({ site, host }) => {
                         <div>
                             <label htmlFor="mediumImage">Describe Medium Image</label> <br />
                             <input name="mediumImage" id="mediumImage" type="text" />
-                        </div>                    
+                        </div>
+                        <div>
+                            <label htmlFor="map">Map Url</label> <br />
+                            <input name="map" id="map" type="text" />
+                        </div>
+                        <div>
+                            <label htmlFor="keywords">Keywords</label> <br />
+                            <input name="keywords" id="keywords" type="text" />
+                        </div>                          
                         <LoadingButton  type="submit" loading={loading} loadingIndicator={"Loading..."} variant="outlined">
                             Create Article
                         </LoadingButton>
@@ -81,6 +87,8 @@ const NewPostTemplate = ({ site, host }) => {
 
                 {post?.heading &&
                     <div>
+                        {post.keywords}
+                        <hr />
                         <PostTemplate 
                             post={post}
                             html={html}
@@ -89,6 +97,7 @@ const NewPostTemplate = ({ site, host }) => {
                             faqs={faqs}
                             listItems={listItems}
                             categories={post.categories}
+                            mapSrc={post.map}
                         />
                     </div>
                 }

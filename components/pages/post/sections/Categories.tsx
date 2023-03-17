@@ -17,7 +17,6 @@ const Category = styled.div`
 `
 
 const Categories = ({ categories }) => {
-    console.log(categories, ' here')
     if(!categories) return null
 
     return (

@@ -13,12 +13,11 @@ import Article from 'components/pages/post/sections/Article'
 import Header from 'components/pages/post/sections/Header'
 import RecentPosts from 'components/RecentPosts'
 import Quote from 'components/pages/post/sections/Quote'
-
+import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body } from './post.styles'
 
 const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) => {
-
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -26,6 +25,7 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
     const articleRef = useRef(null)
     const quoteRef = useRef(null)
     const recentPostsRef = useRef(null)
+    const mapRef = useRef(null)
     const router = useRouter()
 
     const deletePost = async (e) => {
@@ -36,7 +36,6 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
                 router.push(`/dashboard/${host}`)
             })
             .catch(e => console.log(e))
-     
     }
 
     return (
@@ -53,6 +52,7 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
                         <Faqs faqs={faqs} faqsRef={faqsRef} />
                         <Listicle post={post} listItems={listItems} listicleRef={listicleRef} />                            
                         <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
+                        <Map mapSrc={post.map} mapRef={mapRef} />
 
                         {
                             // might be cool to make a pros and cons list

@@ -6,7 +6,6 @@ import Head from 'next/head'
 import PostsTemplate from 'components/pages/posts/PostsTemplate'
 
 const Category = ({ category, posts, host, site }) => {
-    console.log(site)
     return (
         <>
             <Head>
@@ -31,8 +30,6 @@ export const getServerSideProps = async (ctx) => {
     const docRef = doc(firebaseDb, "sites", host, "categories", slug)
     const postDoc = await getDoc(docRef)
     const category = postDoc.data()
-
-    console.log(slug)
 
     const postsRef = collection(firebaseDb, "sites", host, 'posts')
     const q = query(postsRef, where("categories", "array-contains", category.name), orderBy("createdAt", "desc"))
