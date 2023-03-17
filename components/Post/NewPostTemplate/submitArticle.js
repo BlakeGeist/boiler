@@ -8,7 +8,8 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
         host,
         prompt: promptText,
         headingText: promptText,
-        map: e.target.map.value
+        map: e.target.map.value,
+        keywords: e.target.keywords.value
     }
 
     const headerImagePrompt = e.target.headerImage.value

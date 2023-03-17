@@ -74,6 +74,10 @@ const NewPostTemplate = ({ site, host }) => {
                         <div>
                             <label htmlFor="map">Map Url</label> <br />
                             <input name="map" id="map" type="text" />
+                        </div>
+                        <div>
+                            <label htmlFor="keywords">Keywords</label> <br />
+                            <input name="keywords" id="keywords" type="text" />
                         </div>                          
                         <LoadingButton  type="submit" loading={loading} loadingIndicator={"Loading..."} variant="outlined">
                             Create Article
@@ -83,6 +87,8 @@ const NewPostTemplate = ({ site, host }) => {
 
                 {post?.heading &&
                     <div>
+                        {post.keywords}
+                        <hr />
                         <PostTemplate 
                             post={post}
                             html={html}

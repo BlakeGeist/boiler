@@ -15,7 +15,6 @@ import RecentPosts from 'components/RecentPosts'
 import Quote from 'components/pages/post/sections/Quote'
 import Map from 'components/pages/post/sections/Map'
 
-
 import { PostContainer, Body } from './post.styles'
 
 const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) => {
