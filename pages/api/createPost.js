@@ -7,7 +7,7 @@ import { firebaseDb } from 'utils/firebase'
 import timestamp from 'time-stamp'
 
 export default async function handler(req, res) {
-    const { host, prompt, headingText } = req.query
+    const { host, prompt, headingText, map } = req.query
 
     const articlePromt = `Create an article related to ${prompt}, use at least 900 words`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
@@ -53,7 +53,8 @@ export default async function handler(req, res) {
         article: article,
         slug,
         heading,
-        createdAt
+        createdAt,
+        map
     }
 
     await setDoc(doc(firebaseDb, "sites", host, "posts", slug), post)

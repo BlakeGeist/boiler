@@ -2,9 +2,6 @@ import React from 'react'
 import Accordion from 'components/Accordion'
 
 const Faqs = ({ faqsRef, faqs }) => {
-
-    console.log(faqs)
-
     if(!faqs || faqs.length === 0) return null
     
     const faqsArray = faqs?.map((faq) => {
