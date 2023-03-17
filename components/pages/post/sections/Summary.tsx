@@ -6,10 +6,14 @@ const Summary = ({ summaryRef, summary }) => {
     if(!summary) return null
     
     return (
-        <Alert ref={summaryRef} id="summary" style={{marginBottom: '15px'}} severity="info">
-            <AlertTitle style={{fontWeight: 'bold'}}>Summary</AlertTitle>
-            {summary}
-        </Alert>        
+        <>
+            <button>Regenerate Secondary data</button>
+            <Alert ref={summaryRef} id="summary" style={{marginBottom: '15px'}} severity="info">
+                <AlertTitle style={{fontWeight: 'bold'}}>Summary</AlertTitle>
+                {summary}
+            </Alert>                    
+        </>
+
     )
 }
 

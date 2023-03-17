@@ -98,6 +98,8 @@ const NewPostTemplate = ({ site, host }) => {
                             listItems={listItems}
                             categories={post.categories}
                             mapSrc={post.map}
+                            promptText={selectedIdea}
+                            setFaqs={setFaqs}
                         />
                     </div>
                 }

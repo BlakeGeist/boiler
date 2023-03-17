@@ -28,6 +28,7 @@ const Listicle = ({ listicleRef, post, listItems}) => {
 
     return (
         <>
+            <button>Regenerate ListItems</button>
             <h2 ref={listicleRef}><span>{post.listicleHeading}</span></h2>
             <ol >
                 {listItems.map(item => {

@@ -17,7 +17,7 @@ import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body } from './post.styles'
 
-const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) => {
+const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, promptText, setFaqs }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -49,7 +49,7 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
                         <Article articleRef={articleRef} html={html} />
                         <Categories categories={categories} />                        
                         <Quote quoteRef={quoteRef} quote={post.quote} />
-                        <Faqs faqs={faqs} faqsRef={faqsRef} />
+                        <Faqs faqs={faqs} faqsRef={faqsRef} promptText={promptText} setFaqs={setFaqs} slug={post.slug} host={host} />
                         <Listicle post={post} listItems={listItems} listicleRef={listicleRef} />                            
                         <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
                         <Map mapSrc={post.map} mapRef={mapRef} />

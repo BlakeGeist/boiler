@@ -20,19 +20,22 @@ const Categories = ({ categories }) => {
     if(!categories) return null
 
     return (
-        <CategoriesContainer>
-            {categories?.map((category, i) => {
-                return (
-                    <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
-                        <a>
-                            <Category>
-                                {category.name}
-                            </Category>
-                        </a>
-                    </Link>
-                )
-            })}
-        </CategoriesContainer>
+        <>
+            <button>Regenerate Categories</button>
+            <CategoriesContainer>
+                {categories?.map((category, i) => {
+                    return (
+                        <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
+                            <a>
+                                <Category>
+                                    {category.name}
+                                </Category>
+                            </a>
+                        </Link>
+                    )
+                })}
+            </CategoriesContainer>
+        </>
     )
 }
 
