@@ -22,7 +22,6 @@ const Categories = ({ categories }) => {
     return (
         <CategoriesContainer>
             {categories?.map((category, i) => {
-                console.log(category)
                 return (
                     <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
                         <a>

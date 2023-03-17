@@ -7,11 +7,12 @@ import sharp from 'sharp'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 export default async function handler(req, res) {
+
     const { host, slug, headerImagePrompt } = req.query
 
-    console.log(headerImagePrompt)
+    console.log('headerImagePrompt, ', headerImagePrompt)
 
-    let headerImage
+    let headerImageSrc
     const image = await imageResponse(headerImagePrompt, 'large')
     let dafile = await got(image)
     
@@ -25,7 +26,7 @@ export default async function handler(req, res) {
         .then( async (data) => {
             await uploadBytes(dastorageRef, data).then( async (snapshot) => {
                 await getDownloadURL(snapshot.ref).then( (downloadURL) => {
-                    headerImage = downloadURL
+                    headerImageSrc = downloadURL
                     console.log('File available at', downloadURL)
                   })
         
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
         .catch( err => console.log(err))
 
     const post = {
-        headerImage
+        headerImageSrc
     }
 
     const postRef = doc(firebaseDb, "sites", host, "posts", slug)

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { ArticleIdeasCheckBoxContainer } from 'components/Post/ArticleIdeas/styles'
 
-const ArticleIdea = ({ idea }) => {
+const ArticleIdea = ({ idea, index, setSelectedIdea, setPost, setStep }) => {
     const [isChecked, setIsChecked] = useState(false)
-    
+    const ideaId = `idea-${index}`
+
     const handleCheck = () => {
         setIsChecked(!isChecked)
 
@@ -11,14 +12,16 @@ const ArticleIdea = ({ idea }) => {
             setSelectedIdea()
         } else {
             setSelectedIdea(idea)
+            setPost({ heading: idea })
+            setStep(3)
         }
     }
 
     return (
         <li>
             <ArticleIdeasCheckBoxContainer>
-                <input type="checkbox" name="idea" defaultChecked={isChecked} onChange={() => handleCheck()} />
-                <p>{idea}</p>
+                <input type="checkbox" name={ideaId} id={ideaId} defaultChecked={isChecked} onChange={() => handleCheck()} />
+                <label htmlFor={ideaId}>{idea}</label>
             </ArticleIdeasCheckBoxContainer>
         </li>
     )            

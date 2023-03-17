@@ -6,6 +6,9 @@ import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 const ControlledAccordions = ({faqs}) => {
+
+  if(!faqs) return null
+
   const [expanded, setExpanded] = React.useState<string | false>(false)
 
   const handleChange =

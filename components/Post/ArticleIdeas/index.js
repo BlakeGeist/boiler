@@ -2,17 +2,11 @@ import React from 'react'
 import ArticleIdea from 'components/Post/ArticleIdeas/ArticleIdea'
 import { ArticleIdeasList } from 'components/Post/ArticleIdeas/styles'
 
-const ArticleIdeas = ({ articleIdeas, setSelectedIdea }) => {
-
+const ArticleIdeas = ({ articleIdeas, setSelectedIdea, setPost, setStep }) => {
     return (
-        <>
-            <h2>Select an Article and describe the images</h2>
-            <ArticleIdeasList>
-                {articleIdeas?.map((idea) => {                    
-                    return ( <ArticleIdea idea={idea} key={`${idea}`} /> )
-                })}
-            </ArticleIdeasList>
-        </>        
+        <ArticleIdeasList>
+            {articleIdeas?.map((idea, index) => ( <ArticleIdea idea={idea} index={index} key={`${idea}`} setSelectedIdea={setSelectedIdea} setPost={setPost} setStep={setStep} /> ))}
+        </ArticleIdeasList>
     )
 }
 

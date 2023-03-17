@@ -9,7 +9,7 @@ import timestamp from 'time-stamp'
 export default async function handler(req, res) {
     const { host, prompt, headingText } = req.query
 
-    const articlePromt = `Create an article related to ${prompt}, use at least 900 words, site at least 2 sources`
+    const articlePromt = `Create an article related to ${prompt}, use at least 900 words`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
 
     const articleResponse = await promptResponse(articlePromt)
@@ -36,11 +36,10 @@ export default async function handler(req, res) {
 
     const cleanSug = (rawSlug) => {
         let slug = slugify(rawSlug).trim().toLowerCase()
-
-        if(slug.startsWith('"')) slug = slug.slice(1)
-        if(slug.endsWith('"')) slug = slug.slice(0, -1)
         slug = slug.replace("'", '')
+        slug = slug.replace('"', '')
         slug = slug.replace(":", '')
+        slug = slug.replace(".", '')
 
         return slug
     }
