@@ -16,8 +16,8 @@ const Admin = ({ site }) => {
             await getDownloadURL(snapshot.ref).then( (downloadURL) => {
                 logoSRC = downloadURL
                 console.log('File available at', downloadURL)
-              })
-          })
+            })
+        })
 
         const siteDoc = {
             logoSrc: logoSRC
@@ -26,16 +26,13 @@ const Admin = ({ site }) => {
         const siteRef = doc(firebaseDb, "sites", site.slug)
 
         await updateDoc(siteRef, siteDoc)
-        
     }
 
     const submit = (e) => {
         e.preventDefault()
-
         const file = e.target.filename.files[0]
 
         uploadImage(file)
-        
     }
 
     const updateSite = async (e) => {
@@ -53,8 +50,13 @@ const Admin = ({ site }) => {
             facebook: e.target.facebook.value,
             twitter: e.target.twitter.value,
             instagram: e.target.instagram.value,
-            map: e.target.map.value
+            map: e.target.map.value,
+            sidebarAd: e.target.sidebarAd.value,
+            headerAd: e.target.headerAd.value,
+            bodyAd: e.target.bodyAd.value
         }
+
+        console.log(siteUpdate)
 
         const siteRef = doc(firebaseDb, "sites", site.slug)
 
@@ -121,6 +123,21 @@ const Admin = ({ site }) => {
                     <div>
                         <label htmlFor="map">Map: </label>
                         <input type="text" name="map" id="map" defaultValue={site.map} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="sidebarAd">Sidebar Ad Link: </label>
+                        <input type="text" name="sidebarAd" id="sidebarAd" defaultValue={site.sidebarAd} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="headerAd">Header Ad Link: </label>
+                        <input type="text" name="headerAd" id="headerAd" defaultValue={site.headerAd} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="bodyAd">Body Ad Link: </label>
+                        <input type="text" name="bodyAd" id="bodyAd" defaultValue={site.bodyAd} />
                     </div>
 
                     <input type="submit" />

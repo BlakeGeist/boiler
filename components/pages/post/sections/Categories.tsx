@@ -17,6 +17,7 @@ const Category = styled.div`
 `
 
 const Categories = ({ categories, isEditable }) => {
+
     if(!categories) return null
 
     return (
