@@ -6,8 +6,7 @@ const TableOfContentsContainer = styled.div`
     margin-bottom: 15px;
     border-radius: 8px;
 
-    position: sticky;
-    top: 15px;;    
+
 
     h2 {
         font-size: 16px;
@@ -54,7 +53,17 @@ const AsideContainer = styled.div`
     flex: 0 1 200px;
 `
 
-const Aside = ({ topRef, summaryRef, articleRef, faqsRef, listicleRef, recentPostsRef, quoteRef }) => {
+const Sticky = styled.div`
+    position: sticky;
+    top: 15px;;    
+`
+
+const SidebarAdContainer = styled.div`
+    display: flex;
+    justify-content: center
+`
+
+const Aside = ({ topRef, summaryRef, articleRef, faqsRef, listicleRef, recentPostsRef, quoteRef, sidebarAd }) => {
     const scrollTo = (ref) => {
         if (ref && ref.current /* + other conditions */) {
             ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -63,32 +72,40 @@ const Aside = ({ topRef, summaryRef, articleRef, faqsRef, listicleRef, recentPos
 
     return (
         <AsideContainer>
-            <TableOfContentsContainer>
-                <h2>Table of contents</h2>
-                <ul>
-                    <li>
-                        <button onClick={() => {scrollTo(topRef)}}>Top</button>
-                    </li>
-                    <li>
-                        <button onClick={() => {scrollTo(summaryRef)}}>Summary</button>
-                    </li>                                
-                    <li>
-                        <button onClick={() => {scrollTo(articleRef)}}>Article</button>
-                    </li>
-                    <li>
-                        <button onClick={() => {scrollTo(quoteRef)}}>Quote</button>
-                    </li>                    
-                    <li>
-                        <button onClick={() => {scrollTo(faqsRef)}}>Faqs</button>
-                    </li>
-                    <li>
-                        <button onClick={() => {scrollTo(listicleRef)}}>Listicle</button>
-                    </li>                                
-                    <li>
-                        <button onClick={() => {scrollTo(recentPostsRef)}}>Recent Posts</button>
-                    </li>                                                                                                                             
-                </ul>
-            </TableOfContentsContainer>  
+            <Sticky>
+                <TableOfContentsContainer>
+                    <h2>Table of contents</h2>
+                    <ul>
+                        <li>
+                            <button onClick={() => {scrollTo(topRef)}}>Top</button>
+                        </li>
+                        <li>
+                            <button onClick={() => {scrollTo(summaryRef)}}>Summary</button>
+                        </li>                                
+                        <li>
+                            <button onClick={() => {scrollTo(articleRef)}}>Article</button>
+                        </li>
+                        <li>
+                            <button onClick={() => {scrollTo(quoteRef)}}>Quote</button>
+                        </li>                    
+                        <li>
+                            <button onClick={() => {scrollTo(faqsRef)}}>Faqs</button>
+                        </li>
+                        <li>
+                            <button onClick={() => {scrollTo(listicleRef)}}>Listicle</button>
+                        </li>                                
+                        <li>
+                            <button onClick={() => {scrollTo(recentPostsRef)}}>Recent Posts</button>
+                        </li>                                                                                                                             
+                    </ul>
+                
+                </TableOfContentsContainer>
+                <SidebarAdContainer>
+                    {sidebarAd &&
+                        <div dangerouslySetInnerHTML={{__html: sidebarAd}} />
+                    }
+                </SidebarAdContainer>
+            </Sticky>
         </AsideContainer>
     )
 }

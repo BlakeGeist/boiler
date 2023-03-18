@@ -16,23 +16,27 @@ const Category = styled.div`
     margin: 10px 10px 0 0;
 `
 
-const Categories = ({ categories }) => {
+const Categories = ({ categories, isEditable }) => {
+
     if(!categories) return null
 
     return (
-        <CategoriesContainer>
-            {categories?.map((category, i) => {
-                return (
-                    <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
-                        <a>
-                            <Category>
-                                {category.name}
-                            </Category>
-                        </a>
-                    </Link>
-                )
-            })}
-        </CategoriesContainer>
+        <>
+            {isEditable && <button>Regenerate Categories</button>}
+            <CategoriesContainer>
+                {categories?.map((category, i) => {
+                    return (
+                        <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
+                            <a>
+                                <Category>
+                                    {category.name}
+                                </Category>
+                            </a>
+                        </Link>
+                    )
+                })}
+            </CategoriesContainer>
+        </>
     )
 }
 

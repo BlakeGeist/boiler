@@ -2,14 +2,15 @@ import axios from 'axios'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 
-export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems) => {
+export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems, keywords) => {
     e.preventDefault()
+    const mappedKeywords = keywords.map(k => `"${k}"`)
     const params = {
         host,
         prompt: promptText,
         headingText: promptText,
         map: e.target.map.value,
-        keywords: e.target.keywords.value
+        keywords: `${mappedKeywords}`.replace(",", ", ")
     }
 
     const headerImagePrompt = e.target.headerImage.value
@@ -29,6 +30,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             }
             setPost(res.data)
             posttemp = res.data
+            console.log('createPost, ', posttemp)
             setStep(4)
 
             const article = JSON.parse(res.data.article)
@@ -84,6 +86,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     ...posttemp,
                     ...res.data
                 }    
+                console.log('addHeaderImage, ', posttemp)
                 setPost(posttemp)         
             }).catch(e => {
                 console.log(`there was an error while creating the HeaderImage: ${e}`)
@@ -94,6 +97,8 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     ...posttemp,
                     ...res.data
                 }    
+                console.log('addHeaderImage, ', posttemp)
+
                 setPost(posttemp)
                 
                 const article = JSON.parse(posttemp.article)
@@ -135,18 +140,20 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                 posttemp = {
                     ...posttemp,
                     ...res.data
-                }                
+                }
+                console.log('addSecondaryPostData, ', posttemp)
+                
                 setPost(posttemp)                
             }).catch(e => {
                 console.log(`there was an error while creating the SectiondaryPostData: ${e}`)
             })
-
             await addAndCreateCategories.then(res => {
                 posttemp = {
                     ...posttemp,
                     ...res.data
                 }                
                 setPost(posttemp)
+                console.log('addAndCreateCategories, ', posttemp)
             }).catch(e => {
                 console.log(`there was an error while creating the Categories: ${e}`)
             })
@@ -164,16 +171,17 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     ...posttemp,
                     listicleHeading,
                     listicleDescription
-                }                
+                }
+                
+                console.log('addListicle, ', posttemp)
+
                 setPost(posttemp)
                 setListItems(listicleItems)
             }).catch(e => {
                 console.log(`there was an error while creating the Listicle: ${e}`)
             })
-
             return params
         })
-
         .then(() => { 
             setLoading(false)
         })

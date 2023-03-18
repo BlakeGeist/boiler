@@ -15,9 +15,9 @@ import RecentPosts from 'components/RecentPosts'
 import Quote from 'components/pages/post/sections/Quote'
 import Map from 'components/pages/post/sections/Map'
 
-import { PostContainer, Body } from './post.styles'
+import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
-const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) => {
+const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, promptText = '', setFaqs = () => {}, isEditable = false, site }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -45,12 +45,20 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
                 <PostContainer>
                     <Share />
                     <Body>
-                        <Summary summaryRef={summaryRef} summary={post.summary} />
+                        <Summary summaryRef={summaryRef} summary={post.summary} isEditable={isEditable} />
+                        {site.headerAd &&
+                            <div dangerouslySetInnerHTML={{__html: site.headerAd}} />
+                        }
                         <Article articleRef={articleRef} html={html} />
-                        <Categories categories={categories} />                        
-                        <Quote quoteRef={quoteRef} quote={post.quote} />
-                        <Faqs faqs={faqs} faqsRef={faqsRef} />
-                        <Listicle post={post} listItems={listItems} listicleRef={listicleRef} />                            
+                        <Categories categories={categories} isEditable={isEditable} />  
+                        <QuoteAndAd>
+                            <Quote quoteRef={quoteRef} quote={post.quote} />
+                            {site.bodyAd &&
+                                <div dangerouslySetInnerHTML={{__html: site.bodyAd}} />
+                            }                                       
+                        </QuoteAndAd>
+                        <Faqs faqs={faqs} faqsRef={faqsRef} promptText={promptText} setFaqs={setFaqs} slug={post.slug} host={host} isEditable={isEditable} />
+                        <Listicle post={post} listItems={listItems} listicleRef={listicleRef} isEditable={isEditable} />                  
                         <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
                         <Map mapSrc={post.map} mapRef={mapRef} />
 
@@ -60,6 +68,7 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories }) =
                         }
                     </Body>
                     <Aside
+                        sidebarAd={site.sidebarAd}
                         topRef={topRef}
                         summaryRef={summaryRef}
                         articleRef={articleRef}

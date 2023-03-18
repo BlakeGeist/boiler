@@ -8,6 +8,9 @@ import PostTemplate from 'components/pages/post/Post'
 import Layout from 'components/Layout'
 
 const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
+    
+    console.log(post.categories)
+
     const article = JSON.parse(post?.article)
     const blocks = article.blocks
 
@@ -50,6 +53,8 @@ const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
             </Head>
             <Layout site={site}>
                 <PostTemplate 
+                    isEditable={false}
+                    site={site}
                     post={post}
                     html={html}
                     faqs={faqs}
@@ -58,6 +63,8 @@ const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
                     host={host}
                     categories={post.categories}
                 />
+
+                
             </Layout>
         </>
     )

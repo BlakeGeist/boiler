@@ -24,9 +24,17 @@ export const Body = styled.div`
         color: rgba(0,0,0,.5);
         margin: 35px 0 0;
     }    
+
 `
 
 export const PostContainer = styled.div`
     display: flex;
     justify-content: center;
+`
+
+export const QuoteAndAd = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
 `

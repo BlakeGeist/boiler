@@ -10,24 +10,13 @@ export default async function handler(req, res) {
     const metaDescriptionPrompt = `Create a meta description for the previous ${prompt} article`
     const shortDescriptionPromt = `Create a short description using at least 250 words for the previous ${prompt} article`
     const summaryPrompt = `Create a summary of the previous ${prompt} article`
-    const categoriesPrompt = `Create 3 to 5 categories previous ${prompt} article could fall into`
     const quotePrompt = `return a random famous quote related to ${prompt}`
     
     const metaTitleResponse = await promptResponse(metaTitlePrompt)
     const metaDescriptionResponse = await promptResponse(metaDescriptionPrompt)
     const shortDescriptionResponse = await promptResponse(shortDescriptionPromt)
     const summaryResponse = await promptResponse(summaryPrompt)
-    const categoriesResponse = await promptResponse(categoriesPrompt)
     const quoteResponse = await promptResponse(quotePrompt)
-
-    const categoriesArray = categoriesResponse.split(/\r?\n/)
-    const categoriesArrayItems = categoriesArray.map(listItem => {if(listItem.length > 0) return listItem}).filter(Boolean)
-    const categories = categoriesArrayItems.map((category, i) => {
-        const checkFor = `${i+1}. `
-        if(category.startsWith(checkFor)) category = category.slice(checkFor.length).trim()
-
-        return category
-    })
 
     const cleanResponse = (string) => {
         if(!string) return ''
@@ -50,7 +39,6 @@ export default async function handler(req, res) {
         metaDescription,
         shortDescription,
         summary,
-        categories,
         quote
     }
 

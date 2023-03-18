@@ -6,8 +6,8 @@ import { firebaseDb } from 'utils/firebase'
 export default async function handler(req, res) {
     const { host, prompt, slug } = req.query
 
-    const faqsPrompt = `Create 5 frequently asked questions and answers related to the previous ${prompt} article`
-    
+    const faqsPrompt = `Create 5 unique frequently asked questions and answers related to the previous ${prompt} article`
+
     const faqsResponse = await promptResponse(faqsPrompt)
 
     const faqsArray = faqsResponse.split(/\r?\n/)
@@ -41,7 +41,6 @@ export default async function handler(req, res) {
         }
         return tempFaq
     }).filter(Boolean)
-
 
     faqs.forEach(faq => {
         addDoc(
