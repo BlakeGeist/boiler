@@ -22,6 +22,8 @@ const NewPostTemplate = ({ site, host }) => {
     const [html, setHtml] = useState()
     const [faqs, setFaqs] = useState([])
     const [listItems, setListItems] = useState([])
+    const [keywords, setKeywords] = useState([])
+    const [keywordsInput, setKeywordsInput] = useState('')
 
     const clearSelectedIdea = (e) => {
         e.preventDefault()
@@ -32,6 +34,19 @@ const NewPostTemplate = ({ site, host }) => {
         setHtml()
         setFaqs([])
         setListItems([])
+    }
+
+    const handleAddKeyword = (e) => {
+        e.preventDefault()
+        const keyword = e.target.keyword.value
+        setKeywords([...keywords, keyword])
+        setKeywordsInput('')
+    }
+    
+    const handleRemoveKeyword = (e, keyword) => {
+        e.preventDefault()
+        const filteredKeywords = keywords.filter((k) => k !== keyword)
+        setKeywords(filteredKeywords)
     }
 
     return (
@@ -62,27 +77,41 @@ const NewPostTemplate = ({ site, host }) => {
                 }
 
                 {step === 3 &&
-                    <form onSubmit={(e) => submitArticle(selectedIdea, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems )}>
-                        <div>
-                            <label htmlFor="headerImage">Describe Header Image</label> <br />
-                            <input name="headerImage" id="headerImage" type="text" />
-                        </div>
-                        <div>
-                            <label htmlFor="mediumImage">Describe Medium Image</label> <br />
-                            <input name="mediumImage" id="mediumImage" type="text" />
-                        </div>
-                        <div>
-                            <label htmlFor="map">Map Url</label> <br />
-                            <input name="map" id="map" type="text" />
-                        </div>
-                        <div>
-                            <label htmlFor="keywords">Keywords</label> <br />
-                            <input name="keywords" id="keywords" type="text" />
-                        </div>                          
-                        <LoadingButton  type="submit" loading={loading} loadingIndicator={"Loading..."} variant="outlined">
-                            Create Article
-                        </LoadingButton>
-                    </form>
+                    <>
+                        <form onSubmit={(e) => submitArticle(selectedIdea, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems, keywords )}>
+                            <div>
+                                <label htmlFor="headerImage">Describe Header Image</label> <br />
+                                <input name="headerImage" id="headerImage" type="text" />
+                            </div>
+                            <div>
+                                <label htmlFor="mediumImage">Describe Medium Image</label> <br />
+                                <input name="mediumImage" id="mediumImage" type="text" />
+                            </div>
+                            <div>
+                                <label htmlFor="map">Map Url</label> <br />
+                                <input name="map" id="map" type="text" />
+                            </div>
+                            <LoadingButton  type="submit" loading={loading} loadingIndicator={"Loading..."} variant="outlined">
+                                Create Article
+                            </LoadingButton>
+                        </form>
+
+                        {keywords.map(keyword => {
+                            return (
+                                <div key={keyword}>
+                                    {keyword} - 
+
+                                    <button onClick={e => handleRemoveKeyword(e, keyword)}>Remove Keyword</button>
+                                </div>
+                            )
+                        })}
+
+                        <form onSubmit={(e) => handleAddKeyword(e)}>
+                            <label htmlFor="keyword">Add Keyword</label>
+                            <input type="text" value={keywordsInput || ""} onChange={e => setKeywordsInput(e.target.value)} name="keyword" id="keyword" />
+                            <input type="submit" />
+                        </form>
+                    </>
                 }
 
                 {post?.heading &&
@@ -100,6 +129,7 @@ const NewPostTemplate = ({ site, host }) => {
                             mapSrc={post.map}
                             promptText={selectedIdea}
                             setFaqs={setFaqs}
+                            isEditable={true}
                         />
                     </div>
                 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Listicle = ({ listicleRef, post, listItems}) => {
+const Listicle = ({ listicleRef, post, listItems, isEditable }) => {
     if(!listItems) return null
 
     const listicleArray = listItems.map((listItem, i) => {
@@ -28,7 +28,7 @@ const Listicle = ({ listicleRef, post, listItems}) => {
 
     return (
         <>
-            <button>Regenerate ListItems</button>
+            {isEditable && <button>Regenerate ListItems</button>}
             <h2 ref={listicleRef}><span>{post.listicleHeading}</span></h2>
             <ol >
                 {listItems.map(item => {

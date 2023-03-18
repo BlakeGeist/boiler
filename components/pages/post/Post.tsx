@@ -17,7 +17,7 @@ import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body } from './post.styles'
 
-const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, promptText, setFaqs }) => {
+const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, promptText, setFaqs, isEditable = false }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -45,12 +45,12 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, pro
                 <PostContainer>
                     <Share />
                     <Body>
-                        <Summary summaryRef={summaryRef} summary={post.summary} />
+                        <Summary summaryRef={summaryRef} summary={post.summary} isEditable={isEditable} />
                         <Article articleRef={articleRef} html={html} />
-                        <Categories categories={categories} />                        
+                        <Categories categories={categories} isEditable={isEditable} />                   
                         <Quote quoteRef={quoteRef} quote={post.quote} />
-                        <Faqs faqs={faqs} faqsRef={faqsRef} promptText={promptText} setFaqs={setFaqs} slug={post.slug} host={host} />
-                        <Listicle post={post} listItems={listItems} listicleRef={listicleRef} />                            
+                        <Faqs faqs={faqs} faqsRef={faqsRef} promptText={promptText} setFaqs={setFaqs} slug={post.slug} host={host} isEditable={isEditable} />
+                        <Listicle post={post} listItems={listItems} listicleRef={listicleRef} isEditable={isEditable} />                  
                         <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
                         <Map mapSrc={post.map} mapRef={mapRef} />
 

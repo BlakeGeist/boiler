@@ -2,7 +2,7 @@ import React from 'react'
 import Accordion from 'components/Accordion'
 import axios from 'axios'
 
-const Faqs = ({ faqsRef, faqs, promptText, setFaqs, host, slug }) => {
+const Faqs = ({ faqsRef, faqs, promptText, setFaqs, host, slug, isEditable }) => {
     if(!faqs || faqs.length === 0) return null
 
     const faqsArray = faqs?.map((faq) => {
@@ -41,7 +41,7 @@ const Faqs = ({ faqsRef, faqs, promptText, setFaqs, host, slug }) => {
 
     return (
         <>
-            <button onClick={e => regenFaqs(e)}>Regenerate Faqs</button>
+            {isEditable && <button onClick={e => regenFaqs(e)}>Regenerate Faqs</button>}
             <h2 id="faqs" ref={faqsRef}><span>FAQS</span></h2>
             <Accordion faqs={faqs} /> 
             <script type="application/ld+json" dangerouslySetInnerHTML={createMarkup()} />

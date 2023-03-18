@@ -2,14 +2,16 @@ import axios from 'axios'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 
-export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems) => {
+export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems, keywords) => {
     e.preventDefault()
+    const mappedKeywords = keywords.map(k => `"${k}"`)
+    console.log(`${mappedKeywords}`.replace(",", ", "))
     const params = {
         host,
         prompt: promptText,
         headingText: promptText,
         map: e.target.map.value,
-        keywords: e.target.keywords.value
+        keywords: `${mappedKeywords}`.replace(",", ", ")
     }
 
     const headerImagePrompt = e.target.headerImage.value

@@ -16,12 +16,12 @@ const Category = styled.div`
     margin: 10px 10px 0 0;
 `
 
-const Categories = ({ categories }) => {
+const Categories = ({ categories, isEditable }) => {
     if(!categories) return null
 
     return (
         <>
-            <button>Regenerate Categories</button>
+            {isEditable && <button>Regenerate Categories</button>}
             <CategoriesContainer>
                 {categories?.map((category, i) => {
                     return (
