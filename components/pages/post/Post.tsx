@@ -17,7 +17,7 @@ import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
-const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, promptText = '', setFaqs, isEditable = false, site }) => {
+const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, promptText = '', setFaqs = () => {}, isEditable = false, site }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
