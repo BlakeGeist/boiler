@@ -56,8 +56,6 @@ const Admin = ({ site }) => {
             bodyAd: e.target.bodyAd.value
         }
 
-        console.log(siteUpdate)
-
         const siteRef = doc(firebaseDb, "sites", site.slug)
 
         await updateDoc(siteRef, siteUpdate)

@@ -3,33 +3,36 @@ import Link from 'next/link'
 import { Card, CardImage, CardContent, CardHeader, FeaturedCard, FeaturedCardImageLink, FeaturedCardContent, FeaturedCardText, FeaturedCardContentAurthor, FeaturedCardContentAurthorImage, FeaturedCardContentAuthorText, FeaturedCardContentPostDate } from './PostStyles'
 import { truncateString } from 'utils/helpers'
 
-export const Post = ({ post }) =>  (
-    <Card>
-        <Link href={`/post/${post.slug}`}>
-            <a><CardImage src={post.mediumImageSrc} /></a>
-        </Link>
-        <CardContent>
-            <div>
+export const Post = ({ post, lang }) =>  {
+    return (
+        <Card>
+            <Link href={`/post/${post.slug}`}>
+                <a><CardImage src={post.mediumImageSrc} /></a>
+            </Link>
+            <CardContent>
                 <div>
-                    <CardHeader>
-                        <Link href={`/post/${post.slug}`}>
-                            <a>{post.heading}</a>
-                        </Link>
-                    </CardHeader>
-                    <p>{truncateString(post.shortDescription, 375)}</p>                                
+                    <div>
+                        <CardHeader>
+                            <Link href={`/post/${post.slug}`}>
+                                <a>{post.heading[lang]}</a>
+                            </Link>
+                        </CardHeader>
+                        <p>{truncateString(post.shortDescription, 375)}</p>                                
+                    </div>
                 </div>
-            </div>
-            <FeaturedCardContentAurthor>
-                <FeaturedCardContentAurthorImage />
-                <FeaturedCardContentAuthorText>
-                    <div>name</div>
-                    <FeaturedCardContentPostDate>{post.createdAt} - 6 min read</FeaturedCardContentPostDate>
-                </FeaturedCardContentAuthorText>
-            </FeaturedCardContentAurthor>
-        </CardContent>
-    </Card>    
-)
-export const FeaturedPost = ({ post }) => (
+                <FeaturedCardContentAurthor>
+                    <FeaturedCardContentAurthorImage />
+                    <FeaturedCardContentAuthorText>
+                        <div>name</div>
+                        <FeaturedCardContentPostDate>{post.createdAt} - 6 min read</FeaturedCardContentPostDate>
+                    </FeaturedCardContentAuthorText>
+                </FeaturedCardContentAurthor>
+            </CardContent>
+        </Card>    
+    )
+}
+export const FeaturedPost = ({ post, lang }) => {
+    return (
     <FeaturedCard>
         <Link href={`/post/${post.slug}`}>
             <FeaturedCardImageLink src={post.mediumImageSrc} />
@@ -38,7 +41,7 @@ export const FeaturedPost = ({ post }) => (
             <FeaturedCardText>
                 <h2>
                     <Link href={`/post/${post.slug}`}>
-                        <a>{post.heading}</a>
+                        <a>{post.heading[lang]}</a>
                     </Link>
                 </h2>
                 <p>{truncateString(post.shortDescription, 275)}</p>                                
@@ -53,3 +56,4 @@ export const FeaturedPost = ({ post }) => (
         </FeaturedCardContent>
     </FeaturedCard>    
 )
+    }

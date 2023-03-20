@@ -21,6 +21,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.113",
     "@mui/material": "^5.11.1",
+    "aws-sdk": "^2.1338.0",
     "axios": "^0.26.1",
     "draft-convert": "^2.1.13",
     "draft-js-export-html": "^1.4.1",

@@ -1,10 +1,10 @@
 
 import { promptResponse } from 'utils/apiHelpers'
-import { addDoc, collection } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
+import { updateDoc, doc } from 'firebase/firestore'
 
 export default async function handler(req, res) {
-    const { host, prompt, slug } = req.query
+    const { host, prompt, slug, lang } = req.query
 
     const faqsPrompt = `Create 5 unique frequently asked questions and answers related to the previous ${prompt} article`
 
@@ -42,12 +42,17 @@ export default async function handler(req, res) {
         return tempFaq
     }).filter(Boolean)
 
-    faqs.forEach(faq => {
-        addDoc(
-            collection(firebaseDb, "sites", host, "posts", slug, "faqs"),
-            faq
-        )
+    const post = {
+        faqs
+    }
+
+    const postRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
+
+    await updateDoc(postRef, post).then(() => {
+        res.status(200).json(post)
+    }).catch((e) => {
+        console.log('error:, ', e)
+        res.status(500).json(e)
     })
 
-    res.status(200).json(faqs)
 }

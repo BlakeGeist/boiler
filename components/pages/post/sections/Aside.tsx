@@ -55,7 +55,7 @@ const AsideContainer = styled.div`
 
 const Sticky = styled.div`
     position: sticky;
-    top: 15px;;    
+    top: 15px;
 `
 
 const SidebarAdContainer = styled.div`

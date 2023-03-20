@@ -8,7 +8,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 export default async function handler(req, res) {
 
-    const { host, slug, headerImagePrompt } = req.query
+    const { host, slug, headerImagePrompt, lang } = req.query
 
     console.log('headerImagePrompt, ', headerImagePrompt)
 
@@ -30,21 +30,21 @@ export default async function handler(req, res) {
                     console.log('File available at', downloadURL)
                   })
         
-            }).catch(e => console.log(e))
+            }).catch(e => console.log('error:, ', e))
 
         })
-        .catch( err => console.log(err))
+        .catch( e => console.log('error:, ', e))
 
     const post = {
         headerImageSrc
     }
 
-    const postRef = doc(firebaseDb, "sites", host, "posts", slug)
+    const postRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
 
     await updateDoc(postRef, post).then(() => {
         res.status(200).json(post)
     }).catch((e) => {
-        console.log(e)
+        console.log('error:, ', e)
         res.status(500).json(e)
     })
 }

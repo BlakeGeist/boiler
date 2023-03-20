@@ -1,8 +1,7 @@
 import React from 'react'
 import Accordion from 'components/Accordion'
-import axios from 'axios'
 
-const Faqs = ({ faqsRef, faqs, promptText, setFaqs, host, slug, isEditable }) => {
+const Faqs = ({ faqsRef, faqs }) => {
     if(!faqs || faqs.length === 0) return null
 
     const faqsArray = faqs?.map((faq) => {
@@ -25,23 +24,8 @@ const Faqs = ({ faqsRef, faqs, promptText, setFaqs, host, slug, isEditable }) =>
         return {__html: JSON.stringify(faqsSchema) }
     }
 
-    const regenFaqs = async (e) => {
-        e.preventDefault()
-
-        const faqsRes = await axios.get('/api/addFaqsToPost', { params: {
-            prompt: promptText,
-            host,
-            slug
-        } })
-
-        console.log(faqsRes)
-
-        setFaqs([...faqs, faqsRes.data])
-    }
-
     return (
         <>
-            {isEditable && <button onClick={e => regenFaqs(e)}>Regenerate Faqs</button>}
             <h2 id="faqs" ref={faqsRef}><span>FAQS</span></h2>
             <Accordion faqs={faqs} /> 
             <script type="application/ld+json" dangerouslySetInnerHTML={createMarkup()} />

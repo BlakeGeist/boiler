@@ -4,7 +4,7 @@ import { firebaseDb } from 'utils/firebase'
 import { getDocs, collection, query, limit, orderBy, doc, getDoc } from "firebase/firestore"
 import IndexPage from 'components/pages/IndexPage'
 
-const Home = ({ posts, site }) => (
+const Home = ({ posts, site, lang }) => (
   <>
     <Head>
       <title>Geist App</title>
@@ -12,12 +12,14 @@ const Home = ({ posts, site }) => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <IndexPage posts={posts} site={site} />
+    <IndexPage posts={posts} site={site} lang={lang} />
   </>
 )
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async ({ req, query: reqQuery }) => {
   const host = req.headers.host
+  const lang = reqQuery.lang
+
   const postsQuery = query(collection(firebaseDb, `sites/${host}/posts`), orderBy('createdAt', "desc"), limit(10))
   const postsSnap = await getDocs(postsQuery)
   const posts = postsSnap.docs.map(doc => doc.data())
@@ -26,7 +28,7 @@ export const getServerSideProps = async ({ req }) => {
   const siteDoc = await getDoc(docRef)
   const site = siteDoc.data()
 
-  return { props: { posts: posts || null, site  } }
+  return { props: { posts: posts || null, site, lang  } }
 }
 
 export default Home

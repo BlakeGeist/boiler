@@ -10,7 +10,9 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
         prompt: promptText,
         headingText: promptText,
         map: e.target.map.value,
-        keywords: `${mappedKeywords}`.replace(",", ", ")
+        keywords: `${mappedKeywords}`.replace(",", ", "),
+        lang: 'en'
+
     }
 
     const headerImagePrompt = e.target.headerImage.value
@@ -26,7 +28,8 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             const params = {
                 slug: res.data.slug,
                 prompt: promptText,
-                host
+                host,
+                lang: 'en'
             }
             setPost(res.data)
             posttemp = res.data
