@@ -1,15 +1,15 @@
 import React from 'react'
 
-const Listicle = ({ listicleRef, post, listItems, isEditable }) => {
-    if(!listItems) return null
+const Listicle = ({ listicleRef, post }) => {
+    if(!post?.listicleItems) return null
 
-    const listicleArray = listItems.map((listItem, i) => {
+    const listicleArray = post.listicleItems.map((listicleItem, i) => {
         return {
             "@type": "ListItem",
             "position": i+1,
             "item": {
               "@type": "listItem",
-              "name": listItem.listItem
+              "name": listicleItem
             }
           }
         })
@@ -28,12 +28,11 @@ const Listicle = ({ listicleRef, post, listItems, isEditable }) => {
 
     return (
         <>
-            {isEditable && <button>Regenerate ListItems</button>}
             <h2 ref={listicleRef}><span>{post.listicleHeading}</span></h2>
             <ol >
-                {listItems.map(item => {
+                {post.listicleItems.map(listicleItem => {
                     return (
-                        <li key={item.listItem}><p>{item.listItem}</p></li>
+                        <li key={listicleItem}><p>{listicleItem}</p></li>
                     )
                 })}
             </ol>

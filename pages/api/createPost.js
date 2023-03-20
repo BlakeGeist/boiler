@@ -1,13 +1,12 @@
 
 import { promptResponse } from 'utils/apiHelpers'
-import { EditorState, convertToRaw, ContentState } from 'draft-js'
-import slugify from 'slugify'
 import { setDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import timestamp from 'time-stamp'
+import { cleanSug, getContentFromText } from 'utils/helpers'
 
 export default async function handler(req, res) {
-    const { host, prompt, headingText, map, keywords } = req.query
+    const { host, prompt, headingText, map, keywords, lang } = req.query
 
     const articlePromt = `Using at least 900 words and including each the following phrases at least once '${keywords}' within the main contents body create an article realted to "${prompt}"`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
@@ -27,38 +26,25 @@ export default async function handler(req, res) {
         return heading
     }
     
-    let heading = cleanHeading(headingResponse)
+    const heading = cleanHeading(headingResponse)
 
-    const content = ContentState.createFromText(rawArticleResponse)
-    const editorState = EditorState.createWithContent(content)
-    const contentFromText = editorState.getCurrentContent()
-    const article = JSON.stringify(convertToRaw(contentFromText))    
-
-    const cleanSug = (rawSlug) => {
-        let slug = `${rawSlug}`.trim().toLowerCase()
-        slug = slug.replace("'", '')
-        slug = slug.replace('"', '')
-        slug = slug.replace(":", '')
-        slug = slug.replace(".", '')
-        slug = slugify(slug)
-
-        return slug
-    }
+    const article = getContentFromText(rawArticleResponse)
 
     const slug = cleanSug(heading)
 
     const createdAt = timestamp('YYYY/MM/DD:mm:ss')
 
     const post = {
-        article: article,
+        article,
         slug,
         heading,
         createdAt,
         map,
-        keywords
+        keywords,
+        rawArticleResponse
     }
 
-    await setDoc(doc(firebaseDb, "sites", host, "posts", slug), post)
+    await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug), post)
         .then(() => {
             res.status(200).json(post)
         }).catch((e) => {

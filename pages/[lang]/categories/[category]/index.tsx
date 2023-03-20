@@ -26,12 +26,13 @@ const Category = ({ category, posts, host, site }) => {
 export const getServerSideProps = async (ctx) => {
     const host = ctx.req.headers.host
     const slug = ctx.query.category
+    const { lang } = ctx.query
 
-    const docRef = doc(firebaseDb, "sites", host, "categories", slug)
+    const docRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/categories`, slug)
     const postDoc = await getDoc(docRef)
     const category = postDoc.data()
 
-    const postsRef = collection(firebaseDb, "sites", host, 'posts')
+    const postsRef = collection(firebaseDb, `sites/${host}/langs/${lang}/posts`)
     const q = query(postsRef, where("categories", "array-contains", category.name), orderBy("createdAt", "desc"))
     const querySnapshot = await getDocs(q)
     const posts = querySnapshot.docs.map(doc => doc.data())

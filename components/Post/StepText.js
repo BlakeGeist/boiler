@@ -5,20 +5,11 @@ const StepTest = ({ step }) => {
         case 2:
             return 'Add image desc fields'
         case 3:
-            return 'Creating post'
+            return 'Creating article'
         case 4:
-            return 'Creating post secondary data'
+            return 'Creating article secondary data'
         case 5:
-            return 'Create categories'
-        case 6:
-            return 'Creating faqs'
-        case 7:
-            return 'Creating listicle' 
-        case 8:
-            return 'Creating header image' 
-        case 9:
-            return 'Creating medium image'
-            
+            return 'Ttranslating article'
         default:
             return 'Create Article'                 
     }

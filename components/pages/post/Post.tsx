@@ -2,6 +2,9 @@ import React, { useRef } from 'react'
 import { doc, deleteDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import { useRouter } from "next/router"
+import axios from 'axios'
+
+import { languages } from 'utils/languages'
 
 import Share from 'components/pages/post/sections/Share'
 import Aside from 'components/pages/post/sections/Aside'
@@ -17,7 +20,7 @@ import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
-const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, promptText = '', setFaqs = () => {}, isEditable = false, site }) => {
+const Post = ({ host, post, html, recent_posts, categories, site }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -35,50 +38,66 @@ const Post = ({ host, post, faqs, html, listItems, recent_posts, categories, pro
             .then(() => {
                 router.push(`/dashboard/${host}`)
             })
-            .catch(e => console.log(e))
+            .catch(e => console.log('error:, ', e))
+    }
+
+    const translatePost = async (e) => {
+        e.preventDefault()
+        
+        for(let i = 0; languages.length > i; i++) {
+            const translatePost = await axios.get('/api/translatePost', { params: {
+                host,
+                slug: post.slug,
+                lang: languages[i].code
+            } })
+            console.log(translatePost)
+        }
+
     }
 
     return (
-            <>
-                <button onClick={(e) => deletePost(e)}>Delete</button>
-                <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />
-                <PostContainer>
-                    <Share />
-                    <Body>
-                        <Summary summaryRef={summaryRef} summary={post.summary} isEditable={isEditable} />
-                        {site.headerAd &&
-                            <div dangerouslySetInnerHTML={{__html: site.headerAd}} />
-                        }
-                        <Article articleRef={articleRef} html={html} />
-                        <Categories categories={categories} isEditable={isEditable} />  
-                        <QuoteAndAd>
-                            <Quote quoteRef={quoteRef} quote={post.quote} />
-                            {site.bodyAd &&
-                                <div dangerouslySetInnerHTML={{__html: site.bodyAd}} />
-                            }                                       
-                        </QuoteAndAd>
-                        <Faqs faqs={faqs} faqsRef={faqsRef} promptText={promptText} setFaqs={setFaqs} slug={post.slug} host={host} isEditable={isEditable} />
-                        <Listicle post={post} listItems={listItems} listicleRef={listicleRef} isEditable={isEditable} />                  
-                        <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
-                        <Map mapSrc={post.map} mapRef={mapRef} />
+        <>
+            <button onClick={(e) => translatePost(e)}>translate</button>
 
-                        {
-                            // might be cool to make a pros and cons list
-                            // might be cool to add a guide type
+            <button onClick={(e) => deletePost(e)}>Delete</button>
+            <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />
+            <PostContainer>
+                <Share />
+                <Body>
+                    <Summary summaryRef={summaryRef} summary={post.summary} />
+                    {site.headerAd &&
+                        <div dangerouslySetInnerHTML={{ __html: site.headerAd }} />
+                    }
+                    <Article articleRef={articleRef} html={html} />
+                    <Categories categories={categories} />
+                    <QuoteAndAd>
+                        <Quote quoteRef={quoteRef} quote={post.quote} />
+                        {site.bodyAd &&
+                            <div dangerouslySetInnerHTML={{ __html: site.bodyAd }} />
                         }
-                    </Body>
-                    <Aside
-                        sidebarAd={site.sidebarAd}
-                        topRef={topRef}
-                        summaryRef={summaryRef}
-                        articleRef={articleRef}
-                        faqsRef={faqsRef}
-                        listicleRef={listicleRef}
-                        quoteRef={quoteRef}
-                        recentPostsRef={recentPostsRef}
-                    />
-                </PostContainer>
-            </>
+                    </QuoteAndAd>
+                    <Faqs faqs={post.faqs} faqsRef={faqsRef} />
+                    <Listicle post={post} listicleRef={listicleRef} />
+                    <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
+                    <Map mapSrc={post.map} mapRef={mapRef} />
+
+                    {
+                        // might be cool to make a pros and cons list
+                        // might be cool to add a guide type
+                    }
+                </Body>
+                <Aside
+                    sidebarAd={site.sidebarAd}
+                    topRef={topRef}
+                    summaryRef={summaryRef}
+                    articleRef={articleRef}
+                    faqsRef={faqsRef}
+                    listicleRef={listicleRef}
+                    quoteRef={quoteRef}
+                    recentPostsRef={recentPostsRef}
+                />
+            </PostContainer>
+        </>
     )
 }
 

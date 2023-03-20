@@ -4,7 +4,7 @@ import { updateDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 
 export default async function handler(req, res) {
-    const { host, prompt, slug } = req.query
+    const { host, prompt, slug, lang } = req.query
 
     const metaTitlePrompt = `Create a meta title for the previous ${prompt} article`
     const metaDescriptionPrompt = `Create a meta description for the previous ${prompt} article`
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
         quote
     }
 
-    const postRef = doc(firebaseDb, "sites", host, "posts", slug)
+    const postRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
 
     await updateDoc(postRef, post).then(() => {
         res.status(200).json(post)

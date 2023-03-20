@@ -6,7 +6,7 @@ import got from 'got'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 export default async function handler(req, res) {
-    const { host, mediumImagePrompt, slug } = req.query
+    const { host, mediumImagePrompt, slug, lang } = req.query
 
     console.log('mediumImagePrompt, ', mediumImagePrompt)
 
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         mediumImageSrc
     }
 
-    const postRef = doc(firebaseDb, "sites", host, "posts", slug)
+    const postRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
 
     await updateDoc(postRef, post).then(() => {
         res.status(200).json(post)

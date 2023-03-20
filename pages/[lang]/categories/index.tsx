@@ -5,11 +5,12 @@ import CategoriesTemplate from 'components/pages/category/Category'
 
 const Categories = ({ categories, site }) => <CategoriesTemplate categories={categories} site={site} />
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async ({ req, query }) => {
     const host = req.headers.host
-    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/categories`))
+    const { lang } = query
+    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/langs/${lang}/categories`))
     const categories = docsSnap.docs.map(doc => doc.data())
-  
+
     const siteRef = doc(firebaseDb, "sites", host)
     const siteDoc = await getDoc(siteRef)
     const site = siteDoc.data()

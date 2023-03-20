@@ -6,10 +6,12 @@ import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 import PostTemplate from 'components/pages/post/Post'
 import Layout from 'components/Layout'
+import { useRouter } from 'next/router'
 
-const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
-    
-    console.log(post.categories)
+import { languages } from 'utils/languages'
+
+const Post = ({ post, recent_posts, host, site }) => {
+    const router = useRouter()
 
     const article = JSON.parse(post?.article)
     const blocks = article.blocks
@@ -45,6 +47,12 @@ const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
     
     const html = stateToHTML(convertFromRaw(article))
 
+    const handleChange = (e) => {
+        const lang = e.target.value
+
+        router.push(`/${lang}/post/${post.slug}`)
+    }
+
     return (
         <>
             <Head>
@@ -52,19 +60,23 @@ const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
                 <meta name="description" content={post.metaDescription} />
             </Head>
             <Layout site={site}>
+                <>
                 <PostTemplate 
-                    isEditable={false}
                     site={site}
                     post={post}
                     html={html}
-                    faqs={faqs}
                     recent_posts={recent_posts}
-                    listItems={listItems}
                     host={host}
                     categories={post.categories}
                 />
-
-                
+                <select onChange={e => handleChange(e)}>
+                    {languages.map(lanugage => {
+                        return (
+                            <option key={lanugage.code} value={lanugage.code}>{lanugage.name}</option>
+                        )
+                    })}
+                </select>
+                </>
             </Layout>
         </>
     )
@@ -72,33 +84,25 @@ const Post = ({ post, faqs, recent_posts, listItems, host, site }) => {
 
 export const getServerSideProps = async (ctx) => {
     const ctxQuery = ctx.query
+    const { lang } = ctx.query
     const req = ctx.req
     const host = req.headers.host
 
-    const docRef = doc(firebaseDb, "sites", host, "posts", ctxQuery.post)
+    const docRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, ctxQuery.post)
     const postDoc = await getDoc(docRef)
     const post = postDoc.data()
 
-    //Get the faqs
-    const docsSnap = await getDocs(collection(firebaseDb,`sites/${host}/posts/${ctxQuery.post}/faqs`))
-    const faqs = docsSnap.docs.map(doc => doc.data())
-    
     //Get recent posts
-    const recentPostsQuery = query(collection(firebaseDb, `sites/${host}/posts`), limit(6))
+    const recentPostsQuery = query(collection(firebaseDb, `sites/${host}/langs/${lang}/posts`), limit(6))
     const recentPostsSnap = await getDocs(recentPostsQuery)
     const recent_posts = recentPostsSnap.docs.map(doc => doc.data())
-
-    //Get recent posts
-    const q = query(collection(firebaseDb, `sites/${host}/posts/${ctxQuery.post}/listItems`))
-    const listicleSnap = await getDocs(q)
-    const listItems = listicleSnap.docs.map(doc => doc.data())
 
     const siteRef = doc(firebaseDb, "sites", host)
     const siteDoc = await getDoc(siteRef)
     const site = siteDoc.data()
 
     return {
-        props: { post, faqs, recent_posts, listItems, host, site }, // will be passed to the page component as props
+        props: { post, recent_posts, host, site, lang }, // will be passed to the page component as props
       }
 }
 

@@ -1,23 +1,12 @@
 
 import { promptResponse } from 'utils/apiHelpers'
+import { cleanSug } from 'utils/helpers'
 import { updateDoc, doc, setDoc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
-import slugify from 'slugify'
 
 export default async function handler(req, res) {
 
-    const cleanSug = (rawSlug) => {
-        let slug = `${rawSlug}`.trim().toLowerCase()
-        slug = slug.replace("'", '')
-        slug = slug.replace('"', '')
-        slug = slug.replace(":", '')
-        slug = slug.replace(".", '')
-        slug = slugify(slug)
-
-        return slug
-    }
-
-    const { host, prompt, slug } = req.query
+    const { host, prompt, slug, lang } = req.query
 
     const categoriesPrompt = `Create 3 to 5 categories previous ${prompt} article could fall into`
 
@@ -32,7 +21,7 @@ export default async function handler(req, res) {
 
         return {
             name: category,
-            slug: cleanSug(`${category}`)
+            slug: cleanSug(`${category.name}`)
         }
     })
 
@@ -40,13 +29,13 @@ export default async function handler(req, res) {
         categories
     }
 
-    const postRef = doc(firebaseDb, "sites", host, "posts", slug)
+    const postRef = doc(firebaseDb, `/sites/${host}/langs/en/posts`, slug)
 
     await updateDoc(postRef, post).then(() => {
         categories.forEach(async category => {
-            const categoryDesc = `Create a description for the category ${category} related to a pet blog, use at least 300 words and no more than 600 words`
-            const categoryMetaDesc = `Create a meta description for the category ${category} related to a pet blog`
-            const categoryMetaTitle = `Create a meta title for the category ${category} related to a pet blog`
+            const categoryDesc = `Create a description for the category ${category.name} related to a pet blog, use at least 300 words and no more than 600 words`
+            const categoryMetaDesc = `Create a meta description for the category ${category.name} related to a pet blog`
+            const categoryMetaTitle = `Create a meta title for the category ${category.name} related to a pet blog`
 
             const categoryDescResponse = await promptResponse(categoryDesc)
             const categoryMetaDescResponse = await promptResponse(categoryMetaDesc)
@@ -55,19 +44,19 @@ export default async function handler(req, res) {
             const slug = cleanSug(category)
 
             const tempCat = {
-                name: category,
+                name: category.name,
                 description: categoryDescResponse,
                 categoryMetaDesc: categoryMetaDescResponse,
                 categoryMetaTitle: categoryMetaTitleResponse,
                 slug
             }
 
-            await setDoc(doc(firebaseDb, "sites", host, "categories", slug), tempCat)
+            await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/categories`, slug), tempCat)
         })
 
         res.status(200).json(post)
     }).catch((e) => {
-        console.log(e)
+        console.log('error:, ', e)
         res.status(500).json(e)
     })
 

@@ -36,5 +36,5 @@ export const QuoteAndAd = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 35px;;
 `
