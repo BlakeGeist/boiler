@@ -23,6 +23,17 @@ export const cleanSug = (rawSlug) => {
   slug = slug.replace(".", '')
   slug = slugify(slug)
 
+  if(slug === "") {
+    slug = `${rawSlug}`.trim().toLowerCase()
+    slug = slug.replace("'", '')
+    slug = slug.replace('"', '')
+    slug = slug.replace(":", '')
+    slug = slug.replace(".", '')
+    slug = slug.replace("/", '')
+    slug = slug.replace("?", '')
+    slug = slug.replace(" ", "-")
+  }
+
   return slug
 }
 
@@ -48,7 +59,7 @@ export const translateString = async (string, TargetLanguageCode) => {
     }
 }
 
-export const translate = async (string) => {
+export const translatedStrings = async (string) => {
 
   try {
     const translatedStrings = {

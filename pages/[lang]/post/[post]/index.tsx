@@ -8,8 +8,6 @@ import PostTemplate from 'components/pages/post/Post'
 import Layout from 'components/Layout'
 import { useRouter } from 'next/router'
 
-import { languages } from 'utils/languages'
-
 const Post = ({ post, recent_posts, host, site }) => {
     const router = useRouter()
 
@@ -49,8 +47,10 @@ const Post = ({ post, recent_posts, host, site }) => {
 
     const handleChange = (e) => {
         const lang = e.target.value
+        const toUrl = post.slugs.filter(s => s.lang.code === lang)[0]
+        const redTo = `/${lang}/post/${toUrl.slug}`
 
-        router.push(`/${lang}/post/${post.slug}`)
+        router.push(redTo)
     }
 
     return (
@@ -70,9 +70,9 @@ const Post = ({ post, recent_posts, host, site }) => {
                     categories={post.categories}
                 />
                 <select onChange={e => handleChange(e)}>
-                    {languages.map(lanugage => {
+                    {post.slugs.map(slug => {
                         return (
-                            <option key={lanugage.code} value={lanugage.code}>{lanugage.name}</option>
+                            <option key={slug.lang.code} value={slug.lang.code}>{slug.lang.name}</option>
                         )
                     })}
                 </select>
