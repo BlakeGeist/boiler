@@ -7,44 +7,44 @@ import sharp from 'sharp'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 export default async function handler(req, res) {
-
     const { host, slug, headerImagePrompt, lang } = req.query
 
-    console.log('headerImagePrompt, ', headerImagePrompt)
-
     let headerImageSrc
-    const image = await imageResponse(headerImagePrompt, 'large')
-    let dafile = await got(image)
-    
-    const dastorage = getStorage()
-    const dastorageRef = ref(dastorage, `${slug}-header.jpg`)    
 
-    await sharp(dafile['rawBody'])
-        .extract({ left: 0, top: 250, width: 1024, height: 500 })
-        .jpeg({ mozjpeg: true })
-        .toBuffer()
-        .then( async (data) => {
-            await uploadBytes(dastorageRef, data).then( async (snapshot) => {
-                await getDownloadURL(snapshot.ref).then( (downloadURL) => {
-                    headerImageSrc = downloadURL
-                    console.log('File available at', downloadURL)
-                  })
+    try {
+
+        const image = await imageResponse(headerImagePrompt, 'large')
+        let dafile = await got(image)
         
-            }).catch(e => console.log('error:, ', e))
+        const dastorage = getStorage()
+        const dastorageRef = ref(dastorage, `${slug}-header.jpg`)    
 
-        })
-        .catch( e => console.log('error:, ', e))
+        await sharp(dafile['rawBody'])
+            .extract({ left: 0, top: 250, width: 1024, height: 500 })
+            .jpeg({ mozjpeg: true })
+            .toBuffer()
+            .then( async (data) => {
+                await uploadBytes(dastorageRef, data).then( async (snapshot) => {
+                    await getDownloadURL(snapshot.ref).then( (downloadURL) => {
+                        headerImageSrc = downloadURL
+                    })
+            
+                }).catch(e => console.log('error:, ', e))
 
-    const post = {
-        headerImageSrc
+            })
+            .catch( e => console.log('error:, ', e))
+
+        const post = {
+            headerImageSrc
+        }
+
+        const postRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
+
+        await updateDoc(postRef, post)
+        return res.status(200).json(post)
+    } catch(e) {
+        const errorMessage = 'there was an error while running the addHeaderImage api, '
+        console.log(errorMessage, e)
+        res.status(500).json(errorMessage, e)
     }
-
-    const postRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
-
-    await updateDoc(postRef, post).then(() => {
-        res.status(200).json(post)
-    }).catch((e) => {
-        console.log('error:, ', e)
-        res.status(500).json(e)
-    })
 }

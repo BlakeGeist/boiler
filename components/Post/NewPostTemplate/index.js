@@ -78,7 +78,7 @@ const NewPostTemplate = ({ site, host, lang }) => {
 
                 {step === 3 &&
                     <>
-                        <form onSubmit={(e) => submitArticle(selectedIdea, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems, keywords )}>
+                        <form onSubmit={(e) => submitArticle(selectedIdea, e, setStep, setPost, host, setHtml, setLoading, post, keywords )}>
                             <div>
                                 <label htmlFor="headerImage">Describe Header Image</label> <br />
                                 <input name="headerImage" id="headerImage" type="text" />

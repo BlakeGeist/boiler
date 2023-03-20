@@ -12,54 +12,50 @@ export default async function handler(req, res) {
     const articlePromt = `Using at least 900 words and including each the following phrases at least once '${keywords}' within the main contents body create an article realted to "${prompt}"`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
 
-    const articleResponse = await promptResponse(articlePromt)
-    const headingResponse = headingText ? headingText : await promptResponse(headingPrompt)
-
-    const rawArticleResponse = articleResponse
-        .slice(1)
-        .slice(0, -1)
-        .trim()
-
-    const cleanHeading = (heading) => {
-        if(heading.startsWith('"')) heading = heading.slice(1)
-        if(heading.endsWith('"')) heading = heading.slice(0, -1)
-
-        return heading
-    }
+    try {
+        const articleResponse = await promptResponse(articlePromt)
+        const headingResponse = headingText ? headingText : await promptResponse(headingPrompt)
     
-    const heading = cleanHeading(headingResponse)
+        const rawArticleResponse = articleResponse.length > 0 ? articleResponse : ''
+            .slice(1)
+            .slice(0, -1)
+            .trim()
+    
+        const cleanHeading = (heading) => {
+            if(heading.startsWith('"')) heading = heading.slice(1)
+            if(heading.endsWith('"')) heading = heading.slice(0, -1)
+    
+            return heading
+        }
+        
+        const heading = cleanHeading(headingResponse)
+        const article = getContentFromText(rawArticleResponse)
+        const slug = cleanSug(heading)
+        const createdAt = timestamp('YYYY/MM/DD:mm:ss')
+    
+        const slugs = await Promise.all(languages.map(async (language) => {
+            const translatedHeading = await translateString(heading, language.code)
+            const transltedSlug = cleanSug(translatedHeading)
+    
+            return { lang: language, slug:  transltedSlug}
+        }))
+    
+        const post = {
+            article,
+            slug,
+            heading,
+            createdAt,
+            map,
+            keywords,
+            rawArticleResponse,
+            slugs
+        }        
 
-    const article = getContentFromText(rawArticleResponse)
-
-    const slug = cleanSug(heading)
-
-    const createdAt = timestamp('YYYY/MM/DD:mm:ss')
-
-    const slugs = await Promise.all(languages.map(async (language) => {
-        const translatedHeading = await translateString(heading, language.code)
-        const transltedSlug = cleanSug(translatedHeading)
-
-        return { lang: language, slug:  transltedSlug}
-    }))
-
-    const post = {
-        article,
-        slug,
-        heading,
-        createdAt,
-        map,
-        keywords,
-        rawArticleResponse,
-        slugs
+        await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug), post)       
+        return res.status(200).json(post)
+    } catch (e) {
+        const errorMessage = 'there was an error while running the createPost api, '
+        console.log(errorMessage, e)
+        res.status(500).json(errorMessage, e)
     }
-
-    console.log(post)
-
-    await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug), post)
-        .then(() => {
-            res.status(200).json(post)
-        }).catch((e) => {
-            console.log('error: ', e)
-            res.status(500).json(e)
-        })
 }
