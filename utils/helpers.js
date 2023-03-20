@@ -21,6 +21,8 @@ export const cleanSug = (rawSlug) => {
   slug = slug.replace('"', '')
   slug = slug.replace(":", '')
   slug = slug.replace(".", '')
+  slug = slug.replace(")", '')
+  slug = slug.replace("(", '')
   slug = slugify(slug)
 
   if(slug === "") {
@@ -31,6 +33,8 @@ export const cleanSug = (rawSlug) => {
     slug = slug.replace(".", '')
     slug = slug.replace("/", '')
     slug = slug.replace("?", '')
+    slug = slug.replace(")", '')
+    slug = slug.replace("(", '')
     slug = slug.replace(" ", "-")
   }
 
@@ -88,3 +92,14 @@ export const getContentFromText = (content) => {
 
   return JSON.stringify(convertToRaw(contentFromText))    
 }
+
+export const removeStartingAndEndingQuote = (string) => {
+  if(!string) return ''
+
+  string = string.trim()
+
+  if(string.startsWith('"')) string = string.slice(1)
+  if(string.endsWith('"')) string = string.slice(0, -1)
+
+  return string
+}    

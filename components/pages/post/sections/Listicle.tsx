@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Listicle = ({ listicleRef, post }) => {
-    if(!post?.listicleItems) return null
+    if(!post?.listicleItems || post.listicleItems.length === 0) return null
 
     const listicleArray = post.listicleItems.map((listicleItem, i) => {
         return {
@@ -30,9 +30,9 @@ const Listicle = ({ listicleRef, post }) => {
         <>
             <h2 ref={listicleRef}><span>{post.listicleHeading}</span></h2>
             <ol >
-                {post.listicleItems.map(listicleItem => {
+                {post.listicleItems.map((listicleItem, i) => {
                     return (
-                        <li key={listicleItem}><p>{listicleItem}</p></li>
+                        <li key={`${listicleItem}-${i}`}><p>{listicleItem}</p></li>
                     )
                 })}
             </ol>

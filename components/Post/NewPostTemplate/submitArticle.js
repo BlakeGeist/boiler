@@ -2,7 +2,7 @@ import axios from 'axios'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 
-export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, setFaqs, post, setListItems, keywords) => {
+export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, post, keywords) => {
     e.preventDefault()
     const mappedKeywords = keywords.map(k => `"${k}"`)
     const params = {
@@ -100,7 +100,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     ...posttemp,
                     ...res.data
                 }    
-                console.log('addHeaderImage, ', posttemp)
+                console.log('addMediumImage, ', posttemp)
 
                 setPost(posttemp)
                 
@@ -162,30 +162,36 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             })
 
             await addFaqsToPost.then(res => {
-                setFaqs(res.data)
+                posttemp = {
+                    ...posttemp,
+                    faqs: res.data
+                }                
+                setPost(posttemp)
             }).catch(e => {
                 console.log(`there was an error while creating the Faqs: ${e}`)
             })
 
             await addListicle.then(res => {
+
                 const { listicleHeading, listicleDescription } = res.data
-                const listicleItems = res.data.listicleItems.map(listItem => ({ listItem }))
+                const listicleItems = res.data.map(listItem => ({ listItem }))
                 posttemp = {
                     ...posttemp,
                     listicleHeading,
-                    listicleDescription
+                    listicleDescription,
+                    listicleItems
                 }
-                
-                console.log('addListicle, ', posttemp)
 
+                console.log(posttemp)
+                
                 setPost(posttemp)
-                setListItems(listicleItems)
             }).catch(e => {
                 console.log(`there was an error while creating the Listicle: ${e}`)
             })
             return params
         })
         .then(() => { 
+            setPost(posttemp)
             setLoading(false)
         })
         .catch(e => {

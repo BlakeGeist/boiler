@@ -15,7 +15,7 @@ export const promptResponse = async (propmt) => {
         top_p: 1,
         frequency_penalty: 0.2,
         presence_penalty: 0,
-    }).catch(e => console.log(e.response.data.error))
+    }).catch(e => console.log(e.response?.data))
 
     return response?.data?.choices[0].text
 }
