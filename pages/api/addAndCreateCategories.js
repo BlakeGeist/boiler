@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
         return {
             name: category,
-            slug: cleanSug(`${category.name}`)
+            slug: cleanSug(`${category}`)
         }
     })
 
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
             const categoryMetaDescResponse = await promptResponse(categoryMetaDesc)
             const categoryMetaTitleResponse = await promptResponse(categoryMetaTitle)
 
-            const slug = cleanSug(category)
+            const slug = cleanSug(category.name)
 
             const tempCat = {
                 name: category.name,

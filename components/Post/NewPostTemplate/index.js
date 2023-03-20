@@ -13,7 +13,7 @@ import StepText from 'components/Post/StepText'
 import { StepHeading } from 'components/Post/NewPostTemplate/styles'
 import { submitArticle } from 'components/Post/NewPostTemplate/submitArticle'
 
-const NewPostTemplate = ({ site, host }) => {
+const NewPostTemplate = ({ site, host, lang }) => {
     const [articleIdeas, setArticleIdeas] = useState([])
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(1)
@@ -59,7 +59,7 @@ const NewPostTemplate = ({ site, host }) => {
                 <Stepper step={step} setStep={setStep} />
 
                 {post?.slug &&
-                    <Link href={`/post/${post.slug}`}>
+                    <Link href={`/${lang}/post/${post.slug}`}>
                         <a target="_blank">Go to post</a>
                     </Link>
                 }

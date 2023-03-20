@@ -3,7 +3,8 @@ import { promptResponse } from 'utils/apiHelpers'
 import { setDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import timestamp from 'time-stamp'
-import { cleanSug, getContentFromText } from 'utils/helpers'
+import { cleanSug, getContentFromText, translateString } from 'utils/helpers'
+import { languages } from 'utils/languages'
 
 export default async function handler(req, res) {
     const { host, prompt, headingText, map, keywords, lang } = req.query
@@ -34,6 +35,13 @@ export default async function handler(req, res) {
 
     const createdAt = timestamp('YYYY/MM/DD:mm:ss')
 
+    const slugs = await Promise.all(languages.map(async (language) => {
+        const translatedHeading = await translateString(heading, language.code)
+        const transltedSlug = cleanSug(translatedHeading)
+
+        return { lang: language, slug:  transltedSlug}
+    }))
+
     const post = {
         article,
         slug,
@@ -41,7 +49,8 @@ export default async function handler(req, res) {
         createdAt,
         map,
         keywords,
-        rawArticleResponse
+        rawArticleResponse,
+        slugs
     }
 
     await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug), post)

@@ -6,7 +6,6 @@ import DashboardTemplate from 'components/pages/DashboardPage'
 const Site = ({ posts, site }) => {
     return (
         <main>
-
             <DashboardTemplate 
                 posts={posts}
                 site={site}

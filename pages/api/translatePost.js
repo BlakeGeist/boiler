@@ -24,8 +24,11 @@ export default async function handler(req, res) {
     const translatedArticleText = await translateString(post.rawArticleResponse, lang)
     const article = getContentFromText(translatedArticleText)
 
+    const translatedSlug = post.slugs.filter(slu => slu.lang.code === lang)[0]
+
     const translatedPost = {
-        slug: post.slug,
+        slug: translatedSlug?.slug || post.slug,
+        slugs: post.slugs,
         rawArticleResponse: await translateString(post.rawArticleResponse, lang),
         metaTitle: await translateString(post.metaTitle, lang),
         categories: categories,
@@ -36,12 +39,16 @@ export default async function handler(req, res) {
         listicleHeading: await translateString(post.listicleHeading, lang),
         summary: await translateString(post.summary, lang),
         quote: await translateString(post.quote, lang),
+        headerImageSrc: post.headerImageSrc,
+        mediumImageSrc: post.mediumImageSrc,
+        createdAt: post.createdAt,
         listicleItems,
         article,
-        faqs
+        faqs,
+        lang
       }
 
-    await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug), translatedPost)
+    await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, translatedSlug?.slug || post.slug), translatedPost)
         .then(() => {
             res.status(200).json(translatedPost)
         }).catch((e) => {
