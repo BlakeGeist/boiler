@@ -53,6 +53,8 @@ export default async function handler(req, res) {
         slugs
     }
 
+    console.log(post)
+
     await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug), post)
         .then(() => {
             res.status(200).json(post)
