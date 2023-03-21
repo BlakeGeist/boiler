@@ -89,7 +89,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     ...posttemp,
                     ...res.data
                 }    
-                console.log('addHeaderImage, ', posttemp)
+                console.log('addHeaderImage, ', res.data)
                 setPost(posttemp)         
             }).catch(e => {
                 console.log(`there was an error while creating the HeaderImage: ${e}`)
@@ -99,8 +99,8 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                 posttemp = {
                     ...posttemp,
                     ...res.data
-                }    
-                console.log('addMediumImage, ', posttemp)
+                }
+                console.log('addMediumImage, ', res.data)
 
                 setPost(posttemp)
                 
@@ -144,7 +144,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     ...posttemp,
                     ...res.data
                 }
-                console.log('addSecondaryPostData, ', posttemp)
+                console.log('addSecondaryPostData, ', res.data)
                 
                 setPost(posttemp)                
             }).catch(e => {
@@ -156,7 +156,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     ...res.data
                 }                
                 setPost(posttemp)
-                console.log('addAndCreateCategories, ', posttemp)
+                console.log('addAndCreateCategories, ', res.data)
             }).catch(e => {
                 console.log(`there was an error while creating the Categories: ${e}`)
             })
@@ -173,8 +173,9 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
 
             await addListicle.then(res => {
 
-                const { listicleHeading, listicleDescription } = res.data
-                const listicleItems = res.data.map(listItem => ({ listItem }))
+                const { listicleHeading, listicleDescription, listicleItems } = res.data
+
+                console.log(listicleItems)
                 posttemp = {
                     ...posttemp,
                     listicleHeading,
@@ -182,7 +183,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
                     listicleItems
                 }
 
-                console.log(posttemp)
+                console.log(res.data)
                 
                 setPost(posttemp)
             }).catch(e => {
