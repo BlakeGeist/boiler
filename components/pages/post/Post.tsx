@@ -53,7 +53,7 @@ const Post = ({ host, post, html, recent_posts, categories, site }) => {
                 lang: languages[i].code
             } })
 
-            setCurrentlyTranslating(languages[i].code)
+            setCurrentlyTranslating(languages[i].name)
 
             console.log(translatePost)
         }
