@@ -12,9 +12,10 @@ const Posts = ({ posts, host, site }) => {
     )
 }
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async ({ req, locale }) => {
+    const lang = locale
     const host = req.headers.host
-    const postsQuery = query(collection(firebaseDb, `sites/${host}/posts`), orderBy('createdAt', "desc"), limit(10))
+    const postsQuery = query(collection(firebaseDb, `sites/${host}/lang/${lang}/posts`), orderBy('createdAt', "desc"), limit(10))
     const postsSnap = await getDocs(postsQuery)
     const posts = postsSnap.docs.map(doc => doc.data())
 

@@ -23,10 +23,10 @@ const Category = ({ category, posts, host, site }) => {
     )
 }
 
-export const getServerSideProps = async (ctx) => {
-    const host = ctx.req.headers.host
-    const slug = ctx.query.category
-    const { lang } = ctx.query
+export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
+    const host = req.headers.host
+    const slug = reqQuery.category
+    const lang = locale
 
     const docRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/categories`, slug)
     const postDoc = await getDoc(docRef)
