@@ -82,13 +82,16 @@ const Post = ({ post, recent_posts, host, site }) => {
     )
 }
 
-export const getServerSideProps = async (ctx) => {
-    const ctxQuery = ctx.query
-    const { lang } = ctx.query
-    const req = ctx.req
+export const getServerSideProps = async ({ req, query: reqQuery, locale  }) => {
+
+    const{ post: slug } = reqQuery
+
+    const lang = locale
     const host = req.headers.host
 
-    const docRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, ctxQuery.post)
+    console.log(`/sites/${host}/langs/${lang}/posts`)
+
+    const docRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
     const postDoc = await getDoc(docRef)
     const post = postDoc.data()
 

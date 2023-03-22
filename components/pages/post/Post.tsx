@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { doc, deleteDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import { useRouter } from "next/router"
@@ -31,6 +31,8 @@ const Post = ({ host, post, html, recent_posts, categories, site }) => {
     const mapRef = useRef(null)
     const router = useRouter()
 
+    const [currentlyTranslating, setCurrentlyTranslating] = useState('')
+
     const deletePost = async (e) => {
         e.preventDefault()
 
@@ -50,6 +52,9 @@ const Post = ({ host, post, html, recent_posts, categories, site }) => {
                 slug: post.slug,
                 lang: languages[i].code
             } })
+
+            setCurrentlyTranslating(languages[i].code)
+
             console.log(translatePost)
         }
 
@@ -57,7 +62,7 @@ const Post = ({ host, post, html, recent_posts, categories, site }) => {
 
     return (
         <>
-            <button onClick={(e) => translatePost(e)}>translate</button>
+            <button onClick={(e) => translatePost(e)}>translate</button> {currentlyTranslating ?? <div>Translating to {currentlyTranslating}</div>}
 
             <button onClick={(e) => deletePost(e)}>Delete</button>
             <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />

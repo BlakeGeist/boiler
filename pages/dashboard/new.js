@@ -9,9 +9,9 @@ const NewPost = ({ site, host, lang }) => {
     )
 }
 
-export const getServerSideProps = async ({ req, query }) => {
+export const getServerSideProps = async ({ req, locale }) => {
     const host = req.headers.host
-    const { lang } = query
+    const lang = locale
     const docRef = doc(firebaseDb, "sites", host)
     const siteDoc = await getDoc(docRef)
     const site = siteDoc.data()
