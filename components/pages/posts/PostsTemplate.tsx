@@ -100,7 +100,7 @@ const LoadingButtonContainer = styled.div`
     padding: 25px;
 `
 
-const PostsTemplate = ({ posts, host }) => {
+const PostsTemplate = ({ posts, host, locale }) => {
     const [postsData, setPostsData] = useState(posts)
     const [lastVisible, setLastVisible] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
@@ -108,7 +108,7 @@ const PostsTemplate = ({ posts, host }) => {
 
     useEffect(() => {
         const fetchInitalPost = async () => {
-            const postsQuery = query(collection(firebaseDb, `sites/${host}/posts`), orderBy('createdAt', "desc"), limit(10))
+            const postsQuery = query(collection(firebaseDb, `sites/${host}/langs/${locale}/posts`), orderBy('createdAt', "desc"), limit(10))
             const postsSnap = await getDocs(postsQuery)
             setLastVisible(postsSnap.docs[postsSnap.docs.length-1])
         }
@@ -127,6 +127,8 @@ const PostsTemplate = ({ posts, host }) => {
     
         const morePostsSnap = await getDocs(next)
         const morePosts = morePostsSnap.docs.map(doc => doc.data())
+
+        morePosts
 
         if(morePosts.length < 10) setShowLoadMore(false)
 

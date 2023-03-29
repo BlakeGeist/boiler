@@ -3,21 +3,21 @@ import { doc, getDoc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import NewPostTemplate from 'components/Post/NewPostTemplate'
 
-const NewPost = ({ site, host, lang }) => {
+const NewPost = ({ site, host }) => {
     return (
-        <NewPostTemplate site={site} host={host} lang={lang} />
+        <NewPostTemplate site={site} host={host} />
     )
 }
 
-export const getServerSideProps = async ({ req, locale }) => {
-    const host = req.headers.host
-    const lang = locale
+export const getServerSideProps = async ({ req }) => {
+    const { host } = req.headers
+    
     const docRef = doc(firebaseDb, "sites", host)
     const siteDoc = await getDoc(docRef)
     const site = siteDoc.data()
 
     return {
-        props: { site, host, lang }
+        props: { site, host }
     }
 }
 

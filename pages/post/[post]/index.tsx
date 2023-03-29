@@ -1,6 +1,6 @@
 import React from 'react'
-import { firebaseDb } from 'utils/firebase'
-import { doc, getDoc, collection, getDocs, query, limit } from "firebase/firestore"
+import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
+import { collection, query, limit } from "firebase/firestore"
 import Head from 'next/head'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
@@ -83,30 +83,23 @@ const Post = ({ post, recent_posts, host, site }) => {
 }
 
 export const getServerSideProps = async ({ req, query: reqQuery, locale  }) => {
-
     const{ post: slug } = reqQuery
 
     const lang = locale
     const host = req.headers.host
 
-    console.log(`/sites/${host}/langs/${lang}/posts`)
+    const postPath = `/sites/${host}/langs/${lang}/posts`
+    const post = await getDocFromPathAndSlug(postPath, slug)
 
-    const docRef = doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, slug)
-    const postDoc = await getDoc(docRef)
-    const post = postDoc.data()
+    const recentPostsPath = `sites/${host}/langs/${lang}/posts`
+    const recentPostsQuery = query(collection(firebaseDb, recentPostsPath), limit(6))
+    const recent_posts = await getDocsFromQuery(recentPostsQuery)
 
-    //Get recent posts
-    const recentPostsQuery = query(collection(firebaseDb, `sites/${host}/langs/${lang}/posts`), limit(6))
-    const recentPostsSnap = await getDocs(recentPostsQuery)
-    const recent_posts = recentPostsSnap.docs.map(doc => doc.data())
-
-    const siteRef = doc(firebaseDb, "sites", host)
-    const siteDoc = await getDoc(siteRef)
-    const site = siteDoc.data()
+    const site = await getDocFromPathAndSlug("sites", host)
 
     return {
         props: { post, recent_posts, host, site, lang }, // will be passed to the page component as props
-      }
+    }
 }
 
 export default Post

@@ -5,7 +5,7 @@ import Layout from 'components/Layout'
 import Head from 'next/head'
 import PostsTemplate from 'components/pages/posts/PostsTemplate'
 
-const Category = ({ category, posts, host, site }) => {
+const Category = ({ category, posts, host, site, locale }) => {
     return (
         <>
             <Head>
@@ -16,7 +16,7 @@ const Category = ({ category, posts, host, site }) => {
                 <>
                     <h1>{category.name}</h1>
                     <p>{category.description}</p>
-                    <PostsTemplate host={host} posts={posts} />
+                    <PostsTemplate host={host} posts={posts} locale={locale} />
                 </>
             </Layout>
         </>
@@ -42,7 +42,7 @@ export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const site = siteDoc.data()
 
     return {
-        props: { category, host, posts, site } // will be passed to the page component as props
+        props: { category, host, posts, site, locale } // will be passed to the page component as props
     }
 }
 

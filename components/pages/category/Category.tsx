@@ -10,18 +10,19 @@ const Categories = ({ categories, site }) => {
                 <h1>Categories</h1>
                 <StyledList>
                     {categories.map((category) => {
+                        console.log(category)
                         return (
-                            <li key={category.slug}>
+                            <li key={category.name.name}>
                                 <h2>
-                                    <Link href={`/categories/${category.slug}`}>
-                                        <a>{category.name}</a>
+                                    <Link href={`/categories/${category.name.slug}`}>
+                                        <a>{category.name.name}</a>
                                     </Link>
                                 </h2>
 
                                 <p>{category.description}</p>
                             
                                 <ReadMore>
-                                    <Link href={`/categories/${category.slug}`}>
+                                    <Link href={`/categories/${category.name.slug}`}>
                                         <a>Full Category &#8594;</a>
                                     </Link>
                                 </ReadMore>

@@ -1,5 +1,6 @@
 
-import { getFirestore } from "firebase/firestore" 
+import { getFirestore, doc, getDoc, getDocs } from "firebase/firestore" 
+
 import { initializeApp } from "firebase/app"
 import { getStorage } from "firebase/storage"
 
@@ -18,6 +19,21 @@ const firebaseApp = initializeApp(firebaseConfig)
 export const firebaseDb = getFirestore(firebaseApp)
 
 export const storage = getStorage(firebaseApp)
+
+export const getDocFromPathAndSlug = async (path, slug) => {
+  const docRef = doc(firebaseDb, path, slug)
+  const postDoc = await getDoc(docRef)
+  const document = postDoc.data()
+
+  return document
+}
+
+export const getDocsFromQuery = async (q) => {
+  const postsSnap = await getDocs(q)
+  const posts = postsSnap.docs.map(doc => doc.data())
+
+  return posts
+}
 
 export default firebaseApp
 

@@ -1,13 +1,13 @@
 import React from 'react'
-import { firebaseDb } from 'utils/firebase'
-import { collection, getDocs, limit, query, orderBy, doc, getDoc } from "firebase/firestore"
+import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
+import { collection, limit, query, orderBy } from "firebase/firestore"
 import Layout from 'components/Layout'
 import PostsTemplate from 'components/pages/posts/PostsTemplate'
 
-const Posts = ({ posts, host, site }) => {
+const Posts = ({ posts, host, site, locale }) => {
     return (
         <Layout site={site}>
-            <PostsTemplate host={host} posts={posts} />
+            <PostsTemplate host={host} posts={posts} locale={locale} />
         </Layout>
     )
 }
@@ -15,15 +15,14 @@ const Posts = ({ posts, host, site }) => {
 export const getServerSideProps = async ({ req, locale }) => {
     const lang = locale
     const host = req.headers.host
-    const postsQuery = query(collection(firebaseDb, `sites/${host}/lang/${lang}/posts`), orderBy('createdAt', "desc"), limit(10))
-    const postsSnap = await getDocs(postsQuery)
-    const posts = postsSnap.docs.map(doc => doc.data())
 
-    const siteRef = doc(firebaseDb, "sites", host)
-    const siteDoc = await getDoc(siteRef)
-    const site = siteDoc.data()
+    const postsPath = `sites/${host}/langs/${lang}/posts`
+    const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"), limit(10))
+    const posts = await getDocsFromQuery(postsQuery)
 
-    return { props: { posts: posts || null, host, site } }
+    const site = await getDocFromPathAndSlug("sites", host)
+
+    return { props: { posts: posts || null, host, site, locale } }
   }
   
 
