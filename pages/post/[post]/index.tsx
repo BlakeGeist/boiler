@@ -48,9 +48,10 @@ const Post = ({ post, recent_posts, site }) => {
     const handleChange = (e) => {
         const lang = e.target.value
         const toUrl = post.slugs.filter(s => s.lang.code === lang)[0]
+
         const redTo = `/${lang}/post/${toUrl.slug}`
 
-        router.push(redTo)
+        router.push(redTo, redTo, { locale: lang })
     }
 
     return (
