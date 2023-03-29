@@ -1,10 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
-import { firebaseDb } from 'utils/firebase'
-import { getDocs, collection, query, limit, orderBy, doc, getDoc } from "firebase/firestore"
+import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
+import { collection, query, limit, orderBy } from "firebase/firestore"
 import IndexPage from 'components/pages/IndexPage'
 
-const Home = ({ posts, site, lang }) => (
+const Home = ({ posts, site }) => (
   <>
     <Head>
       <title>Geist App</title>
@@ -12,23 +12,21 @@ const Home = ({ posts, site, lang }) => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <IndexPage posts={posts} site={site} lang={lang} />
+    <IndexPage posts={posts} site={site} />
   </>
 )
 
 export const getServerSideProps = async ({ req, locale  }) => {
-  const host = req.headers.host
+  const { host } = req.headers
   const lang = locale
 
-  const postsQuery = query(collection(firebaseDb, `sites/${host}/posts`), orderBy('createdAt', "desc"), limit(10))
-  const postsSnap = await getDocs(postsQuery)
-  const posts = postsSnap.docs.map(doc => doc.data())
+  const postsPath = `sites/${host}/langs/${lang}/posts`
+  const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"), limit(10))
+  const posts = await getDocsFromQuery(postsQuery)
 
-  const docRef = doc(firebaseDb, "sites", host)
-  const siteDoc = await getDoc(docRef)
-  const site = siteDoc.data()
+  const site = await getDocFromPathAndSlug("sites", host)
 
-  return { props: { posts: posts || null, site, lang  } }
+  return { props: { posts: posts || null, site } }
 }
 
 export default Home
