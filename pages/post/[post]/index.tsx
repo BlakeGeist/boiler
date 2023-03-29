@@ -8,7 +8,7 @@ import PostTemplate from 'components/pages/post/Post'
 import Layout from 'components/Layout'
 import { useRouter } from 'next/router'
 
-const Post = ({ post, recent_posts, host, site }) => {
+const Post = ({ post, recent_posts, site }) => {
     const router = useRouter()
 
     const article = JSON.parse(post?.article)
@@ -66,7 +66,6 @@ const Post = ({ post, recent_posts, host, site }) => {
                     post={post}
                     html={html}
                     recent_posts={recent_posts}
-                    host={host}
                     categories={post.categories}
                 />
                 <select onChange={e => handleChange(e)}>
@@ -98,7 +97,7 @@ export const getServerSideProps = async ({ req, query: reqQuery, locale  }) => {
     const site = await getDocFromPathAndSlug("sites", host)
 
     return {
-        props: { post, recent_posts, host, site, lang }, // will be passed to the page component as props
+        props: { post, recent_posts, site, lang }, // will be passed to the page component as props
     }
 }
 
