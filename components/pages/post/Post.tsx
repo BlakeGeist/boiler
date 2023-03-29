@@ -1,10 +1,4 @@
-import React, { useRef, useState } from 'react'
-import { doc, deleteDoc } from "firebase/firestore"
-import { firebaseDb } from 'utils/firebase'
-import { useRouter } from "next/router"
-import axios from 'axios'
-
-import { languages } from 'utils/languages'
+import React, { useRef } from 'react'
 
 import Share from 'components/pages/post/sections/Share'
 import Aside from 'components/pages/post/sections/Aside'
@@ -20,7 +14,7 @@ import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
-const Post = ({ host, post, html, recent_posts, categories, site }) => {
+const Post = ({ post, html, recent_posts, categories, site }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -29,42 +23,9 @@ const Post = ({ host, post, html, recent_posts, categories, site }) => {
     const quoteRef = useRef(null)
     const recentPostsRef = useRef(null)
     const mapRef = useRef(null)
-    const router = useRouter()
-
-    const [currentlyTranslating, setCurrentlyTranslating] = useState('')
-
-    const deletePost = async (e) => {
-        e.preventDefault()
-
-        await deleteDoc(doc(firebaseDb, "sites", host, "posts", post.slug))
-            .then(() => {
-                router.push(`/dashboard/${host}`)
-            })
-            .catch(e => console.log('error:, ', e))
-    }
-
-    const translatePost = async (e) => {
-        e.preventDefault()
-        
-        for(let i = 0; languages.length > i; i++) {
-            const translatePost = await axios.get('/api/translatePost', { params: {
-                host,
-                slug: post.slug,
-                lang: languages[i].code
-            } })
-
-            setCurrentlyTranslating(languages[i].name)
-
-            console.log(translatePost)
-        }
-
-    }
 
     return (
         <>
-            <button onClick={(e) => translatePost(e)}>translate</button> {currentlyTranslating ?? <div>Translating to {currentlyTranslating}</div>}
-
-            <button onClick={(e) => deletePost(e)}>Delete</button>
             <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />
             <PostContainer>
                 <Share />

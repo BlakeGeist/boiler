@@ -43,6 +43,7 @@ export default async function handler(req, res) {
             headerImageSrc: post.headerImageSrc,
             mediumImageSrc: post.mediumImageSrc,
             createdAt: post.createdAt,
+            isTranslated: true,
             listicleItems,
             article,
             faqs,
