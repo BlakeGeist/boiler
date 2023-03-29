@@ -38,9 +38,6 @@ export const tryXTimes = async (func, x = 3) => {
     for(let i = 0; i < x; i++) {
         try {
             const resp = await func
-
-            console.log(resp)
-
             return resp
         } catch (e) {
             console.log(e)

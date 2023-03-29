@@ -3,6 +3,7 @@ import Layout from 'components/Layout'
 import PostTemplate from 'components/pages/post/Post'
 import Link from 'next/link'
 import { LoadingButton } from '@mui/lab'
+import { useRouter } from "next/router"
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import GetArticleIdeas from 'components/Post/GetArticleIdeas'
@@ -13,7 +14,23 @@ import StepText from 'components/Post/StepText'
 import { StepHeading } from 'components/Post/NewPostTemplate/styles'
 import { submitArticle } from 'components/Post/NewPostTemplate/submitArticle'
 
+import styled from 'styled-components'
+
+import axios from 'axios'
+import Button from '@mui/material/Button'
+import { languages } from 'utils/languages'
+import { doc, deleteDoc } from "firebase/firestore"
+import { firebaseDb } from 'utils/firebase'
+
+const PostControlsContrainer = styled.div`
+    button {
+        margin: 0 10px;
+    }
+`
+
 const NewPostTemplate = ({ site, host }) => {
+    const router = useRouter()
+
     const [articleIdeas, setArticleIdeas] = useState([])
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(1)
@@ -48,7 +65,42 @@ const NewPostTemplate = ({ site, host }) => {
         const filteredKeywords = keywords.filter((k) => k !== keyword)
         setKeywords(filteredKeywords)
     }
+    const [currentlyTranslating, setCurrentlyTranslating] = useState('')
+    const [isTranslating, setIsTranslating] = useState(false)
 
+    const deletePost = async (e) => {
+        e.preventDefault()
+
+        await deleteDoc(doc(firebaseDb, "sites", host, "posts", post.slug))
+            .then(() => {
+                router.push(`/dashboard/${host}`)
+            })
+            .catch(e => console.log('error:, ', e))
+    }
+
+    const translatePost = async (e) => {
+        e.preventDefault()
+        
+        setIsTranslating(true)
+
+        for(let i = 0; languages.length > i; i++) {
+            setCurrentlyTranslating(languages[i].name)
+            await axios.get('/api/translatePost', { params: {
+                host,
+                slug: post.slug,
+                lang: languages[i].code
+            } }).catch(e => {
+                console.log('Error translating post, ', e)
+            })
+        }
+        setIsTranslating(false)
+        setPost({
+            ...post,
+            isTranslated: true
+        })
+    }
+
+    
     return (
         <Layout site={site}>
             <>
@@ -118,6 +170,17 @@ const NewPostTemplate = ({ site, host }) => {
                     <div>
                         {post.keywords}
                         <hr />
+
+                        <PostControlsContrainer>
+                            {!post.isTranslated &&
+                                <LoadingButton onClick={e => translatePost(e)} loading={isTranslating} variant="outlined">Translate</LoadingButton>
+                            }
+                            {isTranslating && 
+                                `Translating to ${currentlyTranslating}`
+                            }
+                            <Button onClick={(e) => deletePost(e)} variant="outlined">Delete</Button>
+                        </PostControlsContrainer>
+
                         <PostTemplate 
                             post={post}
                             html={html}

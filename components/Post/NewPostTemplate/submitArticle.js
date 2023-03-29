@@ -23,7 +23,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
 
     let posttemp = {}
 
-    const createPost = await tryXTimes(axios.get('/api/createPost',   { params }))
+    const createPost = Promise.resolve(await tryXTimes(axios.get('/api/createPost',   { params })))
 
     createPost.then(async (res) => {
         const params = {
