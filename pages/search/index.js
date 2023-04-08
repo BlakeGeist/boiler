@@ -19,7 +19,7 @@ const Index = ({ site }) => {
             }))
             console.log(postsResp)
             setPosts(postsResp)
-        });
+        })
     }
 
     const handleInputChange = (e) => {
@@ -64,7 +64,7 @@ const Index = ({ site }) => {
     )
 }
 
-export const getServerSideProps = async ({ req, locale }) => {
+export const getServerSideProps = async ({ req }) => {
     const host = req.headers.host
     const site = await getDocFromPathAndSlug("sites", host)
 

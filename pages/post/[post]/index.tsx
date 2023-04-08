@@ -2,8 +2,6 @@ import React from 'react'
 import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
 import { collection, query, limit } from "firebase/firestore"
 import Head from 'next/head'
-import { stateToHTML } from "draft-js-export-html"
-import { convertFromRaw } from 'draft-js'
 import PostTemplate from 'components/pages/post/Post'
 import Layout from 'components/Layout'
 import { useRouter } from 'next/router'
@@ -43,7 +41,6 @@ const Post = ({ post, recent_posts, site }) => {
     article.blocks = blocks
     article.entityMap = entity
     
-    const html = stateToHTML(convertFromRaw(article))
 
     const handleChange = (e) => {
         const lang = e.target.value
@@ -62,20 +59,19 @@ const Post = ({ post, recent_posts, site }) => {
             </Head>
             <Layout site={site}>
                 <>
-                <PostTemplate 
-                    site={site}
-                    post={post}
-                    html={html}
-                    recent_posts={recent_posts}
-                    categories={post.categories}
-                />
-                <select onChange={e => handleChange(e)}>
-                    {post.slugs.map(slug => {
-                        return (
-                            <option key={slug.lang.code} value={slug.lang.code}>{slug.lang.name}</option>
-                        )
-                    })}
-                </select>
+                    <PostTemplate 
+                        site={site}
+                        post={post}
+                        recent_posts={recent_posts}
+                        categories={post.categories}
+                    />
+                    <select onChange={e => handleChange(e)}>
+                        {post.slugs.map(slug => {
+                            return (
+                                <option key={slug.lang.code} value={slug.lang.code}>{slug.lang.name}</option>
+                            )
+                        })}
+                    </select>
                 </>
             </Layout>
         </>

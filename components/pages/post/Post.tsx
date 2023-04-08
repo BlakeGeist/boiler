@@ -14,7 +14,7 @@ import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
-const Post = ({ post, html, recent_posts, categories, site }) => {
+const Post = ({ post, recent_posts, categories, site }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)

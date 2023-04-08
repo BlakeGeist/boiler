@@ -38,7 +38,7 @@ export default async function handler(req, res) {
         const editorState = EditorState.createWithContent(content)
         const contentFromText = editorState.getCurrentContent()
         const article = JSON.stringify(convertToRaw(contentFromText))    
-        const html = convertToHTML(editorState.getCurrentContent());
+        const html = convertToHTML(editorState.getCurrentContent())
         console.log(html)
 
         

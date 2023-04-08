@@ -7,11 +7,11 @@ import Link from 'next/link'
 import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import { EditorState, ContentState, convertToRaw } from 'draft-js'
 import { stateToHTML } from "draft-js-export-html"
 import { convertFromRaw } from 'draft-js'
 
-let htmlToDraft = null;
+let htmlToDraft = null
 
 const HightlightedResult = styled.p`
     em {
@@ -37,7 +37,7 @@ const Keyword = ({ keyword, site, locale }) => {
                 return post
             }))
             setPosts(postsResp)
-        });
+        })
 
     }
     
@@ -56,10 +56,10 @@ const Keyword = ({ keyword, site, locale }) => {
         
         console.log(updatedHtml)
 
-        const blocksFromHtml = htmlToDraft(updatedHtml);
-        const { contentBlocks, entityMap } = blocksFromHtml;
-        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-        const editorState = EditorState.createWithContent(contentState);
+        const blocksFromHtml = htmlToDraft(updatedHtml)
+        const { contentBlocks, entityMap } = blocksFromHtml
+        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)
+        const editorState = EditorState.createWithContent(contentState)
 
         const contentFromText = editorState.getCurrentContent()
 
