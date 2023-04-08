@@ -11,7 +11,7 @@ interface BreadcrumbProps {
 const Breadcrumb:FC<BreadcrumbProps> = ({ breadcrumb }) => {
     return (
         <Link href={breadcrumb.href}>
-            <a>{breadcrumb.text}</a>
+            {breadcrumb.text}
         </Link>
     )
 }

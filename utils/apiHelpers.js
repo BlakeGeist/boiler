@@ -10,7 +10,7 @@ export const promptResponse = async (propmt) => {
     const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: propmt,
-        temperature: 0,
+        temperature: 1,
         max_tokens: 4000,
         top_p: 1,
         frequency_penalty: 0.2,

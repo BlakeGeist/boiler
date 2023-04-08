@@ -10,7 +10,7 @@ const Post = ({post}) => {
     return (
         <Li>
             <Link href={`/post/${post.slug}`}>
-                <a>{post.heading}</a>
+                {post.heading}
             </Link>
         </Li>
     )

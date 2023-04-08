@@ -7,7 +7,7 @@ const Dashboard = ({ posts, site }) => {
         <Layout site={site}>
             <>
                 <Link href="/dashboard/new">
-                    <a>New Post</a>
+                    New Post
                 </Link>
 
                 <h2>Posts</h2>
@@ -16,7 +16,7 @@ const Dashboard = ({ posts, site }) => {
                     {posts.map((post) => {
                         return (
                             <li key={post.slug}>
-                                <Link href={`/post/${post.slug}`}><a>{post.heading}</a></Link></li>
+                                <Link href={`/post/${post.slug}`}>{post.heading}</Link></li>
                         )
                     })}
                 </ul>

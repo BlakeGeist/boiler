@@ -18,7 +18,7 @@ interface HeaderProps {
 const Header:FC<HeaderProps> = ({ logoSrc }) => (
   <StyledHeader>
     <Link href="/">
-      <a><img src={logoSrc} height="75px" /></a>
+      <img src={logoSrc} height="75px" />
     </Link>
     <Navigation />
   </StyledHeader>

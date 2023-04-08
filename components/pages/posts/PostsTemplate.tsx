@@ -128,8 +128,6 @@ const PostsTemplate = ({ posts, host, locale }) => {
         const morePostsSnap = await getDocs(next)
         const morePosts = morePostsSnap.docs.map(doc => doc.data())
 
-        morePosts
-
         if(morePosts.length < 10) setShowLoadMore(false)
 
         setLastVisible(morePostsSnap.docs[morePostsSnap.docs.length-1])
@@ -146,14 +144,13 @@ const PostsTemplate = ({ posts, host, locale }) => {
                         <Post key={`${post.slug}-${i}-key`}>
                             <PostImage src={post.mediumImageSrc}>
                                 <Link href={`/post/${post.slug}`}>
-                                    <a></a>
                                 </Link>
                             </PostImage>
                             <PostContent>
                                 <PostContentText>
                                     <h2>
                                         <Link href={`/post/${post.slug}`}>
-                                            <a>{post.heading}</a>
+                                            {post.heading}
                                         </Link>
                                     </h2>
                                     <p>{truncateString(post.shortDescription, 200)}</p>                                

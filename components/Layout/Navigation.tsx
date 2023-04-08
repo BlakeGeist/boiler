@@ -12,7 +12,7 @@ const Nav:FC<NavProps> = ({ borderTop }) => {
         return (
             <li>
                 <Link href={href}>
-                    <a>{text}</a>    
+                    {text} 
                 </Link>
             </li>
         )
@@ -38,6 +38,7 @@ const Nav:FC<NavProps> = ({ borderTop }) => {
             <ol>
                 <NavItem href="/posts" text="Posts" />
                 <NavItem href="/categories" text="Categories" />
+                <NavItem href="/search" text="Search" />
             </ol>
         </NavigationStyles>
     )

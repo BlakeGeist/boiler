@@ -5,6 +5,11 @@ const ArticleContainer = styled.div`
     img {
         float: left;
         margin: 0 15px 5px 0;
+        max-width: 250px;
+    }
+
+    a {
+        color: #ff2e2e;
     }
 `
 

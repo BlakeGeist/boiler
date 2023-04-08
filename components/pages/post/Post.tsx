@@ -24,6 +24,15 @@ const Post = ({ post, html, recent_posts, categories, site }) => {
     const recentPostsRef = useRef(null)
     const mapRef = useRef(null)
 
+    
+    let splitArticle = post?.articleHtml?.split(/(<p>)/g) || ''
+
+    splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
+
+    splitArticle = splitArticle.length > 1 ? splitArticle.join('') : ''
+
+    console.log(splitArticle, 'here2')
+
     return (
         <>
             <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />
@@ -34,7 +43,7 @@ const Post = ({ post, html, recent_posts, categories, site }) => {
                     {site.headerAd &&
                         <div dangerouslySetInnerHTML={{ __html: site.headerAd }} />
                     }
-                    <Article articleRef={articleRef} html={html} />
+                    <Article articleRef={articleRef} html={splitArticle} />
                     <Categories categories={categories} />
                     <QuoteAndAd>
                         <Quote quoteRef={quoteRef} quote={post.quote} />
