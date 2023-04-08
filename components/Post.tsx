@@ -20,13 +20,6 @@ export const Post = ({ post }) =>  {
                         <p>{truncateString(post.shortDescription, 375)}</p>                                
                     </div>
                 </div>
-                <FeaturedCardContentAurthor>
-                    <FeaturedCardContentAurthorImage />
-                    <FeaturedCardContentAuthorText>
-                        <div>name</div>
-                        <FeaturedCardContentPostDate>{post.createdAt} - 6 min read</FeaturedCardContentPostDate>
-                    </FeaturedCardContentAuthorText>
-                </FeaturedCardContentAurthor>
             </CardContent>
         </Card>    
     )
@@ -46,13 +39,6 @@ export const FeaturedPost = ({ post }) => {
                 </h2>
                 <p>{truncateString(post.shortDescription, 275)}</p>                                
             </FeaturedCardText>
-            <FeaturedCardContentAurthor>
-                <FeaturedCardContentAurthorImage />
-                <FeaturedCardContentAuthorText>
-                    <div>name</div>
-                    <FeaturedCardContentPostDate>{post.createdAt} - 6 min read</FeaturedCardContentPostDate>
-                </FeaturedCardContentAuthorText>
-            </FeaturedCardContentAurthor>
         </FeaturedCardContent>
     </FeaturedCard>    
 )
