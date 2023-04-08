@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Card, CardImage, CardContent, CardHeader, FeaturedCard, FeaturedCardImageLink, FeaturedCardContent, FeaturedCardText, FeaturedCardContentAurthor, FeaturedCardContentAurthorImage, FeaturedCardContentAuthorText, FeaturedCardContentPostDate } from './PostStyles'
 import { truncateString } from 'utils/helpers'
 
-export const Post = ({ post, lang }) =>  {
+export const Post = ({ post }) =>  {
     return (
         <Card>
             <Link href={`/post/${post.slug}`} legacyBehavior>
@@ -14,7 +14,7 @@ export const Post = ({ post, lang }) =>  {
                     <div>
                         <CardHeader>
                             <Link href={`/post/${post.slug}`} legacyBehavior>
-                                <a>{post.heading[lang]}</a>
+                                <a>{post.heading}</a>
                             </Link>
                         </CardHeader>
                         <p>{truncateString(post.shortDescription, 375)}</p>                                
@@ -31,7 +31,7 @@ export const Post = ({ post, lang }) =>  {
         </Card>    
     )
 }
-export const FeaturedPost = ({ post, lang }) => {
+export const FeaturedPost = ({ post }) => {
     return (
     <FeaturedCard>
         <Link href={`/post/${post.slug}`} legacyBehavior>
@@ -41,7 +41,7 @@ export const FeaturedPost = ({ post, lang }) => {
             <FeaturedCardText>
                 <h2>
                     <Link href={`/post/${post.slug}`} legacyBehavior>
-                        <a>{post.heading[lang]}</a>
+                        <a>{post.heading}</a>
                     </Link>
                 </h2>
                 <p>{truncateString(post.shortDescription, 275)}</p>                                
