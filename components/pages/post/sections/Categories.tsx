@@ -26,11 +26,9 @@ const Categories = ({ categories }) => {
                 {categories?.map((category, i) => {
                     return (
                         <Link key={`${category.name}-${i}-key`} href={`/categories/${category.slug}`}>
-                            <a>
-                                <Category>
-                                    {category.name}
-                                </Category>
-                            </a>
+                            <Category>
+                                {category.name}
+                            </Category>
                         </Link>
                     )
                 })}

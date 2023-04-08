@@ -5,13 +5,13 @@ import Layout from 'components/Layout'
 import { cleanSug } from 'utils/helpers'
 import { setDoc, doc } from 'firebase/firestore'
 import timestamp from 'time-stamp'
+import Link from 'next/link'
 
 const Keywords = ({ site, host, keywords }) => {
 
     const createdAt = timestamp('YYYY/MM/DD:mm:ss')
 
     const [keywordsArr, setKeywordsArr] = useState(keywords)
-
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -39,7 +39,11 @@ const Keywords = ({ site, host, keywords }) => {
             {keywordsArr.map((keyword, i) => {
                 console.log(keyword)
                 return (
-                    <div key={keyword.slug + i}>{keyword.keyphrase}</div>
+                    <div key={keyword.slug + i}>
+                        <Link href={`/dashboard/keywords/${keyword.slug}`}>
+                           {keyword.keyphrase}
+                        </Link>
+                    </div>
                 )
             })}
 

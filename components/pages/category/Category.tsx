@@ -15,7 +15,7 @@ const Categories = ({ categories, site }) => {
                             <li key={category.name.name}>
                                 <h2>
                                     <Link href={`/categories/${category.name.slug}`}>
-                                        <a>{category.name.name}</a>
+                                        {category.name.name}
                                     </Link>
                                 </h2>
 
@@ -23,7 +23,7 @@ const Categories = ({ categories, site }) => {
                             
                                 <ReadMore>
                                     <Link href={`/categories/${category.name.slug}`}>
-                                        <a>Full Category &#8594;</a>
+                                        Full Category &#8594;
                                     </Link>
                                 </ReadMore>
                             </li>

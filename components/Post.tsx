@@ -7,14 +7,14 @@ export const Post = ({ post }) =>  {
     return (
         <Card>
             <Link href={`/post/${post.slug}`}>
-                <a><CardImage src={post.mediumImageSrc} /></a>
+                <CardImage src={post.mediumImageSrc} />
             </Link>
             <CardContent>
                 <div>
                     <div>
                         <CardHeader>
                             <Link href={`/post/${post.slug}`}>
-                                <a>{post.heading}</a>
+                                {post.heading}
                             </Link>
                         </CardHeader>
                         <p>{truncateString(post.shortDescription, 375)}</p>                                
@@ -41,7 +41,7 @@ export const FeaturedPost = ({ post }) => {
             <FeaturedCardText>
                 <h2>
                     <Link href={`/post/${post.slug}`}>
-                        <a>{post.heading}</a>
+                        {post.heading}
                     </Link>
                 </h2>
                 <p>{truncateString(post.shortDescription, 275)}</p>                                

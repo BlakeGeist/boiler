@@ -14,7 +14,7 @@ import Map from 'components/pages/post/sections/Map'
 
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
-const Post = ({ post, html, recent_posts, categories, site }) => {
+const Post = ({ post, recent_posts, categories, site }) => {
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -23,6 +23,15 @@ const Post = ({ post, html, recent_posts, categories, site }) => {
     const quoteRef = useRef(null)
     const recentPostsRef = useRef(null)
     const mapRef = useRef(null)
+
+    
+    let splitArticle = post?.articleHtml?.split(/(<p>)/g) || ''
+
+    splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
+
+    splitArticle = splitArticle.length > 1 ? splitArticle.join('') : ''
+
+    console.log(splitArticle, 'here2')
 
     return (
         <>
@@ -34,7 +43,7 @@ const Post = ({ post, html, recent_posts, categories, site }) => {
                     {site.headerAd &&
                         <div dangerouslySetInnerHTML={{ __html: site.headerAd }} />
                     }
-                    <Article articleRef={articleRef} html={html} />
+                    <Article articleRef={articleRef} html={splitArticle} />
                     <Categories categories={categories} />
                     <QuoteAndAd>
                         <Quote quoteRef={quoteRef} quote={post.quote} />

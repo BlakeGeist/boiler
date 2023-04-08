@@ -9,13 +9,13 @@ const Footer = ({ site }) => {
     <footer>
       <Navigation borderTop />
       {twitter && 
-        <Link href={twitter}><a target="_blank">Twitter</a></Link> 
+        <Link href={twitter} target="_blank">Twitter</Link> 
       }
       {facebook && 
-        <Link href={facebook}><a target="_blank">Facebook</a></Link> 
+        <Link href={facebook} target="_blank">Facebook</Link> 
       }
       {instagram && 
-        <Link href={instagram}><a target="_blank">Instagram</a></Link> 
+        <Link href={instagram} target="_blank">Instagram</Link> 
       }            
     </footer>
   )
