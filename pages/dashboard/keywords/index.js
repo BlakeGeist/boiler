@@ -37,7 +37,6 @@ const Keywords = ({ site, host, keywords }) => {
             <h1>This is the keywords section</h1>
 
             {keywordsArr.map((keyword, i) => {
-                console.log(keyword)
                 return (
                     <div key={keyword.slug + i}>
                         <Link href={`/dashboard/keywords/${keyword.slug}`}>

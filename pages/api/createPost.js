@@ -39,8 +39,6 @@ export default async function handler(req, res) {
         const contentFromText = editorState.getCurrentContent()
         const article = JSON.stringify(convertToRaw(contentFromText))    
         const html = convertToHTML(editorState.getCurrentContent())
-        console.log(html)
-
         
         const slug = cleanSug(heading)
         const createdAt = timestamp('YYYY/MM/DD:mm:ss')

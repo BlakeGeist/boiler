@@ -3,6 +3,7 @@ import { promptResponse } from 'utils/apiHelpers'
 import { cleanSug } from 'utils/helpers'
 import { updateDoc, doc, setDoc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
+import timestamp from 'time-stamp'
 
 export default async function handler(req, res) {
     const { host, prompt, slug, lang } = req.query
@@ -46,13 +47,15 @@ export default async function handler(req, res) {
                 const categoryMetaTitleResponse = await promptResponse(categoryMetaTitle)
 
                 const slug = cleanSug(categories[i].name)
+                const createdAt = timestamp('YYYY/MM/DD:mm:ss')
 
                 const tempCat = {
                     name: categories[i].name,
                     description: categoryDescResponse,
                     categoryMetaDesc: categoryMetaDescResponse,
                     categoryMetaTitle: categoryMetaTitleResponse,
-                    slug
+                    slug,
+                    createdAt
                 }
 
                 await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/categories`, slug), tempCat)
