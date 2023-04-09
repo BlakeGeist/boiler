@@ -1,27 +1,9 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
 import { doc, getDoc, query, collection, where, getDocs, orderBy } from "firebase/firestore"
-import Layout from 'components/Layout'
-import Head from 'next/head'
-import PostsTemplate from 'components/pages/posts/PostsTemplate'
+import CategoryTemplate from 'components/pages/categories/CategoryTemplate'
 
-const Category = ({ category, posts, host, site, locale }) => {
-    return (
-        <>
-            <Head>
-                <title>{category.categoryMetaTitle}</title>
-                <meta name="description" content={category.categoryMetaDesc} />
-            </Head>
-            <Layout site={site}>
-                <>
-                    <h1>{category.name}</h1>
-                    <p>{category.description}</p>
-                    <PostsTemplate host={host} posts={posts} locale={locale} />
-                </>
-            </Layout>
-        </>
-    )
-}
+const Category = ({ category, posts, host, site, locale }) => <CategoryTemplate host={host} posts={posts} locale={locale} site={site} category={category} />
 
 export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const host = req.headers.host
