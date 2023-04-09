@@ -30,7 +30,7 @@ const Admin = ({ site }) => {
 
     const submit = (e) => {
         e.preventDefault()
-        const file = e.target.filename.files[0]
+        const file = e.currentTarget.logo.files[0]
 
         uploadImage(file)
     }

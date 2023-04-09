@@ -10,6 +10,10 @@ const StyledHeader = styled.header`
 
   background: rgba(255,255,255,.97);
   box-shadow: 0 2px 2px -2px rgb(0 0 0 / 15%);
+
+  img {
+    border-radius: 50%;
+  }
 `
 interface HeaderProps {
   logoSrc: string
