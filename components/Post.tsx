@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Card, CardImage, CardContent, CardHeader, FeaturedCard, FeaturedCardImageLink, FeaturedCardContent, FeaturedCardText, FeaturedCardContentAurthor, FeaturedCardContentAurthorImage, FeaturedCardContentAuthorText, FeaturedCardContentPostDate } from './PostStyles'
+import { Card, CardImage, CardContent, CardHeader, FeaturedCard, FeaturedCardImageLink, FeaturedCardContent, FeaturedCardText } from './PostStyles'
 import { truncateString } from 'utils/helpers'
 
 export const Post = ({ post }) =>  {
