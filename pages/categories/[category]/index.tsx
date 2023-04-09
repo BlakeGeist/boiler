@@ -35,7 +35,7 @@ export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const postsRef = collection(firebaseDb, `sites/${host}/langs/${lang}/posts`)
     const q = query(postsRef, where("categories", "array-contains", category.name), orderBy("createdAt", "desc"))
     const querySnapshot = await getDocs(q)
-    const posts = querySnapshot.docs.map(doc => doc.data())
+    const posts = querySnapshot?.docs?.map(doc => doc.data())
 
     const siteRef = doc(firebaseDb, "sites", host)
     const siteDoc = await getDoc(siteRef)
