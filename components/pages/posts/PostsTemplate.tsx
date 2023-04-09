@@ -63,31 +63,6 @@ const PostContentText = styled.div`
     }
 `
 
-const PostContentAuthor = styled.div`
-    display: flex;
-`
-
-const PostContentAuthorImage = styled.div`
-    height: 40px;
-    flex: 0 0 40px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 15px;
-`
-
-const PostContentAuthorText = styled.div`
-    color: rgba(0,0,0,.8);
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-
-const PostContentContent = styled.div`
-    color: rgba(0,0,0,.44);
-`
-
 const PostsContainer = styled.div`
     max-width: 770px;
     margin: 0 auto;
@@ -155,13 +130,6 @@ const PostsTemplate = ({ posts, host, locale }) => {
                                     </h2>
                                     <p>{truncateString(post.shortDescription, 200)}</p>                                
                                 </PostContentText>
-                                <PostContentAuthor>
-                                    <PostContentAuthorImage />
-                                    <PostContentAuthorText>
-                                        <div>name</div>
-                                        <PostContentContent>22 July 2045 - 6 min read</PostContentContent>
-                                    </PostContentAuthorText>
-                                </PostContentAuthor>
                             </PostContent>
                         </Post>
                     )
