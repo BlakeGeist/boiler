@@ -5,12 +5,12 @@ import CategoriesTemplate from 'components/pages/category/Category'
 
 const Categories = ({ categories, site }) => <CategoriesTemplate categories={categories} site={site} />
 
-export const getServerSideProps = async ({ req, query: reqQuery }) => {
+export const getServerSideProps = async ({ req, locale }) => {
     const host = req.headers.host
-    const { lang } = reqQuery
+    const lang = locale
 
     const categoriesPath = `sites/${host}/langs/${lang}/categories`
-    const categoriesQuery = query(collection(firebaseDb, categoriesPath), limit(6))
+    const categoriesQuery = query(collection(firebaseDb, categoriesPath), limit(10))
     const categories = await getDocsFromQuery(categoriesQuery)
 
     const site = await getDocFromPathAndSlug("sites", host)

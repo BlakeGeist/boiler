@@ -10,7 +10,6 @@ const Categories = ({ categories, site }) => {
                 <h1>Categories</h1>
                 <StyledList>
                     {categories.map((category) => {
-                        console.log(category)
                         return (
                             <li key={category.name.name}>
                                 <h2>

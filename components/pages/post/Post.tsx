@@ -31,8 +31,6 @@ const Post = ({ post, recent_posts, categories, site }) => {
 
     splitArticle = splitArticle.length > 1 ? splitArticle.join('') : ''
 
-    console.log(splitArticle, 'here2')
-
     return (
         <>
             <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />
