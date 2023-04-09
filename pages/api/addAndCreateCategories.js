@@ -15,18 +15,22 @@ export default async function handler(req, res) {
         const categoriesArray = categoriesResponse.split(/\r?\n/).filter(Boolean)
     
         const categoriesArrayItems = categoriesArray.map(listItem => {if(listItem.length > 0) return listItem}).filter(Boolean)
+        const simpleCategoriesArray = []
+
         const categories = categoriesArrayItems.map((category, i) => {
             const checkFor = `${i+1}. `
             if(category.startsWith(checkFor)) category = category.slice(checkFor.length).trim()
-    
+            const slug = cleanSug(`${category}`)
+            simpleCategoriesArray.push(slug)
             return {
                 name: category,
-                slug: cleanSug(`${category}`)
+                slug: slug
             }
         })
     
         const post = {
-            categories
+            categories,
+            simpleCategoriesArray
         }
     
         const postRef = doc(firebaseDb, `/sites/${host}/langs/en/posts`, slug)
