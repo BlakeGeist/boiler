@@ -1,27 +1,29 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { firebaseDb } from 'utils/firebase'
 import { doc, getDoc, query, collection, where, getDocs, orderBy } from "firebase/firestore"
-import Layout from 'components/Layout'
+import CategoryTemplate from 'components/pages/categories/CategoryTemplate'
 import Head from 'next/head'
-import PostsTemplate from 'components/pages/posts/PostsTemplate'
+import Layout from 'components/Layout'
 
-const Category = ({ category, posts, host, site, locale }) => {
-    return (
-        <>
-            <Head>
-                <title>{category.categoryMetaTitle}</title>
-                <meta name="description" content={category.categoryMetaDesc} />
-            </Head>
-            <Layout site={site}>
-                <>
-                    <h1>{category.name}</h1>
-                    <p>{category.description}</p>
-                    <PostsTemplate host={host} posts={posts} locale={locale} />
-                </>
-            </Layout>
-        </>
-    )
+interface CategoryProps {
+    category: any
+    posts: any
+    host: string
+    site: any
+    locale: string
 }
+
+const Category:FC<CategoryProps> = ({ category, posts, host, site, locale }) => (
+    <>
+        <Head>
+            <title>{category.categoryMetaTitle}</title>
+            <meta name="description" content={category.categoryMetaDesc} />
+        </Head>
+        <Layout site={site}>
+            <CategoryTemplate host={host} posts={posts} locale={locale} category={category} />
+        </Layout>
+    </>
+)
 
 export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const host = req.headers.host

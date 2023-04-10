@@ -5,7 +5,7 @@ import { firebaseDb } from 'utils/firebase'
 import timestamp from 'time-stamp'
 import { cleanSug,  translateString } from 'utils/helpers'
 import { languages } from 'utils/languages'
-import { EditorState, convertToRaw, ContentState } from 'draft-js'
+import { EditorState, ContentState } from 'draft-js'
 import { convertToHTML } from 'draft-convert'
 
 export default async function handler(req, res) {
@@ -31,13 +31,8 @@ export default async function handler(req, res) {
         }
         
         const heading = cleanHeading(headingResponse)
-
-        
-
         const content = ContentState.createFromText(rawArticleResponse)
         const editorState = EditorState.createWithContent(content)
-        const contentFromText = editorState.getCurrentContent()
-        const article = JSON.stringify(convertToRaw(contentFromText))    
         const html = convertToHTML(editorState.getCurrentContent())
         
         const slug = cleanSug(heading)
@@ -49,11 +44,8 @@ export default async function handler(req, res) {
     
             return { lang: language, slug:  transltedSlug}
         }))
-    
-
         
         const post = {
-            article,
             slug,
             heading,
             createdAt,

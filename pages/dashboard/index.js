@@ -1,18 +1,9 @@
 import React from 'react'
 import { collection, getDocs, getDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
-import DashboardTemplate from 'components/pages/DashboardPage'
+import DashboardTemplate from 'components/pages/dashboard'
 
-const Site = ({ posts, site }) => {
-    return (
-        <main>
-            <DashboardTemplate 
-                posts={posts}
-                site={site}
-            />
-        </main>
-    )
-}
+const Site = ({ posts, site }) => <DashboardTemplate posts={posts} site={site} />
 
 export const getServerSideProps = async ({req}) => {
     const host = req.headers.host
