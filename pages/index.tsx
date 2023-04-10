@@ -13,7 +13,9 @@ const Home = ({ posts, site }) => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <Layout site={site}>
-      <IndexPage posts={posts} map={site.map} />
+      <Layout.Main>
+        <IndexPage posts={posts} map={site.map} />
+      </Layout.Main>
     </Layout>
   </>
 )

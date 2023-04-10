@@ -1,5 +1,5 @@
 import React from 'react'
-import PostsTemplate from 'components/pages/posts/PostsTemplate'
+import PostsTemplate from 'components/pages/posts/PostsMain'
 
 const CategoryTemplate = ({ category, posts, locale, host }) => {
     return (

@@ -118,13 +118,13 @@ const PostsTemplate = ({ posts, host, locale }) => {
                     return (
                         <Post key={`${post.slug}-${i}-key`}>
                             <PostImage src={post.mediumImageSrc}>
-                                <Link href={`/post/${post.slug}`}>
+                                <Link href={`/posts/${post.slug}`}>
                                 </Link>
                             </PostImage>
                             <PostContent>
                                 <PostContentText>
                                     <h2>
-                                        <Link href={`/post/${post.slug}`}>
+                                        <Link href={`/posts/${post.slug}`}>
                                             {post.heading}
                                         </Link>
                                     </h2>

@@ -5,7 +5,9 @@ import Layout from 'components/Layout'
 
 const Keyword = ({ keyword, site, locale }) => (
     <Layout site={site}>
-        <KeywordPageTemplate keyword={keyword} locale={locale} />
+        <Layout.Main>
+            <KeywordPageTemplate keyword={keyword} locale={locale} />
+        </Layout.Main>
     </Layout>
 )
 

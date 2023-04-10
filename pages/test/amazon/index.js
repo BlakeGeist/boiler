@@ -1,11 +1,13 @@
 import React from 'react'
+import AmazonMain from 'components/pages/test/AmazonMain'
 import Layout from 'components/Layout'
-import AmazonTemplate from 'components/pages/test/amazon'
 
 const Amazon = ({ site }) => {
     return (
         <Layout site={site}>
-            <AmazonTemplate />
+            <Layout.Main>
+                <AmazonMain />
+            </Layout.Main>
         </Layout>
     )
 }

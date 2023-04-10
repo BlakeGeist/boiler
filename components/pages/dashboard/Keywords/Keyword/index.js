@@ -50,10 +50,7 @@ const Keyword = ({ locale, keyword }) => {
         const article = JSON.parse(post?.article)
         const html = stateToHTML(convertFromRaw(article))
         const updatedHtml = html.replace(keyword.keyphrase, link)
-
         
-        console.log(updatedHtml)
-
         const blocksFromHtml = htmlToDraft(updatedHtml)
         const { contentBlocks, entityMap } = blocksFromHtml
         const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)
@@ -88,7 +85,7 @@ const Keyword = ({ locale, keyword }) => {
                         return (
                             <div key={post.heading}>
                                 <h2>
-                                    <Link href={`/post/${post.slug}`}>
+                                    <Link href={`/posts/${post.slug}`}>
                                         {post.heading}
                                     </Link>
                                 </h2>

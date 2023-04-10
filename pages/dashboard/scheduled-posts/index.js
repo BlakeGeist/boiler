@@ -1,10 +1,12 @@
 import React from 'react'
-import ScheduledPostsTemplate from 'components/pages/dashboard/ScheduledPostsTemplate'
+import ScheduledPostsMain from 'components/pages/dashboard/ScheduledPosts/Main'
 import Layout from 'components/Layout'
 
 const SchdeduledPosts = ({ site, host }) => (
     <Layout site={site}>
-        <ScheduledPostsTemplate host={host} />
+        <Layout.Main>
+            <ScheduledPostsMain host={host} />
+        </Layout.Main>
     </Layout>
 )
 

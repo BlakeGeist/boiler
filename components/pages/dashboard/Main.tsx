@@ -14,7 +14,7 @@ const Dashboard = ({ posts }) => {
                 {posts.map((post) => {
                     return (
                         <li key={post.slug}>
-                            <Link href={`/post/${post.slug}`}>{post.heading}</Link></li>
+                            <Link href={`/posts/${post.slug}`}>{post.heading}</Link></li>
                     )
                 })}
             </ul>

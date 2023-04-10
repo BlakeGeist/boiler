@@ -15,7 +15,6 @@ const Search = () => {
                 const post = await getDocFromPathAndSlug('sites/localhost:3000/langs/en/posts/', hit.objectID)
                 return post
             }))
-            console.log(postsResp)
             setPosts(postsResp)
         })
     }
@@ -48,7 +47,7 @@ const Search = () => {
                         {posts.map(post => {
                             return (
                                 <li key={post.heading}>
-                                    <Link href={`/post/${post.slug}`}>
+                                    <Link href={`/posts/${post.slug}`}>
                                         {post.heading}
                                     </Link>
                                 </li>

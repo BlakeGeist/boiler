@@ -20,7 +20,9 @@ const Category:FC<CategoryProps> = ({ category, posts, host, site, locale }) => 
             <meta name="description" content={category.categoryMetaDesc} />
         </Head>
         <Layout site={site}>
-            <CategoryTemplate host={host} posts={posts} locale={locale} category={category} />
+            <Layout.Main>
+                <CategoryTemplate host={host} posts={posts} locale={locale} category={category} />
+            </Layout.Main>
         </Layout>
     </>
 )

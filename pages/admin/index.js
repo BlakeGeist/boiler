@@ -1,10 +1,12 @@
 import React from 'react'
-import AdminPageTemplate from 'components/pages/Admin'
+import AdminMain from 'components/pages/admin/Main'
 import Layout from 'components/Layout'
 
 const Admin = ({ site }) => (
     <Layout site={site}>
-        <AdminPageTemplate site={site} />
+        <Layout.Main>
+            <AdminMain site={site} />
+        </Layout.Main>
     </Layout>
 )
 

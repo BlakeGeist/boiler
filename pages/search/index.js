@@ -1,10 +1,12 @@
 import React from 'react'
-import SerachPageTemplate from 'components/pages/search'
+import SearchMain from 'components/pages/search/SearchMain'
 import Layout from 'components/Layout'
 
 const Index = ({ site }) => (
     <Layout site={site}>
-        <SerachPageTemplate />
+        <Layout.Main>
+            <SearchMain />
+        </Layout.Main>
     </Layout>
 )
 

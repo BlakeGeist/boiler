@@ -6,7 +6,9 @@ import Layout from 'components/Layout'
 
 const Categories = ({ categories, site }) => (
     <Layout site={site}>
-        <CategoriesTemplate categories={categories} />
+        <Layout.Main>
+            <CategoriesTemplate categories={categories} />
+        </Layout.Main>
     </Layout>
 )
 

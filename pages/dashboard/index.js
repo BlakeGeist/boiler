@@ -1,12 +1,14 @@
 import React from 'react'
 import { collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
-import DashboardTemplate from 'components/pages/dashboard'
+import DashboardMain from 'components/pages/dashboard/Main'
 import Layout from 'components/Layout'
 
 const Site = ({ posts, site }) => (
     <Layout site={site}>
-        <DashboardTemplate posts={posts} site={site} />
+        <Layout.Main>
+            <DashboardMain posts={posts} site={site} />
+        </Layout.Main>
     </Layout>
 )
 

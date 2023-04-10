@@ -8,7 +8,6 @@ const Categories = ({ categories }) => {
             <h1>Categories</h1>
             <StyledList>
                 {categories.map((category) => {
-                    console.log(category)
                     return (
                         <li key={category.name}>
                             <h2>

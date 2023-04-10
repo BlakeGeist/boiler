@@ -1,11 +1,10 @@
 import React from 'react'
 import axios from 'axios'
 
-const AmazonTemplate = () => {
+const AmazonPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const searchTerm = e.target.searchTerm.value
-        console.log(searchTerm)
+        //const searchTerm = e.target.searchTerm.value
 
         const params = {}
 
@@ -28,4 +27,4 @@ const AmazonTemplate = () => {
     )
 }
 
-export default AmazonTemplate
+export default AmazonPage
