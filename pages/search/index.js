@@ -1,11 +1,13 @@
 import React from 'react'
-import SerachPageTemplate from 'components/pages/search'
-import Layout from 'components/Layout'
+import SearchMain from 'components/pages/search/SearchMain'
+import NewLayout from 'components/Layout/NewLayout'
 
 const Index = ({ site }) => (
-    <Layout site={site}>
-        <SerachPageTemplate />
-    </Layout>
+    <NewLayout site={site}>
+        <NewLayout.Main>
+            <SearchMain />
+        </NewLayout.Main>
+    </NewLayout>
 )
 
 export default Index

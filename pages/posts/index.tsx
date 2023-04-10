@@ -1,14 +1,16 @@
 import React from 'react'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query, orderBy } from "firebase/firestore"
-import Layout from 'components/Layout'
-import PostsTemplate from 'components/pages/posts/PostsTemplate'
+import PostsMain from 'components/pages/posts/PostsMain'
+import NewLayout from 'components/Layout/NewLayout'
 
 const Posts = ({ posts, host, site, locale }) => {
     return (
-        <Layout site={site}>
-            <PostsTemplate host={host} posts={posts} locale={locale} />
-        </Layout>
+        <NewLayout site={site}>
+            <NewLayout.Main>
+                <PostsMain host={host} posts={posts} locale={locale} />
+            </NewLayout.Main>
+        </NewLayout>
     )
 }
 

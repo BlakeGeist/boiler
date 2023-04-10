@@ -1,10 +1,25 @@
 import styled from 'styled-components'
 
 export const SiteLayout = styled.div`
+    display: flex;
+    flex-wrap: wrap;
     max-width: 1110px;
     margin: 20px auto;
     background-color: #fff;
     font-family: 'Open Sans', sans-serif;
+
+    header, footer {
+        flex: 1 0 100%;
+    }
+
+    main {
+        flex: 1 0 auto;
+    }
+
+    aside {
+        flex: 0 1 250px;
+        padding: 15px
+    }
 
     iframe {
         border: none;
@@ -12,7 +27,6 @@ export const SiteLayout = styled.div`
 `
 
 export const Main = styled.main`
-
     .rdw-image-modal {
         right: 5px !important;
         left: auto !important;
