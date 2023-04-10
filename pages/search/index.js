@@ -1,5 +1,5 @@
 import React from 'react'
-import SerachPageTemplate from 'components/search'
+import SerachPageTemplate from 'components/pages/search'
 import { getDocFromPathAndSlug } from 'utils/firebase'
 
 const Index = ({ site }) => <SerachPageTemplate site={site} />

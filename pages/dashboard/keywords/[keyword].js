@@ -1,6 +1,6 @@
 import React from 'react'
 import { getDocFromPathAndSlug } from 'utils/firebase'
-import KeywordPageTemplate from 'components/pages/dsahboard/Keywords/Keyword'
+import KeywordPageTemplate from 'components/pages/dashboard/Keywords/Keyword'
 
 const Keyword = ({ keyword, site, locale }) => <KeywordPageTemplate keyword={keyword} site={site} locale={locale} />
 
