@@ -5,11 +5,11 @@ import { LoadingButton } from '@mui/lab'
 import { useRouter } from "next/router"
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import GetArticleIdeas from 'components/Post/GetArticleIdeas'
-import ArticleIdeas from 'components/Post/ArticleIdeas'
+import GetArticleIdeas from 'components/pages/dashboard/NewPost/components/GetArticleIdeas'
+import ArticleIdeas from 'components/pages/dashboard/NewPost/components/ArticleIdeas'
 
-import Stepper from 'components/Post/Stepper'
-import StepText from 'components/Post/StepText'
+import Stepper from 'components/pages/dashbaord/components/Stepper'
+import StepText from 'components/pages/dashbaord/components/StepText'
 import { StepHeading } from './styles'
 import { submitArticle } from 'components/pages/dashboard/NewPost/submitArticle'
 

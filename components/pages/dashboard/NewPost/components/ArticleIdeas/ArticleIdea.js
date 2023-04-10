@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArticleIdeasCheckBoxContainer } from 'components/Post/ArticleIdeas/styles'
+import { ArticleIdeasCheckBoxContainer } from 'components/pages/dashbaord/components/ArticleIdeas/styles'
 
 const ArticleIdea = ({ idea, index, setSelectedIdea, setPost, setStep }) => {
     const [isChecked, setIsChecked] = useState(false)
