@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
-import Layout from '../Layout'
 import { firebaseDb } from 'utils/firebase'
 import { doc, setDoc } from "firebase/firestore"
 import slugify from 'slugify'
 import { useRouter } from "next/router"
+import NewLayout from 'components/Layout/NewLayout'
 
 interface HomeProps {
   sitesArray: any,
@@ -31,23 +31,25 @@ const Home:FC<HomeProps> = ({ sitesArray, site }) => {
   }
 
   return (
-    <Layout site={site}>
-      <>
-        {sitesArray?.map((site) => {
-          return (
-            <p key={site.url}>
-              Site: {site.domain}
-            </p>
-          )
-        })}
+    <NewLayout site={site}>
+        <NewLayout.Main>
+          <>
+              {sitesArray?.map((site) => {
+                return (
+                  <p key={site.url}>
+                    Site: {site.domain}
+                  </p>
+                )
+              })}
 
-        <form onSubmit={e => onSubmit(e)}>
-          <input type="url" name="url" />
-          <input type="text" name="domain" />
-          <input type="submit" value="Add Site" />
-        </form>
-      </>
-    </Layout>
+              <form onSubmit={e => onSubmit(e)}>
+                <input type="url" name="url" />
+                <input type="text" name="domain" />
+                <input type="submit" value="Add Site" />
+              </form>
+          </>
+      </NewLayout.Main>
+    </NewLayout>
   )
 }
 

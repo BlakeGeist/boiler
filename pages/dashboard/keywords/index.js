@@ -2,12 +2,14 @@ import React from 'react'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query, orderBy } from "firebase/firestore"
 import KeywordsPageTemplate from 'components/pages/dashboard/Keywords'
-import Layout from 'components/Layout'
+import NewLayout from 'components/Layout/NewLayout'
 
 const Keywords = ({ site, host, keywords }) => (
-    <Layout site={site}>
-        <KeywordsPageTemplate host={host} keywords={keywords} />
-    </Layout>
+    <NewLayout site={site}>
+        <NewLayout.Main>
+            <KeywordsPageTemplate host={host} keywords={keywords} />
+        </NewLayout.Main>
+    </NewLayout>
 )
 
 export const getServerSideProps = async ({ req, locale }) => {

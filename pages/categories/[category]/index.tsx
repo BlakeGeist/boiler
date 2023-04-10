@@ -3,7 +3,7 @@ import { firebaseDb } from 'utils/firebase'
 import { doc, getDoc, query, collection, where, getDocs, orderBy } from "firebase/firestore"
 import CategoryTemplate from 'components/pages/categories/CategoryTemplate'
 import Head from 'next/head'
-import Layout from 'components/Layout'
+import NewLayout from 'components/Layout/NewLayout'
 
 interface CategoryProps {
     category: any
@@ -19,9 +19,11 @@ const Category:FC<CategoryProps> = ({ category, posts, host, site, locale }) => 
             <title>{category.categoryMetaTitle}</title>
             <meta name="description" content={category.categoryMetaDesc} />
         </Head>
-        <Layout site={site}>
-            <CategoryTemplate host={host} posts={posts} locale={locale} category={category} />
-        </Layout>
+        <NewLayout site={site}>
+            <NewLayout.Main>
+                <CategoryTemplate host={host} posts={posts} locale={locale} category={category} />
+            </NewLayout.Main>
+        </NewLayout>
     </>
 )
 

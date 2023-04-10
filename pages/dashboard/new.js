@@ -1,11 +1,13 @@
 import React from 'react'
-import NewPostTemplate from 'components/pages/dashboard/NewPost'
-import Layout from 'components/Layout'
+import NewPostMain from 'components/pages/dashboard/new/Main'
+import NewLayout from 'components/Layout/NewLayout'
 
 const NewPost = ({ site, host }) => (
-    <Layout site={site}>
-        <NewPostTemplate host={host} site={site} />
-    </Layout>
+    <NewLayout site={site}>
+        <NewLayout.Main>
+            <NewPostMain host={host} site={site} />
+        </NewLayout.Main>
+    </NewLayout>
 )
 
 export const getServerSideProps = async ({ req }) => {

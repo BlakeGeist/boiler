@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, query, limit, orderBy } from "firebase/firestore"
 import IndexPage from 'components/pages/IndexPage'
-import Layout from 'components/Layout'
+import NewLayout from 'components/Layout/NewLayout'
 
 const Home = ({ posts, site }) => (
   <>
@@ -12,9 +12,11 @@ const Home = ({ posts, site }) => (
       <meta name="description" content="Pet Blog, Articles, FAQs and How To's related to furry and scaly friends." />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <Layout site={site}>
-      <IndexPage posts={posts} map={site.map} />
-    </Layout>
+    <NewLayout site={site}>
+      <NewLayout.Main>
+        <IndexPage posts={posts} map={site.map} />
+      </NewLayout.Main>
+    </NewLayout>
   </>
 )
 
