@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import Layout from 'components/Layout'
 import { cleanSug } from 'utils/helpers'
 import { setDoc, doc } from 'firebase/firestore'
 import timestamp from 'time-stamp'
 import Link from 'next/link'
 import { firebaseDb } from 'utils/firebase'
 
-const Keywords = ({ site, host, keywords }) => {
+const Keywords = ({ host, keywords }) => {
     const createdAt = timestamp('YYYY/MM/DD:mm:ss')
 
     const [keywordsArr, setKeywordsArr] = useState(keywords)
@@ -31,7 +30,7 @@ const Keywords = ({ site, host, keywords }) => {
     }
 
     return (
-        <Layout site={site}>
+        <>
             <h1>This is the keywords section</h1>
 
             {keywordsArr.map((keyword, i) => {
@@ -53,7 +52,7 @@ const Keywords = ({ site, host, keywords }) => {
 
                 <input type="submit" />
             </form>
-        </Layout>
+        </>
     )
 
 }
