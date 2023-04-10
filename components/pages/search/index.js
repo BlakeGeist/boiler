@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import Layout from 'components/Layout'
 import { getDocFromPathAndSlug } from 'utils/firebase'
 import Link from 'next/link'
 import { localEnPostsIndex } from 'utils/searchClient'
 
-const Search = ({ site }) => {
+const Search = () => {
     const [posts, setPosts] = useState([])
     const [inputVal, setInputVal] = useState('')
 
@@ -33,7 +32,7 @@ const Search = ({ site }) => {
     }
 
     return (
-        <Layout site={site}>
+        <>
             <h1>Search</h1>
 
             <form onSubmit={onSubmit}>
@@ -58,7 +57,7 @@ const Search = ({ site }) => {
                     </ul>
                 </div>
             }
-        </Layout>
+        </>
     )
 }
 

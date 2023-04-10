@@ -7,17 +7,17 @@ const IndexPage = ({ posts, map }) => {
     const regularPosts = posts.slice(4, posts.length)
 
     return (
-            <>
-                <Heading><span>Featured</span></Heading>
-                <FeaturedPosts featuredPosts={featuredPosts} />
-                <Heading><span>All Stories</span></Heading>
-                <Posts regularPosts={regularPosts} />
-                {map &&
-                    <div>
-                        <iframe src={map} width="100%" height="450" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                }
-            </>
+        <>
+            <Heading><span>Featured</span></Heading>
+            <FeaturedPosts featuredPosts={featuredPosts} />
+            <Heading><span>All Stories</span></Heading>
+            <Posts regularPosts={regularPosts} />
+            {map &&
+                <div>
+                    <iframe src={map} width="100%" height="450" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            }
+        </>
     )
 }
 

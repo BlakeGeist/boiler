@@ -24,9 +24,9 @@ export const getServerSideProps = async ({ req, locale  }) => {
 
   const postsPath = `sites/${host}/langs/${lang}/posts`
   const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"), limit(10))
-  const posts = await getDocsFromQuery(postsQuery)
+  const posts = await getDocsFromQuery(postsQuery) || null
 
-  return { props: { posts: posts || null } }
+  return { props: { posts } }
 }
 
 export default Home
