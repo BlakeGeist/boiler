@@ -1,5 +1,4 @@
 import React from 'react'
-import Layout from 'components/Layout'
 import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
@@ -61,93 +60,90 @@ const AdminPageTemplate = ({ site }) => {
     }
 
     return (
-        <Layout site={site}>
-            <main>
+        <main>
+            <h1>Admin</h1>
 
-                <h1>Admin</h1>
+            <form onSubmit={(e) => updateSite(e)}>
+                <div>
+                    <label htmlFor="domain">Name: </label>
+                    <input type="text" name="name" id="name" defaultValue={site.name} />
+                </div>        
 
-                <form onSubmit={(e) => updateSite(e)}>
-                    <div>
-                        <label htmlFor="domain">Name: </label>
-                        <input type="text" name="name" id="name" defaultValue={site.name} />
-                    </div>        
+                <div>
+                    <label htmlFor="domain">Domain: </label>
+                    <input type="text" name="domain" id="domain" defaultValue={site.domain} />
+                </div>
 
-                    <div>
-                        <label htmlFor="domain">Domain: </label>
-                        <input type="text" name="domain" id="domain" defaultValue={site.domain} />
-                    </div>
+                <div>
+                    <label htmlFor="phone">Phone: </label>
+                    <input type="tel" name="phone" id="phone" defaultValue={site.phone} />
+                </div>
 
-                    <div>
-                        <label htmlFor="phone">Phone: </label>
-                        <input type="tel" name="phone" id="phone" defaultValue={site.phone} />
-                    </div>
+                <div>
+                    <label htmlFor="address">Address: </label>
+                    <input type="text" name="address" id="address" defaultValue={site.address} />
+                </div>
 
-                    <div>
-                        <label htmlFor="address">Address: </label>
-                        <input type="text" name="address" id="address" defaultValue={site.address} />
-                    </div>
+                <div>
+                    <label htmlFor="zip">Zip: </label>
+                    <input type="text" name="zip" id="zip" defaultValue={site.zip} />
+                </div>
 
-                    <div>
-                        <label htmlFor="zip">Zip: </label>
-                        <input type="text" name="zip" id="zip" defaultValue={site.zip} />
-                    </div>
+                <div>
+                    <label htmlFor="state">State: </label>
+                    <input type="text" name="state" id="state" defaultValue={site.state} />
+                </div>
 
-                    <div>
-                        <label htmlFor="state">State: </label>
-                        <input type="text" name="state" id="state" defaultValue={site.state} />
-                    </div>
+                <div>
+                    <label htmlFor="url">Url: </label>
+                    <input type="text" name="url" id="url" defaultValue={site.url} />
+                </div>
+                
+                <div>
+                    <label htmlFor="twitter">Twitter: </label>
+                    <input type="text" name="twitter" id="twitter" defaultValue={site.twitter} />
+                </div>
 
-                    <div>
-                        <label htmlFor="url">Url: </label>
-                        <input type="text" name="url" id="url" defaultValue={site.url} />
-                    </div>
-                    
-                    <div>
-                        <label htmlFor="twitter">Twitter: </label>
-                        <input type="text" name="twitter" id="twitter" defaultValue={site.twitter} />
-                    </div>
+                <div>
+                    <label htmlFor="facebook">Facebok: </label>
+                    <input type="text" name="facebook" id="facebook" defaultValue={site.facebook} />
+                </div>
 
-                    <div>
-                        <label htmlFor="facebook">Facebok: </label>
-                        <input type="text" name="facebook" id="facebook" defaultValue={site.facebook} />
-                    </div>
+                <div>
+                    <label htmlFor="instagram">Instagram: </label>
+                    <input type="text" name="instagram" id="instagram" defaultValue={site.instagram} />
+                </div>
 
-                    <div>
-                        <label htmlFor="instagram">Instagram: </label>
-                        <input type="text" name="instagram" id="instagram" defaultValue={site.instagram} />
-                    </div>
+                <div>
+                    <label htmlFor="map">Map: </label>
+                    <input type="text" name="map" id="map" defaultValue={site.map} />
+                </div>
 
-                    <div>
-                        <label htmlFor="map">Map: </label>
-                        <input type="text" name="map" id="map" defaultValue={site.map} />
-                    </div>
+                <div>
+                    <label htmlFor="sidebarAd">Sidebar Ad Link: </label>
+                    <input type="text" name="sidebarAd" id="sidebarAd" defaultValue={site.sidebarAd} />
+                </div>
 
-                    <div>
-                        <label htmlFor="sidebarAd">Sidebar Ad Link: </label>
-                        <input type="text" name="sidebarAd" id="sidebarAd" defaultValue={site.sidebarAd} />
-                    </div>
+                <div>
+                    <label htmlFor="headerAd">Header Ad Link: </label>
+                    <input type="text" name="headerAd" id="headerAd" defaultValue={site.headerAd} />
+                </div>
 
-                    <div>
-                        <label htmlFor="headerAd">Header Ad Link: </label>
-                        <input type="text" name="headerAd" id="headerAd" defaultValue={site.headerAd} />
-                    </div>
+                <div>
+                    <label htmlFor="bodyAd">Body Ad Link: </label>
+                    <input type="text" name="bodyAd" id="bodyAd" defaultValue={site.bodyAd} />
+                </div>
 
-                    <div>
-                        <label htmlFor="bodyAd">Body Ad Link: </label>
-                        <input type="text" name="bodyAd" id="bodyAd" defaultValue={site.bodyAd} />
-                    </div>
+                <input type="submit" />
+            </form>
 
-                    <input type="submit" />
-                </form>
+            <form onSubmit={(e) => submit(e)}>
+                <label htmlFor="logo">Logo: </label>
+                <input type="file" id="logo" name="logo" />
+                <input type="submit" />
+            </form>
 
-                <form onSubmit={(e) => submit(e)}>
-                    <label htmlFor="logo">Logo: </label>
-                    <input type="file" id="logo" name="logo" />
-                    <input type="submit" />
-                </form>
-
-            </main>
-        </Layout>
+        </main>
     )
 }
 

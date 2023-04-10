@@ -2,8 +2,20 @@ import React from 'react'
 import { firebaseDb } from 'utils/firebase'
 import { doc, getDoc, query, collection, where, getDocs, orderBy } from "firebase/firestore"
 import CategoryTemplate from 'components/pages/categories/CategoryTemplate'
+import Head from 'next/head'
+import Layout from 'components/Layout'
 
-const Category = ({ category, posts, host, site, locale }) => <CategoryTemplate host={host} posts={posts} locale={locale} site={site} category={category} />
+const Category = ({ category, posts, host, site, locale }) => (
+    <>
+        <Head>
+            <title>{category.categoryMetaTitle}</title>
+            <meta name="description" content={category.categoryMetaDesc} />
+        </Head>
+        <Layout site={site}>
+            <CategoryTemplate host={host} posts={posts} locale={locale} category={category} />
+        </Layout>
+    </>
+)
 
 export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const host = req.headers.host
