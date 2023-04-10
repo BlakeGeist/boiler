@@ -18,7 +18,7 @@ const HightlightedResult = styled.p`
         background-color: #ffe781;
     }
 `
-const Keyword = ({ site, locale, keyword }) => {
+const Keyword = ({ locale, keyword }) => {
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
@@ -77,32 +77,30 @@ const Keyword = ({ site, locale, keyword }) => {
 
 
     return (
-        <Layout site={site}>
-            <>
-                <h1>{keyword.keyphrase}</h1>
+        <>
+            <h1>{keyword.keyphrase}</h1>
 
-                <button onClick={searchPostsForKeyPhrase}>Search for posts with keyphrase</button>
+            <button onClick={searchPostsForKeyPhrase}>Search for posts with keyphrase</button>
 
-                {posts.length > 0 &&
-                    <>
-                        <hr />
-                        {posts.map(post => {
-                            return (
-                                <div key={post.heading}>
-                                    <h2>
-                                        <Link href={`/post/${post.slug}`}>
-                                            {post.heading}
-                                        </Link>
-                                    </h2>
-                                    <HightlightedResult dangerouslySetInnerHTML={{ __html: post._highlightResult }} />
-                                    <button onClick={e => handleAutoLink(post, e)}>Auto Link</button>
-                                </div>
-                            )
-                        })}
-                    </>
-                }
-            </>
-        </Layout>
+            {posts.length > 0 &&
+                <>
+                    <hr />
+                    {posts.map(post => {
+                        return (
+                            <div key={post.heading}>
+                                <h2>
+                                    <Link href={`/post/${post.slug}`}>
+                                        {post.heading}
+                                    </Link>
+                                </h2>
+                                <HightlightedResult dangerouslySetInnerHTML={{ __html: post._highlightResult }} />
+                                <button onClick={e => handleAutoLink(post, e)}>Auto Link</button>
+                            </div>
+                        )
+                    })}
+                </>
+            }
+        </>
     )
 }
 
