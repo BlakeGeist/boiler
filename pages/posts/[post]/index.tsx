@@ -3,7 +3,7 @@ import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/fireb
 import { collection, query, limit } from "firebase/firestore"
 import Head from 'next/head'
 import PostMain from 'components/pages/posts/post/Main'
-import NewLayout from 'components/Layout/NewLayout'
+import Layout from 'components/Layout'
 
 const Post = ({ post, recent_posts, site }) => {
     return (
@@ -12,16 +12,16 @@ const Post = ({ post, recent_posts, site }) => {
                 <title>{post.metaTitle}</title>
                 <meta name="description" content={post.metaDescription} />
             </Head>
-            <NewLayout site={site}>
-                <NewLayout.Main>
+            <Layout site={site}>
+                <Layout.Main>
                     <PostMain 
                         site={site}
                         post={post}
                         recent_posts={recent_posts}
                         categories={post.categories}
                     />
-                </NewLayout.Main>
-            </NewLayout>
+                </Layout.Main>
+            </Layout>
         </>
     )
 }

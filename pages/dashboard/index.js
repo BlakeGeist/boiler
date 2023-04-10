@@ -2,14 +2,14 @@ import React from 'react'
 import { collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import DashboardMain from 'components/pages/dashboard/Main'
-import NewLayout from 'components/Layout/NewLayout'
+import Layout from 'components/Layout'
 
 const Site = ({ posts, site }) => (
-    <NewLayout site={site}>
-        <NewLayout.Main>
+    <Layout site={site}>
+        <Layout.Main>
             <DashboardMain posts={posts} site={site} />
-        </NewLayout.Main>
-    </NewLayout>
+        </Layout.Main>
+    </Layout>
 )
 
 export const getServerSideProps = async ({req}) => {

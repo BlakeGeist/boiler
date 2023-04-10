@@ -50,10 +50,7 @@ const Keyword = ({ locale, keyword }) => {
         const article = JSON.parse(post?.article)
         const html = stateToHTML(convertFromRaw(article))
         const updatedHtml = html.replace(keyword.keyphrase, link)
-
         
-        console.log(updatedHtml)
-
         const blocksFromHtml = htmlToDraft(updatedHtml)
         const { contentBlocks, entityMap } = blocksFromHtml
         const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)

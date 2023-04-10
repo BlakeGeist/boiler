@@ -1,13 +1,13 @@
 import React from 'react'
 import ScheduledPostsMain from 'components/pages/dashboard/ScheduledPosts/Main'
-import NewLayout from 'components/Layout/NewLayout'
+import Layout from 'components/Layout'
 
 const SchdeduledPosts = ({ site, host }) => (
-    <NewLayout site={site}>
-        <NewLayout.Main>
+    <Layout site={site}>
+        <Layout.Main>
             <ScheduledPostsMain host={host} />
-        </NewLayout.Main>
-    </NewLayout>
+        </Layout.Main>
+    </Layout>
 )
 
 export const getServerSideProps = async ({req}) => {

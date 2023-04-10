@@ -1,14 +1,14 @@
 import React from 'react'
 import { getDocFromPathAndSlug } from 'utils/firebase'
 import KeywordPageTemplate from 'components/pages/dashboard/Keywords/Keyword'
-import NewLayout from 'components/Layout/NewLayout'
+import Layout from 'components/Layout'
 
 const Keyword = ({ keyword, site, locale }) => (
-    <NewLayout site={site}>
-        <NewLayout.Main>
+    <Layout site={site}>
+        <Layout.Main>
             <KeywordPageTemplate keyword={keyword} locale={locale} />
-        </NewLayout.Main>
-    </NewLayout>
+        </Layout.Main>
+    </Layout>
 )
 
 export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {

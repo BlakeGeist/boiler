@@ -1,14 +1,14 @@
 import React from 'react'
 import AmazonMain from 'components/pages/test/AmazonMain'
-import NewLayout from 'components/Layout/NewLayout'
+import Layout from 'components/Layout'
 
 const Amazon = ({ site }) => {
     return (
-        <NewLayout site={site}>
-            <NewLayout.Main>
+        <Layout site={site}>
+            <Layout.Main>
                 <AmazonMain />
-            </NewLayout.Main>
-        </NewLayout>
+            </Layout.Main>
+        </Layout>
     )
 }
 

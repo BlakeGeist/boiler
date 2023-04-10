@@ -13,7 +13,7 @@ export const SiteLayout = styled.div`
     }
 
     main {
-        flex: 1 0 auto;
+        flex: 1 0;
     }
 
     aside {

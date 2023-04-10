@@ -4,8 +4,7 @@ import axios from 'axios'
 const AmazonPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const searchTerm = e.target.searchTerm.value
-        console.log(searchTerm)
+        //const searchTerm = e.target.searchTerm.value
 
         const params = {}
 

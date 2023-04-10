@@ -1,13 +1,13 @@
 import React from 'react'
 import AdminMain from 'components/pages/Admin/Main'
-import NewLayout from 'components/Layout/NewLayout'
+import Layout from 'components/Layout'
 
 const Admin = ({ site }) => (
-    <NewLayout site={site}>
-        <NewLayout.Main>
+    <Layout site={site}>
+        <Layout.Main>
             <AdminMain site={site} />
-        </NewLayout.Main>
-    </NewLayout>
+        </Layout.Main>
+    </Layout>
 )
 
 export default Admin
