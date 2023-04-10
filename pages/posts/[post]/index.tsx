@@ -49,7 +49,7 @@ const Post = ({ post, recent_posts, site }) => {
         const lang = e.target.value
         const toUrl = post.slugs.filter(s => s.lang.code === lang)[0]
 
-        const redTo = `/${lang}/post/${toUrl.slug}`
+        const redTo = `/${lang}/posts/${toUrl.slug}`
 
         router.push(redTo, redTo, { locale: lang })
     }

@@ -88,7 +88,7 @@ const Keyword = ({ locale, keyword }) => {
                         return (
                             <div key={post.heading}>
                                 <h2>
-                                    <Link href={`/post/${post.slug}`}>
+                                    <Link href={`/posts/${post.slug}`}>
                                         {post.heading}
                                     </Link>
                                 </h2>

@@ -109,7 +109,7 @@ const NewPostTemplate = ({ site, host }) => {
             <Stepper step={step} setStep={setStep} />
 
             {post?.slug &&
-                <Link href={`/post/${post.slug}`} target="_blank">
+                <Link href={`/posts/${post.slug}`} target="_blank">
                     Go to post
                 </Link>
             }

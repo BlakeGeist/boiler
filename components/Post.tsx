@@ -6,14 +6,14 @@ import { truncateString } from 'utils/helpers'
 export const Post = ({ post }) =>  {
     return (
         <Card>
-            <Link href={`/post/${post.slug}`} legacyBehavior>
+            <Link href={`/posts/${post.slug}`} legacyBehavior>
                 <a><CardImage src={post.mediumImageSrc} /></a>
             </Link>
             <CardContent>
                 <div>
                     <div>
                         <CardHeader>
-                            <Link href={`/post/${post.slug}`} legacyBehavior>
+                            <Link href={`/posts/${post.slug}`} legacyBehavior>
                                 <a>{post.heading}</a>
                             </Link>
                         </CardHeader>
@@ -27,13 +27,13 @@ export const Post = ({ post }) =>  {
 export const FeaturedPost = ({ post }) => {
     return (
     <FeaturedCard>
-        <Link href={`/post/${post.slug}`} legacyBehavior>
+        <Link href={`/posts/${post.slug}`} legacyBehavior>
             <FeaturedCardImageLink src={post.mediumImageSrc} />
         </Link>
         <FeaturedCardContent>
             <FeaturedCardText>
                 <h2>
-                    <Link href={`/post/${post.slug}`} legacyBehavior>
+                    <Link href={`/posts/${post.slug}`} legacyBehavior>
                         <a>{post.heading}</a>
                     </Link>
                 </h2>

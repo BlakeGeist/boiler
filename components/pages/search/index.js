@@ -48,7 +48,7 @@ const Search = () => {
                         {posts.map(post => {
                             return (
                                 <li key={post.heading}>
-                                    <Link href={`/post/${post.slug}`}>
+                                    <Link href={`/posts/${post.slug}`}>
                                         {post.heading}
                                     </Link>
                                 </li>
