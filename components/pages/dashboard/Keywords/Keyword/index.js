@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Layout from 'components/Layout'
 import { localEnPostsIndex } from 'utils/searchClient'
 import styled from 'styled-components'
 import Link from 'next/link'
