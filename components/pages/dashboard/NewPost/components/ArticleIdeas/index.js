@@ -1,6 +1,6 @@
 import React from 'react'
-import ArticleIdea from 'components/pages/dashbaord/components/ArticleIdeas/ArticleIdea'
-import { ArticleIdeasList } from 'components/pages/dashbaord/components/ArticleIdeas/styles'
+import ArticleIdea from './ArticleIdea'
+import { ArticleIdeasList } from './styles'
 
 const ArticleIdeas = ({ articleIdeas, setSelectedIdea, setPost, setStep }) => {
     return (
