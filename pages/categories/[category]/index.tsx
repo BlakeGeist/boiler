@@ -39,12 +39,8 @@ export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const querySnapshot = await getDocs(q)
     const posts = querySnapshot?.docs?.map(doc => doc.data())
 
-    const siteRef = doc(firebaseDb, "sites", host)
-    const siteDoc = await getDoc(siteRef)
-    const site = siteDoc.data()
-
     return {
-        props: { category, host, posts, site, locale } // will be passed to the page component as props
+        props: { category, host, posts, locale } // will be passed to the page component as props
     }
 }
 

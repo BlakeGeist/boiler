@@ -4,7 +4,6 @@ interface NavigationStylesProps {
     borderTop?: boolean
 }
 
-
 export const NavigationStyles = styled.nav<NavigationStylesProps>`
     flex: 1 1 100%;
     display: flex;

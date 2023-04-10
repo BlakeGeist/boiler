@@ -1,17 +1,21 @@
 import React from 'react'
 import { getDocFromPathAndSlug } from 'utils/firebase'
 import KeywordPageTemplate from 'components/pages/dashboard/Keywords/Keyword'
+import Layout from 'components/Layout'
 
-const Keyword = ({ keyword, site, locale }) => <KeywordPageTemplate keyword={keyword} site={site} locale={locale} />
+const Keyword = ({ keyword, site, locale }) => (
+    <Layout site={site}>
+        <KeywordPageTemplate keyword={keyword} locale={locale} />
+    </Layout>
+)
 
 export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const host = req.headers.host
     const{ keyword: slug } = reqQuery
 
-    const site = await getDocFromPathAndSlug("sites", host)
     const keyword = await getDocFromPathAndSlug(`sites/${host}/keywords`, slug)
 
-    return { props: { keyword, host, site, locale } }
+    return { props: { keyword, host, locale } }
 }
 
 

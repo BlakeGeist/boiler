@@ -1,14 +1,11 @@
 import React from 'react'
 import SerachPageTemplate from 'components/pages/search'
-import { getDocFromPathAndSlug } from 'utils/firebase'
+import Layout from 'components/Layout'
 
-const Index = ({ site }) => <SerachPageTemplate site={site} />
-
-export const getServerSideProps = async ({ req }) => {
-    const host = req.headers.host
-    const site = await getDocFromPathAndSlug("sites", host)
-
-    return { props: { site } }
-  }
+const Index = ({ site }) => (
+    <Layout site={site}>
+        <SerachPageTemplate />
+    </Layout>
+)
 
 export default Index
