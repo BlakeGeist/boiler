@@ -3,16 +3,18 @@ import Head from 'next/head'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, query, limit, orderBy } from "firebase/firestore"
 import IndexPage from 'components/pages/IndexPage'
+import Layout from 'components/Layout'
 
 const Home = ({ posts, site }) => (
   <>
     <Head>
-      <title>Geist App</title>
-      <meta name="description" content="Blake's create blog sites app" />
+      <title>Pet Blog - Pet Tips N Tricks</title>
+      <meta name="description" content="Pet Blog, Articles, FAQs and How To's related to furry and scaly friends." />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-
-    <IndexPage posts={posts} site={site} />
+    <Layout site={site}>
+      <IndexPage posts={posts} map={site.map} />
+    </Layout>
   </>
 )
 
