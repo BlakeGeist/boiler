@@ -1,6 +1,8 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
-import { translateString, cleanSug, getContentFromText } from 'utils/helpers'
+import { translateString, cleanSug } from 'utils/helpers'
+import { convertToHTML } from 'draft-convert'
+import { EditorState, ContentState } from 'draft-js'
 
 export default async function handler(req, res) {
     const { slug, host, lang } = req.query
@@ -23,10 +25,12 @@ export default async function handler(req, res) {
         }))
     
         const translatedArticleText = await translateString(post.rawArticleResponse, lang)
-        const article = getContentFromText(translatedArticleText)
-    
+        const content = ContentState.createFromText(translatedArticleText)
+        const editorState = EditorState.createWithContent(content)
+        const html = convertToHTML(editorState.getCurrentContent())
+
         const translatedSlug = post.slugs.filter(slu => slu.lang.code === lang)[0]
-    
+
         const translatedPost = {
             slug: translatedSlug?.slug || post.slug,
             slugs: post.slugs,
@@ -45,9 +49,9 @@ export default async function handler(req, res) {
             createdAt: post.createdAt,
             isTranslated: true,
             listicleItems,
-            article,
             faqs,
-            lang
+            lang,
+            articleHtml: html
         }
     
         await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, translatedSlug?.slug || post.slug), translatedPost)

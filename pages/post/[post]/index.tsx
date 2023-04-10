@@ -7,6 +7,9 @@ import Layout from 'components/Layout'
 import { useRouter } from 'next/router'
 
 const Post = ({ post, recent_posts, site }) => {
+
+    console.log('we made it here')
+
     const router = useRouter()
 
     const article = JSON.parse(post?.article)
@@ -85,7 +88,13 @@ export const getServerSideProps = async ({ req, query: reqQuery, locale  }) => {
     const host = req.headers.host
 
     const postPath = `/sites/${host}/langs/${lang}/posts`
-    const post = await getDocFromPathAndSlug(postPath, slug)
+    const post = await getDocFromPathAndSlug(postPath, slug) || null
+
+    if (!post) {
+        return { 
+          notFound: true
+        }
+      }
 
     const recentPostsPath = `sites/${host}/langs/${lang}/posts`
     const recentPostsQuery = query(collection(firebaseDb, recentPostsPath), limit(6))
