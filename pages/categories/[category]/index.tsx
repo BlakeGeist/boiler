@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { firebaseDb } from 'utils/firebase'
 import { doc, getDoc, query, collection, where, getDocs, orderBy } from "firebase/firestore"
 import CategoryTemplate from 'components/pages/categories/CategoryTemplate'
 import Head from 'next/head'
 import Layout from 'components/Layout'
 
-const Category = ({ category, posts, host, site, locale }) => (
+interface CategoryProps {
+    category: any
+    posts: any
+    host: string
+    site: any
+    locale: string
+}
+
+const Category:FC<CategoryProps> = ({ category, posts, host, site, locale }) => (
     <>
         <Head>
             <title>{category.categoryMetaTitle}</title>
