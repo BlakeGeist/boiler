@@ -1,5 +1,5 @@
 import React from 'react'
-import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
+import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query, orderBy } from "firebase/firestore"
 import Layout from 'components/Layout'
 import PostsTemplate from 'components/pages/posts/PostsTemplate'
@@ -20,9 +20,7 @@ export const getServerSideProps = async ({ req, locale }) => {
     const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"), limit(10))
     const posts = await getDocsFromQuery(postsQuery)
 
-    const site = await getDocFromPathAndSlug("sites", host)
-
-    return { props: { posts: posts || null, host, site, locale } }
+    return { props: { posts: posts || null, host, locale } }
   }
   
 

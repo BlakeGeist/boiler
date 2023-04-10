@@ -8,10 +8,9 @@ export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const host = req.headers.host
     const{ keyword: slug } = reqQuery
 
-    const site = await getDocFromPathAndSlug("sites", host)
     const keyword = await getDocFromPathAndSlug(`sites/${host}/keywords`, slug)
 
-    return { props: { keyword, host, site, locale } }
+    return { props: { keyword, host, locale } }
 }
 
 

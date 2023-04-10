@@ -1,5 +1,5 @@
 import React from 'react'
-import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
+import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query } from "firebase/firestore"
 import CategoriesTemplate from 'components/pages/category/Category'
 import Layout from 'components/Layout'
@@ -18,9 +18,7 @@ export const getServerSideProps = async ({ req, locale }) => {
     const categoriesQuery = query(collection(firebaseDb, categoriesPath), limit(10))
     const categories = await getDocsFromQuery(categoriesQuery)
 
-    const site = await getDocFromPathAndSlug("sites", host)
-
-    return { props: { categories, site } }
+    return { props: { categories } }
   }
   
 

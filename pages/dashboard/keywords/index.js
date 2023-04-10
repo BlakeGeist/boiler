@@ -1,5 +1,5 @@
 import React from 'react'
-import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
+import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query, orderBy } from "firebase/firestore"
 import KeywordsPageTemplate from 'components/pages/dashboard/Keywords'
 
@@ -12,9 +12,7 @@ export const getServerSideProps = async ({ req, locale }) => {
     const keywordsQuery = query(collection(firebaseDb, keywordsPath), orderBy('createdAt', "desc"), limit(10))
     const keywords = await getDocsFromQuery(keywordsQuery)
 
-    const site = await getDocFromPathAndSlug("sites", host)
-
-    return { props: { keywords, host, site, locale } }
+    return { props: { keywords, host, locale } }
 }
 
 export default Keywords

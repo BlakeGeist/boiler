@@ -1,6 +1,5 @@
 import React from 'react'
 import Layout from 'components/Layout'
-import { getDocFromPathAndSlug } from 'utils/firebase'
 import axios from 'axios'
 
 const Amazon = ({ site }) => {
@@ -33,15 +32,6 @@ const Amazon = ({ site }) => {
 
         </Layout>
     )
-}
-
-export const getServerSideProps = async ({ req }) => {
-    const host = req.headers.host
-    const site = await getDocFromPathAndSlug("sites", host)
-
-    return {
-        props: { site }, // will be passed to the page component as props
-    }
 }
 
 export default Amazon

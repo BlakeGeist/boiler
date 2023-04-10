@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
+import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, query, limit, orderBy } from "firebase/firestore"
 import IndexPage from 'components/pages/IndexPage'
 
@@ -24,9 +24,7 @@ export const getServerSideProps = async ({ req, locale  }) => {
   const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"), limit(10))
   const posts = await getDocsFromQuery(postsQuery)
 
-  const site = await getDocFromPathAndSlug("sites", host)
-
-  return { props: { posts: posts || null, site } }
+  return { props: { posts: posts || null } }
 }
 
 export default Home
