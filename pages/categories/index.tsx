@@ -2,8 +2,13 @@ import React from 'react'
 import { firebaseDb, getDocFromPathAndSlug, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query } from "firebase/firestore"
 import CategoriesTemplate from 'components/pages/category/Category'
+import Layout from 'components/Layout'
 
-const Categories = ({ categories, site }) => <CategoriesTemplate categories={categories} site={site} />
+const Categories = ({ categories, site }) => (
+    <Layout site={site}>
+        <CategoriesTemplate categories={categories} />
+    </Layout>
+)
 
 export const getServerSideProps = async ({ req, locale }) => {
     const host = req.headers.host

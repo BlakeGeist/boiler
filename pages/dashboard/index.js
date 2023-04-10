@@ -2,8 +2,13 @@ import React from 'react'
 import { collection, getDocs, getDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import DashboardTemplate from 'components/pages/dashboard'
+import Layout from 'components/Layout'
 
-const Site = ({ posts, site }) => <DashboardTemplate posts={posts} site={site} />
+const Site = ({ posts, site }) => (
+    <Layout site={site}>
+        <DashboardTemplate posts={posts} site={site} />
+    </Layout>
+)
 
 export const getServerSideProps = async ({req}) => {
     const host = req.headers.host
