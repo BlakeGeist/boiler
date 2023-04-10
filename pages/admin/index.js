@@ -1,5 +1,5 @@
 import React from 'react'
-import AdminMain from 'components/pages/Admin/Main'
+import AdminMain from 'components/pages/admin/Main'
 import Layout from 'components/Layout'
 
 const Admin = ({ site }) => (
