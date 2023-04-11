@@ -1,24 +1,25 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { setDoc, doc } from "firebase/firestore" 
 import { firebaseDb } from 'utils/firebase'
-import DateTimePicker from 'react-datetime-picker'
 import 'react-datetime-picker/dist/DateTimePicker.css'
 import 'react-calendar/dist/Calendar.css'
 import 'react-clock/dist/Clock.css'
 import NewPostModal from 'components/Modals/NewPost'
+import timestamp from 'time-stamp'
 
 const ScheduledPostsTemplate = ({ host }) => {
-    const [value, onChange] = useState(new Date())
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
     const handleClick = async (e) => {
         e.preventDefault()
+        const createdAt = timestamp('YYYY/MM/DD:mm:ss')
+
         const slug = 'test-slug'
         
         const post = {
-            createdAt: value,
+            createdAt: createdAt,
             slug
         }
 
@@ -28,13 +29,8 @@ const ScheduledPostsTemplate = ({ host }) => {
     return (
         <>
             <h1>Scheduled Posts</h1>
-
             <button onClick={handleOpen}>Schedule Post</button>
-
-            <DateTimePicker onChange={onChange} value={value} />
-
-            <NewPostModal open={open} handleClose={handleClose} />
-
+            <NewPostModal host={host} open={open} handleClose={handleClose} />
             <button onClick={handleClick}>Test</button>
         </>
     )

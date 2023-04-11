@@ -40,7 +40,7 @@ const Post = ({ post, recent_posts, categories, site }) => {
                 <Share />
                 <Body>
                     <Summary summaryRef={summaryRef} summary={post.summary} />
-                    {site.headerAd &&
+                    {site?.headerAd &&
                         <div dangerouslySetInnerHTML={{ __html: site.headerAd }} />
                     }
                     <Article articleRef={articleRef} html={splitArticle} />
