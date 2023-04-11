@@ -51,14 +51,14 @@ const Post = ({ post, recent_posts, categories, site }) => {
                 <Share />
                 <Body>
                     <Summary summaryRef={summaryRef} summary={post.summary} />
-                    {site.headerAd &&
+                    {site?.headerAd &&
                         <div dangerouslySetInnerHTML={{ __html: site.headerAd }} />
                     }
                     <Article articleRef={articleRef} html={splitArticle} />
                     <Categories categories={categories} />
                     <QuoteAndAd>
                         <Quote quoteRef={quoteRef} quote={post.quote} />
-                        {site.bodyAd &&
+                        {site?.bodyAd &&
                             <div dangerouslySetInnerHTML={{ __html: site.bodyAd }} />
                         }
                     </QuoteAndAd>
@@ -82,7 +82,7 @@ const Post = ({ post, recent_posts, categories, site }) => {
                     }
                 </Body>
                 <Aside
-                    sidebarAd={site.sidebarAd}
+                    sidebarAd={site?.sidebarAd}
                     topRef={topRef}
                     summaryRef={summaryRef}
                     articleRef={articleRef}
