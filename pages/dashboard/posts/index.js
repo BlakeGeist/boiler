@@ -1,18 +1,16 @@
 import React from 'react'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query, orderBy } from "firebase/firestore"
-import PostsMain from 'components/pages/posts/PostsMain'
 import Layout from 'components/Layout'
+import DashboardPostsMain from 'components/pages/dashboard/posts/Main'
 
-const Posts = ({ posts, host, site, locale }) => {
-    return (
-        <Layout site={site}>
-            <Layout.Main>
-                <PostsMain host={host} posts={posts} locale={locale} />
-            </Layout.Main>
-        </Layout>
-    )
-}
+const DashboardPosts = ({ site, posts, host, lang }) => (
+    <Layout site={site}>
+        <Layout.Main>
+            <DashboardPostsMain host={host} lang={lang} posts={posts} />
+        </Layout.Main>
+    </Layout>
+)
 
 export const getServerSideProps = async ({ req, locale }) => {
     const lang = locale
@@ -20,10 +18,9 @@ export const getServerSideProps = async ({ req, locale }) => {
 
     const postsPath = `sites/${host}/langs/${lang}/posts`
     const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"), limit(10))
-    const posts = await getDocsFromQuery(postsQuery)
+    const posts = await getDocsFromQuery(postsQuery) || null
 
-    return { props: { posts: posts || null, host, locale } }
+    return { props: { posts, host, lang } }
 }
-  
 
-export default Posts
+export default DashboardPosts

@@ -27,7 +27,7 @@ const PostControlsContrainer = styled.div`
     }
 `
 
-const NewPostTemplate = ({ site, host }) => {
+const NewPostTemplate = ({ site, host, lang }) => {
     const router = useRouter()
 
     const [articleIdeas, setArticleIdeas] = useState([])
@@ -70,12 +70,15 @@ const NewPostTemplate = ({ site, host }) => {
     const deletePost = async (e) => {
         e.preventDefault()
 
-        await deleteDoc(doc(firebaseDb, "sites", host, "posts", post.slug))
+    
+        const postPath = `/sites/${host}/langs/${lang}/posts`
+        await deleteDoc(doc(firebaseDb, postPath, post.slug))
             .then(() => {
-                router.push(`/dashboard/${host}`)
+                router.push(`/dashboard`)
             })
             .catch(e => console.log('error:, ', e))
     }
+    
 
     const translatePost = async (e) => {
         e.preventDefault()

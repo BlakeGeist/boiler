@@ -1,5 +1,5 @@
 import React from 'react'
-import AmazonMain from 'components/pages/test/AmazonMain'
+import AmazonMain from 'components/pages/test/amazon/Main'
 import Layout from 'components/Layout'
 
 const Amazon = ({ site }) => {

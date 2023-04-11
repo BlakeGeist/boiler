@@ -46,7 +46,7 @@ export const getServerSideProps = async ({ req, query: reqQuery, locale  }) => {
     const recent_posts = await getDocsFromQuery(recentPostsQuery)
 
     return {
-        props: { post, recent_posts, lang }, // will be passed to the page component as props
+        props: { post, recent_posts, lang, host }, // will be passed to the page component as props
     }
 }
 
