@@ -1,16 +1,17 @@
 import React, { useRef } from 'react'
 
-import Share from 'components/pages/post/sections/Share'
-import Aside from 'components/pages/post/sections/Aside'
-import Listicle from 'components/pages/post/sections/Listicle'
-import Faqs from 'components/pages/post/sections/Faqs'
-import Categories from 'components/pages/post/sections/Categories'
-import Summary from 'components/pages/post/sections/Summary'
-import Article from 'components/pages/post/sections/Article'
-import Header from 'components/pages/post/sections/Header'
+import Share from 'components/pages/posts/post/components/Share'
+import Aside from 'components/pages/posts/post/components/Aside'
+import Listicle from 'components/pages/posts/post/components/Listicle'
+import Faqs from 'components/pages/posts/post/components/Faqs'
+import Categories from 'components/pages/posts/post/components/Categories'
+import Summary from 'components/pages/posts/post/components/Summary'
+import Article from 'components/pages/posts/post/components/Article'
+import Header from 'components/pages/posts/post/components/Header'
+//TODO prolly move this recent posts section
 import RecentPosts from 'components/RecentPosts'
-import Quote from 'components/pages/post/sections/Quote'
-import Map from 'components/pages/post/sections/Map'
+import Quote from 'components/pages/posts/post/components/Quote'
+import Map from 'components/pages/posts/post/components/Map'
 
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 

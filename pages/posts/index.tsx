@@ -1,7 +1,7 @@
 import React from 'react'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { collection, limit, query, orderBy } from "firebase/firestore"
-import PostsMain from 'components/pages/posts/PostsMain'
+import PostsMain from 'components/pages/posts/Main'
 import Layout from 'components/Layout'
 
 const Posts = ({ posts, host, site, locale }) => {

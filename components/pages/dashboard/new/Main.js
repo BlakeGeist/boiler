@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PostTemplate from 'components/pages/post/Post'
+import PostMain from 'components/pages/posts/post/Main'
 import Link from 'next/link'
 import { LoadingButton } from '@mui/lab'
 import { useRouter } from "next/router"
@@ -181,7 +181,7 @@ const NewPostTemplate = ({ site, host, lang }) => {
                         <Button onClick={(e) => deletePost(e)} variant="outlined">Delete</Button>
                     </PostControlsContrainer>
 
-                    <PostTemplate 
+                    <PostMain 
                         post={post}
                         html={html}
                         host={host}

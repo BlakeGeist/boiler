@@ -1,20 +1,23 @@
 import React, { useRef } from 'react'
 
-import Share from 'components/pages/post/sections/Share'
-import Aside from 'components/pages/post/sections/Aside'
-import Listicle from 'components/pages/post/sections/Listicle'
-import Faqs from 'components/pages/post/sections/Faqs'
-import Categories from 'components/pages/post/sections/Categories'
-import Summary from 'components/pages/post/sections/Summary'
-import Article from 'components/pages/post/sections/Article'
-import Header from 'components/pages/post/sections/Header'
+import Share from 'components/pages/posts/post/components/Share'
+import Aside from 'components/pages/posts/post/components/Aside'
+import Listicle from 'components/pages/posts/post/components/Listicle'
+import Faqs from 'components/pages/posts/post/components/Faqs'
+import Categories from 'components/pages/posts/post/components/Categories'
+import Summary from 'components/pages/posts/post/components/Summary'
+import Article from 'components/pages/posts/post/components/Article'
+import Header from 'components/pages/posts/post/components/Header'
 import RecentPosts from 'components/RecentPosts'
-import Quote from 'components/pages/post/sections/Quote'
-import Map from 'components/pages/post/sections/Map'
+import Quote from 'components/pages/posts/post/components/Quote'
+import Map from 'components/pages/posts/post/components/Map'
 import { useRouter } from 'next/router'
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
 const Post = ({ post, recent_posts, categories, site }) => {
+
+    if(!post.heading) return null
+
     const topRef = useRef(null)
     const summaryRef = useRef(null)
     const faqsRef = useRef(null)
@@ -63,13 +66,15 @@ const Post = ({ post, recent_posts, categories, site }) => {
                     <Listicle post={post} listicleRef={listicleRef} />
                     <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
                     <Map mapSrc={post.map} mapRef={mapRef} />
-                    <select onChange={e => handleChange(e)}>
-                        {post.slugs.map(slug => {
-                            return (
-                                <option key={slug.lang.code} value={slug.lang.code}>{slug.lang.name}</option>
-                            )
-                        })}
-                    </select>
+                    {post?.slugs &&
+                        <select onChange={e => handleChange(e)}>
+                            {post?.slugs.map(slug => {
+                                return (
+                                    <option key={slug.lang.code} value={slug.lang.code}>{slug.lang.name}</option>
+                                )
+                            })}
+                        </select>                    
+                    }
 
                     {
                         // might be cool to make a pros and cons list
