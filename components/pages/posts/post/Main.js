@@ -12,7 +12,6 @@ import RecentPosts from 'components/RecentPosts'
 import Quote from 'components/pages/post/sections/Quote'
 import Map from 'components/pages/post/sections/Map'
 import { useRouter } from 'next/router'
-
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
 const Post = ({ post, recent_posts, categories, site }) => {
