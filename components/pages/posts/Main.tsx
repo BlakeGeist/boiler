@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { StyledList } from 'components/pages/post/index.styles'
+import { StyledList } from 'components/pages/dashboard/posts/post/index.styles'
 import { truncateString } from 'utils/helpers'
 import Link from 'next/link'
 import { LoadingButton } from '@mui/lab'

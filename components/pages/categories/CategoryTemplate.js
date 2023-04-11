@@ -1,13 +1,13 @@
 import React from 'react'
-import PostsTemplate from 'components/pages/posts/PostsMain'
+import PostsMain from 'components/pages/posts/Main'
 
 const CategoryTemplate = ({ category, posts, locale, host }) => {
     return (
-        <main>
+        <>
             <h1>{category.name}</h1>
             <p>{category.description}</p>
-            <PostsTemplate host={host} posts={posts} locale={locale} />
-        </main>
+            <PostsMain host={host} posts={posts} locale={locale} />
+        </>
     )
 }
 
