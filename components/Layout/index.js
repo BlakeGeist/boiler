@@ -5,7 +5,7 @@ import GlobalFooter from './Footer'
 
 const Layout = ({ children, site }) => (
     <SiteLayout>
-        <GlobalHeader logoSrc={site.logoSrc} />
+        <GlobalHeader logoAlt={site?.logoAlt} logoSrc={site?.logoSrc} />
         {children}
         <GlobalFooter site={site} />
     </SiteLayout>        

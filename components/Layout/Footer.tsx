@@ -3,6 +3,7 @@ import Navigation from './Navigation'
 import Link from 'next/link'
 
 const Footer = ({ site }) => {
+  if(!site) return null
   const { twitter, facebook, instagram } = site
 
   return (

@@ -16,13 +16,14 @@ const StyledHeader = styled.header`
   }
 `
 interface HeaderProps {
-  logoSrc: string
+  logoSrc?: string
+  logoAlt?: string
 }
 
-const Header:FC<HeaderProps> = ({ logoSrc }) => (
+const Header:FC<HeaderProps> = ({ logoSrc, logoAlt }) => (
   <StyledHeader>
     <Link href="/">
-      <img src={logoSrc} height="75px" />
+      <img src={logoSrc} height="75px" alt={logoAlt || 'Pet Blog'} />
     </Link>
     <Navigation />
   </StyledHeader>
