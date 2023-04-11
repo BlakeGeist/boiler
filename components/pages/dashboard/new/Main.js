@@ -69,7 +69,6 @@ const NewPostTemplate = ({ site, host, lang }) => {
 
     const deletePost = async (e) => {
         e.preventDefault()
-
     
         const postPath = `/sites/${host}/langs/${lang}/posts`
         await deleteDoc(doc(firebaseDb, postPath, post.slug))

@@ -24,12 +24,13 @@ const Post = ({ post, recent_posts, categories, site }) => {
     const recentPostsRef = useRef(null)
     const mapRef = useRef(null)
 
-    
-    let splitArticle = post?.articleHtml?.split(/(<p>)/g) || ''
+    let splitArticle = post?.articleHtml || ''
 
-    splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
-
-    splitArticle = splitArticle.length > 1 ? splitArticle.join('') : ''
+    if(post.mediumImageSrc) {
+        splitArticle = splitArticle?.split(/(<p>)/g)
+        splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
+        splitArticle = splitArticle.length > 1 ? splitArticle.join('') : ''
+    }
 
     return (
         <>

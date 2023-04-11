@@ -51,7 +51,8 @@ const AdminPageTemplate = ({ site }) => {
             map: e.target.map.value,
             sidebarAd: e.target.sidebarAd.value,
             headerAd: e.target.headerAd.value,
-            bodyAd: e.target.bodyAd.value
+            bodyAd: e.target.bodyAd.value,
+            logoAlt: e.target.logoAlt.value
         }
 
         const siteRef = doc(firebaseDb, "sites", site.slug)
@@ -134,6 +135,11 @@ const AdminPageTemplate = ({ site }) => {
                     <input type="text" name="bodyAd" id="bodyAd" defaultValue={site.bodyAd} />
                 </div>
 
+                <div>
+                    <label htmlFor="logoAlt">Site Logo Alt: </label>
+                    <input type="text" name="logoAlt" id="logoAlt" defaultValue={site.logoAlt} />
+                </div>
+
                 <input type="submit" />
             </form>
 
@@ -142,7 +148,6 @@ const AdminPageTemplate = ({ site }) => {
                 <input type="file" id="logo" name="logo" />
                 <input type="submit" />
             </form>
-
         </main>
     )
 }

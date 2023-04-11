@@ -1,6 +1,4 @@
 import axios from 'axios'
-import { stateToHTML } from "draft-js-export-html"
-import { convertFromRaw } from 'draft-js'
 import { tryXTimes } from 'utils/apiHelpers'
 
 export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, post, keywords) => {
@@ -36,37 +34,11 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
         posttemp = res.data
         setStep(4)
 
-        const article = JSON.parse(res.data.article)
-        const blocks = article.blocks
-        const test =   {
-            key: '28ewer6nu',
-            text: ` `,        
-            type: 'atomic',
-            depth: 0,
-            inlineStyleRanges: [],
-            entityRanges: [{ offset: 0, length: 1, key: 0 }],
-            data: {}
-        }
-        const entity = {
-            '0': {
-                type: 'IMAGE',
-                mutability: 'MUTABLE',
-                data: {
-                    src: post.mediumImageSrc,
-                    height: 'auto',
-                    width: '225',
-                    alt: 'a'
-                }
-                }
-        }
-    
-        const start = Math.ceil(5)  
-        blocks.splice(start, 0, test)
-    
-        article.blocks = blocks
-        article.entityMap = entity
+        console.log('before SEt HTNK')
 
-        setHtml(stateToHTML(convertFromRaw(article)))
+        setHtml(res.data.articleHtml)
+
+        console.log('afterSetHtml')
 
         return params
     })
@@ -101,38 +73,6 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             }
 
             setPost(posttemp)
-            
-            const article = JSON.parse(posttemp.article)
-            const blocks = article.blocks
-            const test =   {
-                key: '28ewer6nu',
-                text: ` `,        
-                type: 'atomic',
-                depth: 0,
-                inlineStyleRanges: [],
-                entityRanges: [{ offset: 0, length: 1, key: 0 }],
-                data: {}
-            }
-            const entity = {
-                '0': {
-                    type: 'IMAGE',
-                    mutability: 'MUTABLE',
-                    data: {
-                        src: res.data.mediumImageSrc,
-                        height: 'auto',
-                        width: '225',
-                        alt: 'a'
-                    }
-                    }
-            }
-        
-            const start = Math.ceil(5)  
-            blocks.splice(start, 0, test)
-        
-            article.blocks = blocks
-            article.entityMap = entity
-
-            setHtml(stateToHTML(convertFromRaw(article)))                
         }).catch(e => {
             console.log(`there was an error while creating the MediumImage: ${e}`)
         }) 

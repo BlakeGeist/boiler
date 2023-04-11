@@ -59,6 +59,7 @@
     "xhr2": "^0.2.1"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^13.3.0",
     "@types/node": "^17.0.45",
     "@types/react": "^17.0.57",
     "@types/react-draft-wysiwyg": "^1.13.4",
