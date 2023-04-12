@@ -1,22 +1,20 @@
 import React from 'react'
 import Link from 'next/link'
 
-const Dashboard = ({ posts }) => {
+const Dashboard = () => {
     return (
         <>
-            <Link href="/dashboard/new">
-                New Post
-            </Link>
-
-            <h2>Posts</h2>
+            <h1>Dashboard</h1>
 
             <ul>
-                {posts.map((post) => {
-                    return (
-                        <li key={post.slug}>
-                            <Link href={`/posts/${post.slug}`}>{post.heading}</Link></li>
-                    )
-                })}
+                <li>
+                    <Link href="/dashboard/posts">Posts</Link>
+                    <ul>
+                        <li><Link href="/dashboard/posts/new">New Post</Link></li>
+                        <li><Link href="/dashboard/posts/drafts">Draft Posts</Link></li>
+                        <li><Link href="/dashboard/posts/scheduled-posts">Scheduled Posts</Link></li>
+                    </ul>
+                </li>
             </ul>
         </>
     )

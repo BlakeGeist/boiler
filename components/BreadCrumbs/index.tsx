@@ -9,6 +9,9 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb:FC<BreadcrumbProps> = ({ breadcrumb }) => {
+
+    if(!breadcrumb.href) return <>{breadcrumb.text}</>
+
     return (
         <Link href={breadcrumb.href}>
             {breadcrumb.text}
@@ -16,10 +19,21 @@ const Breadcrumb:FC<BreadcrumbProps> = ({ breadcrumb }) => {
     )
 }
 
-
-
 export const Breadcrumbs = ({ pathArray }) => {
-    return pathArray.map((breadcrumb) => <Breadcrumb breadcrumb={breadcrumb} key={breadcrumb.text} />)
+    return pathArray.map((breadcrumb, i) => {
+
+        const ArrowAfter = () => {
+            if(pathArray.length === i+1) return null
+            return <>{` `} - {` `}</>
+        }
+
+        return (
+            <span key={`${i}-${breadcrumb.text}`}>
+                <Breadcrumb breadcrumb={breadcrumb} key={breadcrumb.text} /> 
+                <ArrowAfter />
+            </span>
+        )
+    })
 }
 
 export default Breadcrumbs

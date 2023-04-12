@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
-import { translateString, cleanSug } from 'utils/helpers'
+import { translateString, cleanSlug } from 'utils/helpers'
 import { convertToHTML } from 'draft-convert'
 import { EditorState, ContentState } from 'draft-js'
 
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         const post = postDoc.data()
     
         const categories = await Promise.all(post.categories.map(async (cat) => {
-            return { slug: cleanSug(await translateString(cat.slug, lang)), name: await translateString(cat.name, lang)}
+            return { slug: cleanSlug(await translateString(cat.slug, lang)), name: await translateString(cat.name, lang)}
         }))
     
         const listicleItems = await Promise.all(post.listicleItems.map(async (listitem) => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { cleanSug } from 'utils/helpers'
+import { cleanSlug } from 'utils/helpers'
 import { setDoc, doc } from 'firebase/firestore'
 import timestamp from 'time-stamp'
 import Link from 'next/link'
@@ -14,7 +14,7 @@ const Keywords = ({ host, keywords }) => {
         e.preventDefault()
         const { keyphrase, link } = e.target
 
-        const keyphraseSlug = cleanSug(keyphrase.value)
+        const keyphraseSlug = cleanSlug(keyphrase.value)
 
         const keyphraseObj = {
             link: link.value,

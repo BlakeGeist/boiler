@@ -15,7 +15,7 @@ export const truncateString = (str, num) => {
     return str.slice(0, num) + '...'
 }
 
-export const cleanSug = (rawSlug) => {
+export const cleanSlug = (rawSlug) => {
   let slug = `${rawSlug}`.trim().toLowerCase()
   slug = slug.replace("'", '')
   slug = slug.replace('"', '')

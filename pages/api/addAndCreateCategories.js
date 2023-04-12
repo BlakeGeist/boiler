@@ -1,6 +1,6 @@
 
 import { promptResponse } from 'utils/apiHelpers'
-import { cleanSug } from 'utils/helpers'
+import { cleanSlug } from 'utils/helpers'
 import { updateDoc, doc, setDoc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import timestamp from 'time-stamp'
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         const categories = categoriesArrayItems.map((category, i) => {
             const checkFor = `${i+1}. `
             if(category.startsWith(checkFor)) category = category.slice(checkFor.length).trim()
-            const slug = cleanSug(`${category}`)
+            const slug = cleanSlug(`${category}`)
             simpleCategoriesArray.push(slug)
             return {
                 name: category,
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
                 const categoryMetaDescResponse = await promptResponse(categoryMetaDesc)
                 const categoryMetaTitleResponse = await promptResponse(categoryMetaTitle)
 
-                const slug = cleanSug(categories[i].name)
+                const slug = cleanSlug(categories[i].name)
                 const createdAt = timestamp('YYYY/MM/DD:mm:ss')
 
                 const tempCat = {
