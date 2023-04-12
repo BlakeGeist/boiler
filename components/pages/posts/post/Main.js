@@ -8,6 +8,7 @@ import Categories from 'components/pages/posts/post/components/Categories'
 import Summary from 'components/pages/posts/post/components/Summary'
 import Article from 'components/pages/posts/post/components/Article'
 import Header from 'components/pages/posts/post/components/Header'
+import Heading from 'components/pages/posts/post/components/Heading'
 import RecentPosts from 'components/RecentPosts'
 import Quote from 'components/pages/posts/post/components/Quote'
 import Map from 'components/pages/posts/post/components/Map'
@@ -46,7 +47,8 @@ const Post = ({ post, recent_posts, categories, site }) => {
 
     return (
         <>
-            <Header topRef={topRef} heading={post.heading} headerImageSrc={post.headerImageSrc} />
+            <Header topRef={topRef} headerImageSrc={post.headerImageSrc} />
+            <Heading heading={post.heading} />
             <PostContainer>
                 <Share />
                 <Body>

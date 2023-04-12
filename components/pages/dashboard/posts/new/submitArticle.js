@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { tryXTimes } from 'utils/apiHelpers'
 
-export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, post, keywords) => {
+export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, post, keywords, router) => {
     e.preventDefault()
     const mappedKeywords = keywords.map(k => `"${k}"`)
     const params = {
@@ -126,9 +126,11 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
     .then(() => { 
         setPost(posttemp)
         setLoading(false)
+          router.push(`/dashboard/posts/drafts/${posttemp.slug}`)
     })
     .catch(e => {
         setLoading(false)
+
         console.log(`there was an error while creating the inital post, ${e}`)
     })
 }

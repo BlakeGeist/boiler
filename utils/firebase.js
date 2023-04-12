@@ -24,13 +24,14 @@ export const getDocFromPathAndSlug = async (path, slug) => {
   const docRef = doc(firebaseDb, path, slug)
   const postDoc = await getDoc(docRef)
   const document = postDoc.data()
+  document.id = postDoc.id
 
   return document
 }
 
 export const getDocsFromQuery = async (q) => {
   const postsSnap = await getDocs(q)
-  const posts = postsSnap.docs.map(doc => doc.data())
+  const posts = postsSnap.docs.map(doc => { return { ...doc.data(), id: doc.id}})
 
   return posts
 }

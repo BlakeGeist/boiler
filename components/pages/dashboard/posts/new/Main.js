@@ -41,6 +41,12 @@ const NewPostTemplate = ({ site, host, lang }) => {
     const [keywords, setKeywords] = useState([])
     const [keywordsInput, setKeywordsInput] = useState('')
 
+    const stepUp = () => setStep(step+1)
+    //const stepDown = () => {
+        //if(step === 1) return
+        //setStep(step-1)
+    //}
+
     const clearSelectedIdea = (e) => {
         e.preventDefault()
         setSelectedIdea('')
@@ -73,11 +79,10 @@ const NewPostTemplate = ({ site, host, lang }) => {
         const postPath = `/sites/${host}/langs/${lang}/posts`
         await deleteDoc(doc(firebaseDb, postPath, post.slug))
             .then(() => {
-                router.push(`/dashboard`)
+                router.push(`/dashboard/posts`)
             })
             .catch(e => console.log('error:, ', e))
     }
-    
 
     const translatePost = async (e) => {
         e.preventDefault()
@@ -101,7 +106,6 @@ const NewPostTemplate = ({ site, host, lang }) => {
         })
     }
 
-    
     return (
         <>
             <StepHeading><strong>Step {step} of 4 : <span><StepText step={step} /></span></strong></StepHeading>
@@ -121,7 +125,7 @@ const NewPostTemplate = ({ site, host, lang }) => {
             }
 
             {step === 2 && selectedIdea.length === 0 &&
-                <ArticleIdeas articleIdeas={articleIdeas} setSelectedIdea={setSelectedIdea} setPost={setPost} setStep={setStep} />
+                <ArticleIdeas articleIdeas={articleIdeas} setSelectedIdea={setSelectedIdea} setPost={setPost} setStep={setStep} stepUp={stepUp} />
             }
 
             {selectedIdea.length > 0 &&
@@ -130,7 +134,7 @@ const NewPostTemplate = ({ site, host, lang }) => {
 
             {step === 3 &&
                 <>
-                    <form onSubmit={(e) => submitArticle(selectedIdea, e, setStep, setPost, host, setHtml, setLoading, post, keywords )}>
+                    <form onSubmit={(e) => submitArticle(selectedIdea, e, setStep, setPost, host, setHtml, setLoading, post, keywords, router )}>
                         <div>
                             <label htmlFor="headerImage">Describe Header Image</label> <br />
                             <input name="headerImage" id="headerImage" type="text" />
