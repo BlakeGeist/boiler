@@ -48,6 +48,7 @@
     "react-datetime-picker": "^5.0.2",
     "react-dom": "18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
+    "react-hook-form": "^7.43.9",
     "react-json-to-table": "^0.1.7",
     "react-sticky-box": "^1.0.2",
     "sharp": "^0.31.3",
