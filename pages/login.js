@@ -3,12 +3,14 @@ import { FormProvider, useForm } from "react-hook-form"
 import { useAuth } from "context/AuthContext"
 import Layout from 'components/Layout'
 import Link from 'next/link'
+import { useRouter } from "next/router"
 
 const LoginPage = ({ site }) => {
   const methods = useForm({ mode: "onBlur" })
   const { logIn } = useAuth()
+  const router = useRouter()
 
-  const [showLogin, setShowLogin] = useState(true)
+  const [showLogin] = useState(true)
 
   const {
     register,
@@ -19,7 +21,8 @@ const LoginPage = ({ site }) => {
   const onSubmit = async (data) => {
     try {
       await logIn(data.email, data.password)
-      setShowLogin(false)
+      
+      router.push('/dashboard')
     } catch (error) {
       console.log(error.message)
     }

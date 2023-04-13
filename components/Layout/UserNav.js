@@ -22,7 +22,7 @@ const UserNav = ({ user }) => {
     return (
         <div>
             <div>
-                <button onClick={signOut}>Sign Out</button>
+                {user.email}: <button onClick={signOut}>Sign Out</button>
             </div>
         </div>
     )
