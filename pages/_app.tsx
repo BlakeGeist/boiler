@@ -3,19 +3,19 @@ import App, { AppContext, AppProps } from "next/app"
 import { getDoc, doc } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import '../styles/globals.css'
-import Navbar from "components/Navbar"
-import { AuthContextProvider } from "context/AuthContext"
+import { AuthProvider } from 'context/AuthContext'
+
 type TProps = AppProps & {
   site: any;
 };
 
 export function MyCustomApp({ Component, pageProps, site }: TProps) {
+  console.log('this happened')
+  console.log(site)
   return (
-    <AuthContextProvider>
-      <Navbar>
-        <Component {...pageProps} site={site} />
-      </Navbar>
-    </AuthContextProvider>
+    <AuthProvider>
+      <Component {...pageProps} site={site} />
+    </AuthProvider>
   )
 }
 

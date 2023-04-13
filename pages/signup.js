@@ -1,15 +1,13 @@
 import React from "react"
 import { FormProvider, useForm } from "react-hook-form"
-import { createUserWithEmailAndPassword } from "firebase/auth"
-import { auth } from "utils/firebase"
+import { useAuth } from "context/AuthContext"
+import { useRouter } from "next/router"
 
-interface SignupType {
-  email: string;
-  password: string;
-  password_confirm: string;
-}
 const SignupPage = () => {
-  const methods = useForm<SignupType>({ mode: "onBlur" })
+  const methods = useForm({ mode: "onBlur" })
+  const router = useRouter()
+
+  const { signUp } = useAuth()
 
   const {
     register,
@@ -17,13 +15,14 @@ const SignupPage = () => {
     formState: { errors },
   } = methods
 
-  const onSubmit = async (data: SignupType) => {
-    const { email, password } = data
-    signUp(email, password)
-  }
-
-  const signUp = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password)
+  const onSubmit = async (data) => {
+    try {
+      console.log('here')
+      await signUp(data.email, data.password)
+      router.push("/dashboard")
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 
   return (
