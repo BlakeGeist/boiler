@@ -1,6 +1,7 @@
 module.exports = {
     webpack: (config) => { 
       config.resolve.preferRelative = true
+
       return config
     },
     i18n: {

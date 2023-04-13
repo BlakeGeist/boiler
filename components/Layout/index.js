@@ -3,13 +3,15 @@ import { SiteLayout } from './index.styles'
 import GlobalHeader from './Header'
 import GlobalFooter from './Footer'
 
-const Layout = ({ children, site }) => (
-    <SiteLayout>
-        <GlobalHeader logoAlt={site?.logoAlt} logoSrc={site?.logoSrc} />
-        {children}
-        <GlobalFooter site={site} />
-    </SiteLayout>        
-)
+const Layout = ({ children, site }) => {
+    return (
+        <SiteLayout>
+            <GlobalHeader logoAlt={site?.logoAlt} logoSrc={site?.logoSrc} />
+            {children}
+            <GlobalFooter site={site} />
+        </SiteLayout>        
+    )
+}
 
 const Header = ({ children }) => (
     <header>{children}</header>

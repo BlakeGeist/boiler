@@ -1,12 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
+import { useAuth } from "context/AuthContext"
+import Layout from 'components/Layout'
+import Link from 'next/link'
 
-interface LoginType {
-  email: string;
-  password: string;
-}
-const LoginPage = () => {
-  const methods = useForm<LoginType>({ mode: "onBlur" })
+const LoginPage = ({ site }) => {
+  const methods = useForm({ mode: "onBlur" })
+  const { logIn } = useAuth()
+
+  const [showLogin, setShowLogin] = useState(true)
 
   const {
     register,
@@ -14,11 +16,18 @@ const LoginPage = () => {
     formState: { errors },
   } = methods
 
-  const onSubmit = async (data: LoginType) => {
-    console.log(data)
+  const onSubmit = async (data) => {
+    try {
+      await logIn(data.email, data.password)
+      setShowLogin(false)
+    } catch (error) {
+      console.log(error.message)
+    }
   }
-  return (
-    <div className="sign-up-form container mx-auto w-96 mt-12 border-2 border-gray-400">
+
+  const Content = () => {
+    if(showLogin) return (
+      <div className="sign-up-form container mx-auto w-96 mt-12 border-2 border-gray-400">
       <h2 className="px-12 mt-8 text-center text-2xl font-semibold text-blue-900">Log In</h2>
       <FormProvider {...methods}>
         <form action="" className="w-80 mx-auto pb-12 px-4" onSubmit={handleSubmit(onSubmit)}>
@@ -62,6 +71,18 @@ const LoginPage = () => {
         </form>
       </FormProvider>
     </div>
+
+    )
+
+    return <Link href="/dashboard">Dashboard</Link>
+  }
+
+  return (
+    <Layout site={site}>
+      <Layout.Main>
+        <Content />
+      </Layout.Main>
+    </Layout>
   )
 }
 

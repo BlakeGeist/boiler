@@ -3,24 +3,37 @@ import { collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import DashboardMain from 'components/pages/dashboard/Main'
 import Layout from 'components/Layout'
+import { firebaseAdmin } from 'utils/firebaseAdmin'
+import nookies from 'nookies'
 
-const Site = ({ posts, site }) => (
-    <Layout site={site}>
-        <Layout.Main>
-            <DashboardMain posts={posts} site={site} />
-        </Layout.Main>
-    </Layout>
-)
+const Site = ({ posts, site }) => {
+    return (
+        <Layout site={site}>
+            <Layout.Main>
+                <DashboardMain posts={posts} site={site} />
+            </Layout.Main>
+        </Layout>
+    )
+}
 
-export const getServerSideProps = async ({req}) => {
-    const host = req.headers.host
+export const getServerSideProps = async (ctx) => {
+    const host = ctx.req.headers.host
+
+    const cookies = nookies.get(ctx)
+
+    const token = cookies.token ? await firebaseAdmin.auth().verifyIdToken(cookies.token) : null 
+
+    if(ctx.req && !token) {
+        ctx.res.writeHead(301, { Location: '/' })
+        ctx.res.end()
+    }
 
     const postsCollRef = collection(firebaseDb, "sites", host, "posts")
     const postsDocs = await getDocs(postsCollRef)
-    const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()}))
+    const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
 
     return {
-        props: { posts: posts || null }
+        props: { posts, user: token }
     }
 }
 
