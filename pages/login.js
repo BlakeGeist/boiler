@@ -10,7 +10,7 @@ const LoginPage = ({ site }) => {
   const { logIn } = useAuth()
   const router = useRouter()
 
-  const [showLogin, setShowLogin] = useState(true)
+  const [showLogin] = useState(true)
 
   const {
     register,
