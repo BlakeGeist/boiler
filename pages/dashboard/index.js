@@ -5,13 +5,11 @@ import DashboardMain from 'components/pages/dashboard/Main'
 import Layout from 'components/Layout'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
 import nookies from 'nookies'
-import UserNav from 'components/Layout/UserNav'
 
 const Site = ({ posts, site, user }) => {
     return (
-        <Layout site={site}>
+        <Layout site={site} user={user}>
             <Layout.Main>
-                <UserNav user={user} />
                 <DashboardMain posts={posts} site={site} />
             </Layout.Main>
         </Layout>
