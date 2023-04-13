@@ -4,7 +4,7 @@ import GlobalHeader from './Header'
 import GlobalFooter from './Footer'
 import UserNav from 'components/Layout/UserNav'
 
-const Layout = ({ children, site, user }) => {
+const Layout = ({ children, site, user = null }) => {
     return (
         <SiteLayout>
             <UserNav user={user} />
