@@ -15,7 +15,7 @@ const Dashboard = () => {
                         <li><Link href="/dashboard/posts/scheduled-posts">Scheduled Posts</Link></li>
                     </ul>
                 </li>
-            </ul>
+            </ul>            
         </>
     )
 }

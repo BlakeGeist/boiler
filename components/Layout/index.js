@@ -2,10 +2,12 @@ import React from 'react'
 import { SiteLayout } from './index.styles'
 import GlobalHeader from './Header'
 import GlobalFooter from './Footer'
+import UserNav from 'components/Layout/UserNav'
 
-const Layout = ({ children, site }) => {
+const Layout = ({ children, site, user = null }) => {
     return (
         <SiteLayout>
+            <UserNav user={user} />
             <GlobalHeader logoAlt={site?.logoAlt} logoSrc={site?.logoSrc} />
             {children}
             <GlobalFooter site={site} />

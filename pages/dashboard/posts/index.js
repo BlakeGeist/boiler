@@ -4,23 +4,11 @@ import { collection, limit, query, orderBy } from "firebase/firestore"
 import Layout from 'components/Layout'
 import DashboardPostsMain from 'components/pages/dashboard/posts/Main'
 import Breadcrumbs from 'components/BreadCrumbs'
-import Link from 'next/link'
 
 const DashboardPosts = ({ site, posts, host, lang }) => (
     <Layout site={site}>
         <Layout.Main>
             <Breadcrumbs pathArray={[{text: 'Dashboard', href: "/dashboard"}, {text: 'Posts'}]} />
-            <ul>
-                <li>
-                    <Link href="/dashboard/posts/new">New Post</Link>
-                </li>
-                <li>
-                    <Link href="/dashboard/posts/drafts">Draft Posts</Link>
-                </li>
-                <li>
-                    <Link href="/dashboard/posts/scheduled-posts">Scheduled Posts</Link>
-                </li>                                
-            </ul>
             <DashboardPostsMain host={host} lang={lang} posts={posts} />
         </Layout.Main>
     </Layout>
