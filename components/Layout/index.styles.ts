@@ -2,18 +2,20 @@ import styled from 'styled-components'
 
 export const SiteLayout = styled.div`
     display: flex;
-    flex-wrap: wrap;
     max-width: 1110px;
     margin: 20px auto;
     background-color: #fff;
     font-family: 'Open Sans', sans-serif;
+    height: 100%;
+
+    flex-direction: column;
 
     header, footer {
-        flex: 1 0 100%;
+        flex: 0 0;
     }
 
     main {
-        flex: 1 0;
+        flex: 1 1 auto;
     }
 
     aside {

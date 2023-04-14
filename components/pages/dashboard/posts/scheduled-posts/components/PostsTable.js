@@ -1,58 +1,82 @@
 import React from 'react'
-import { firebaseDb } from 'utils/firebase'
+import Link from 'next/link'
+import Button from '@mui/material/Button'
 import { doc, deleteDoc } from "firebase/firestore"
+import { firebaseDb } from 'utils/firebase'
 import { useRouter } from 'next/router'
 
-const PostsTable = ({ posts, host  }) => {
-    const router = useRouter()
+import styled from 'styled-components'
 
+const Table = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+        text-align: left
+    }
+
+    td {
+        padding: 5px 0;
+    }
+
+    td:last-of-type {
+        text-align: right;
+    }
+
+    tr {
+        border-bottom: 1px solid #ccc;
+    }
+`
+
+const PostsTable = ({ posts, lang, host }) => {
+    const router = useRouter()
     return (
-        <table>
+        <Table>
             <thead>
                 <tr>
-                    <th>Heading</th>
-                    <th>Delete</th>
+                    <th>Title</th>
+                    <th>Publish Date</th>
                 </tr>
             </thead>
-
             <tbody>
                 {posts.map(post => {
-
-                    const handleDelete = async (e) => {
+                    const deletePost = async (e) => {
                         e.preventDefault()
 
-                        const postPath = `/sites/${host}/scheduledPosts`
-                        await deleteDoc(doc(firebaseDb, postPath, post.id))
+                        const postPath = `/sites/${host}/langs/${lang}/posts`
+                        await deleteDoc(doc(firebaseDb, postPath, post.slug))
                             .then(() => {
-                                router.push(`/dashboard/scheduled-posts`)
+                                router.push(`/dashboard/posts`)
                             })
                             .catch(e => console.log('error:, ', e))
-
-                    }
-
-                    const handleEdit = (e) => {
-                        e.preventDefault()
-
                     }
                     return (
-                        <tr key={post.id}>
-                            <td>View</td>
+
+                        <tr key={post.slug}>
                             <td>
-                                <button onClick={handleEdit}>
-                                    Edit
-                                </button>
+                                <Link href={`/posts/${post.slug}`}>{post.heading}</Link>
                             </td>
                             <td>
-                                <button onClick={handleDelete}>
-                                    Delete
-                                </button>
+                                {post.publishedDate}
                             </td>
-                        </tr>                        
+                            <td>
+                                <Link href={`/posts/${post.slug}`} target="_blank">
+                                    <Button variant="outlined">View</Button>                                    
+                                </Link>
+                            </td>                            
+                            <td>
+                                <Link href={`/dashboard/posts/drafts/${post.slug}`}>
+                                    <Button variant="outlined">Edit</Button>                                    
+                                </Link>
+                            </td>
+                            <td>
+                                <Button onClick={(e) => deletePost(e)} variant="outlined">Delete</Button>
+                            </td>                            
+                        </tr>
                     )
                 })}
-
             </tbody>
-        </table>
+        </Table>
     )
 }
 

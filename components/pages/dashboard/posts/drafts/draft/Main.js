@@ -7,6 +7,7 @@ import { languages } from 'utils/languages'
 import { useRouter } from "next/router"
 import { doc, deleteDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
+import Scheduling from './components/Scheduling'
 
 const DraftPostMain = ({ site, host, post: initalPost, lang}) => {
     const router = useRouter()
@@ -48,9 +49,17 @@ const DraftPostMain = ({ site, host, post: initalPost, lang}) => {
             .catch(e => console.log('error:, ', e))
     }
 
+    const handleScheduleUpdate = (dateSelected) => {
+        console.log(dateSelected)
+    }
+
     return (
         <>
             <h1>Draft</h1>
+
+                <Scheduling handleScheduleUpdate={handleScheduleUpdate} postSlug={post.slug} host={host} lang={lang} />
+
+                <hr />
 
                 <div>
                     {!post.isTranslated &&
