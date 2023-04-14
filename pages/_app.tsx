@@ -19,13 +19,17 @@ export function MyCustomApp({ Component, pageProps, site }: TProps) {
 
 MyCustomApp.getInitialProps = async (context: AppContext) => {
   const ctx = await App.getInitialProps(context)
-  const host = context.ctx.req.headers.host
+  if(context?.ctx?.req) {
+    const host = context?.ctx?.req?.headers.host
 
-  const siteRef = doc(firebaseDb, "sites", host)
-  const siteDoc = await getDoc(siteRef)
-  const site = siteDoc.data()
+    const siteRef = doc(firebaseDb, "sites", host)
+    const siteDoc = await getDoc(siteRef)
+    const site = siteDoc.data()
+  
+    return { ...ctx, site }
+  }
 
-  return { ...ctx, site }
+  return { ...ctx }
 }
 
 export default MyCustomApp
