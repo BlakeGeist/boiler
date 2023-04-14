@@ -11,7 +11,7 @@ import { firebaseDb } from 'utils/firebase'
 
 const Scheduling = ({ handleScheduleUpdate, postSlug, host, lang, publishedDate }) => {
     var m = moment(publishedDate || null, "YYYY/MM/DD:HH:mm:ss").toDate() 
-    const [dateSelected, setDateSlected] = useState(new Date())
+    const [dateSelected, setDateSlected] = useState(m)
     
     const onClick = async (e) => {
         e.preventDefault()
