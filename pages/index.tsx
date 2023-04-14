@@ -14,7 +14,7 @@ const Home = ({ posts, site }) => (
     </Head>
     <Layout site={site}>
       <Layout.Main>
-        <IndexPage posts={posts} map={site?.map} />
+        <IndexPage posts={posts} />
       </Layout.Main>
     </Layout>
   </>
