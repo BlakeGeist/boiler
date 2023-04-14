@@ -10,12 +10,13 @@ import { firebaseDb } from 'utils/firebase'
 //TODO make it so you cannot translate until the post is scheduled.
 
 const Scheduling = ({ handleScheduleUpdate, postSlug, host, lang, publishedDate }) => {
-    const [dateSelected, setDateSlected] = useState(new Date())
-
+    var m = moment(publishedDate, "YYYY/MM/DD:HH:mm:ss").toDate() || null
+    const [dateSelected, setDateSlected] = useState(m || new Date())
+    
     const onClick = async (e) => {
         e.preventDefault()
 
-        const transformedDate = moment(dateSelected).format('YYYY/MM/DD:hh:mm:ss')
+        const transformedDate = moment(dateSelected).format('YYYY/MM/DD:HH:mm:ss')
         handleScheduleUpdate(transformedDate)
 
         console.log(transformedDate)
