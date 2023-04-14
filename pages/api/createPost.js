@@ -11,7 +11,7 @@ import { convertToHTML } from 'draft-convert'
 export default async function handler(req, res) {
     const { host, prompt, headingText, map, keywords, lang } = req.query
 
-    const articlePromt = `Using at least 900 words and including each the following phrases at least once '${keywords}' within the main contents body create an article realted to "${prompt}"`
+    const articlePromt = `You are a professional content writer with a specialty in household pets. Using at least 900 words and including each the following phrases at least once '${keywords}' within the main contents body create an article realted to "${prompt}"`
     const headingPrompt = `Create an article heading description for the previous ${prompt} article`
 
     try {

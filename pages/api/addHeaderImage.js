@@ -9,11 +9,14 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 export default async function handler(req, res) {
     const { host, slug, headerImagePrompt, lang } = req.query
 
+    const articleIdeaPromotText = `You are a professional photographer please create and image of high enough quality replated to ${headerImagePrompt}`
+
+
     let headerImageSrc
 
     try {
 
-        const image = await imageResponse(headerImagePrompt, 'large')
+        const image = await imageResponse(articleIdeaPromotText, 'large')
         let dafile = await got(image)
         
         const dastorage = getStorage()
