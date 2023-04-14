@@ -14,6 +14,8 @@ export default async function handler(req, res) {
     const scheduledPostsDocs = await getDocs(scheduledPostsQuery)
     const scheduledPosts = scheduledPostsDocs?.docs?.map(doc => doc.data())
 
+    console.log(`there are ${scheduledPosts.length} scheduled posts`)
+
     for(let i = 0; scheduledPosts.length > i; i++){
         const post = scheduledPosts[i]
 
