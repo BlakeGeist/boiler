@@ -10,4 +10,9 @@ const Index = ({ site }) => (
     </Layout>
 )
 
+export const getServerSideProps = async () => {
+    return { props: { } }
+}
+  
+
 export default Index
