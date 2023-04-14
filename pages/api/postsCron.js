@@ -7,7 +7,13 @@ export default async function handler(req, res) {
     const currentTime = moment().format('YYYY/MM/DD:hh:mm:ss')
     const host = 'pet-tips-n-tricks.com'
 
-    const scheduledPostsPath = collection(firebaseDb, `sites/${host}/langs/en/posts`)
+    console.log('host, ', host)
+
+    const path = `sites/${host}/langs/en/posts`
+
+    console.log('path, ', path)
+
+    const scheduledPostsPath = collection(firebaseDb, path)
     const scheduledPostsQuery = query(scheduledPostsPath, where("status", "==", 'scheduled'), where("publishedDate", "<", currentTime), orderBy("publishedDate", "desc"))
     const scheduledPostsDocs = await getDocs(scheduledPostsQuery)
     const scheduledPosts = scheduledPostsDocs?.docs?.map(doc => doc.data())
