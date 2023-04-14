@@ -13,6 +13,8 @@ export default async function handler(req, res) {
 
     console.log('path, ', path)
 
+    console.log('currentTime, ', currentTime)
+
     const scheduledPostsPath = collection(firebaseDb, path)
     const scheduledPostsQuery = query(scheduledPostsPath, where("status", "==", 'scheduled'), where("publishedDate", "<", currentTime), orderBy("publishedDate", "desc"))
     const scheduledPostsDocs = await getDocs(scheduledPostsQuery)
