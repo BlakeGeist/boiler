@@ -3,7 +3,7 @@ import { getDocFromPathAndSlug } from 'utils/firebase'
 import Link from 'next/link'
 import { localEnPostsIndex } from 'utils/searchClient'
 
-const Search = () => {
+const Search = ({ host, lang }) => {
     const [posts, setPosts] = useState([])
     const [inputVal, setInputVal] = useState('')
 
@@ -12,7 +12,7 @@ const Search = () => {
 
         await localEnPostsIndex.search(inputVal).then(async ({ hits }) => {
             const postsResp = await Promise.all(hits.map(async (hit) => {
-                const post = await getDocFromPathAndSlug('sites/localhost:3000/langs/en/posts/', hit.objectID)
+                const post = await getDocFromPathAndSlug(`sites/${host}/langs/${lang}/posts/`, hit.objectID)
                 return post
             }))
             setPosts(postsResp)
