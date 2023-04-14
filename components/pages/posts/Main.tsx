@@ -95,7 +95,7 @@ const PostsTemplate = ({ posts, host, locale }) => {
         e.preventDefault()
         setIsLoading(true)
 
-        const next = query(collection(firebaseDb, `sites/${host}/posts`),
+        const next = query(collection(firebaseDb, `sites/${host}/langs/${locale}/posts`),
             orderBy("createdAt", "desc"),
             startAfter(lastVisible),
             limit(10))
