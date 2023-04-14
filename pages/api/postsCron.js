@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const currentTime = moment().format('YYYY/MM/DD:hh:mm:ss')
     const host = req.headers.host
 
-    console.log(currentTime)
+    console.log('current host, ', host)
 
     const scheduledPostsPath = collection(firebaseDb, `sites/${host}/langs/en/posts`)
     const scheduledPostsQuery = query(scheduledPostsPath, where("status", "==", 'scheduled'), where("publishedDate", "<", currentTime), orderBy("publishedDate", "desc"))
