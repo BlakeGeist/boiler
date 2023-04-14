@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { getDocFromPathAndSlug } from 'utils/firebase'
 import Link from 'next/link'
-import { localEnPostsIndex } from 'utils/searchClient'
+import { petTipsNTricksPostsIndex } from 'utils/searchClient'
 
 const Search = ({ host, lang }) => {
     const [posts, setPosts] = useState([])
@@ -10,7 +10,7 @@ const Search = ({ host, lang }) => {
     const onSubmit = async (e) => {
         e.preventDefault()
 
-        await localEnPostsIndex.search(inputVal).then(async ({ hits }) => {
+        await petTipsNTricksPostsIndex.search(inputVal).then(async ({ hits }) => {
             const postsResp = await Promise.all(hits.map(async (hit) => {
                 const post = await getDocFromPathAndSlug(`sites/${host}/langs/${lang}/posts/`, hit.objectID)
                 return post
