@@ -56,6 +56,11 @@ const PostsTable = ({ posts, lang, host }) => {
                                 <Link href={`/posts/${post.slug}`}>{post.heading}</Link>
                             </td>
                             <td>
+                                <Link href={`/posts/${post.slug}`} target="_blank">
+                                    <Button variant="outlined">View</Button>                                    
+                                </Link>
+                            </td>                            
+                            <td>
                                 <Link href={`/dashboard/posts/drafts/${post.slug}`}>
                                     <Button variant="outlined">Edit</Button>                                    
                                 </Link>

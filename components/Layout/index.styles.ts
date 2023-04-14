@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const SiteLayout = styled.div`
     display: flex;
-    flex-wrap: wrap;
     max-width: 1110px;
     margin: 20px auto;
     background-color: #fff;
