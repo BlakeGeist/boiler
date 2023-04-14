@@ -10,8 +10,6 @@ type TProps = AppProps & {
 };
 
 export function MyCustomApp({ Component, pageProps, site }: TProps) {
-  console.log('this happened')
-  console.log(site)
   return (
     <AuthProvider>
       <Component {...pageProps} site={site} />

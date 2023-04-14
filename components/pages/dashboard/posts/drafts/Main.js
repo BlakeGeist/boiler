@@ -7,9 +7,9 @@ import 'react-clock/dist/Clock.css'
 import timestamp from 'time-stamp'
 import { useRouter } from 'next/router'
 
-import PostsTable from 'components/tables/DashboardPostsTable'
+import PostsTable from '../components/PostsTable'
 
-const ScheduledPostsTemplate = ({ host, draftPosts }) => {
+const ScheduledPostsTemplate = ({ host, posts }) => {
     const router = useRouter()
 
     const handleClick = async (e) => {
@@ -27,13 +27,13 @@ const ScheduledPostsTemplate = ({ host, draftPosts }) => {
 
     return (
         <>
-            <h1>Scheduled Posts</h1>
+            <h1>Draft Posts</h1>
             <button onClick={handleClick}>Create Draft</button>
 
             <hr />
 
-            {draftPosts &&        
-                <PostsTable posts={draftPosts} host={host} />
+            {posts &&        
+                <PostsTable posts={posts} host={host} />
             }
         </>
     )

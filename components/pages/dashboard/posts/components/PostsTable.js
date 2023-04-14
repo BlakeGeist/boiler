@@ -56,8 +56,13 @@ const PostsTable = ({ posts, lang, host }) => {
                                 <Link href={`/posts/${post.slug}`}>{post.heading}</Link>
                             </td>
                             <td>
-                                <Button onClick={(e) => deletePost(e)} variant="outlined">Delete</Button>
+                                <Link href={`/dashboard/posts/drafts/${post.slug}`}>
+                                    <Button variant="outlined">Edit</Button>                                    
+                                </Link>
                             </td>
+                            <td>
+                                <Button onClick={(e) => deletePost(e)} variant="outlined">Delete</Button>
+                            </td>                            
                         </tr>
                     )
                 })}
