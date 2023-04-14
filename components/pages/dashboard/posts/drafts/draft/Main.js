@@ -57,7 +57,7 @@ const DraftPostMain = ({ site, host, post: initalPost, lang}) => {
         <>
             <h1>Draft</h1>
 
-                <Scheduling handleScheduleUpdate={handleScheduleUpdate} postSlug={post.slug} host={host} lang={lang} />
+                <Scheduling handleScheduleUpdate={handleScheduleUpdate} postSlug={post.slug} host={host} lang={lang} publishedDate={post.publishedDate} />
 
                 <hr />
 
