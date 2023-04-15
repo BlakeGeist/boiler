@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
-import { collection, query, limit, orderBy, doc, getDoc, where } from "firebase/firestore"
+import { collection, query, limit, orderBy, where } from "firebase/firestore"
 import IndexPage from 'components/pages/IndexPage'
 import Layout from 'components/Layout'
 
@@ -28,11 +28,7 @@ export const getServerSideProps = async ({ req, locale  }) => {
   const postsQuery = query(collection(firebaseDb, postsPath), where('status', '==', 'published'),  orderBy('createdAt', "desc"), limit(10))
   const posts = await getDocsFromQuery(postsQuery) || null
 
-  const siteRef = doc(firebaseDb, "sites", host)
-  const siteDoc = await getDoc(siteRef)
-  const site = siteDoc.data()
-
-  return { props: { posts, site } }
+  return { props: { posts } }
 }
 
 export default Home
