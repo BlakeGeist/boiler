@@ -4,6 +4,7 @@ import nookies from 'nookies'
 import { firebaseDb } from 'utils/firebase'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
 import { collection, getDocs } from 'firebase/firestore'
+import ProductCampaignMain from 'components/pages/dashboard/product-campaigns/Main'
 
 //TODO
 //a product campaign has a 
@@ -14,11 +15,12 @@ import { collection, getDocs } from 'firebase/firestore'
 //Keywords
     //these keywords would one or many from the keywords table
 
-const ProductCampaign = ({ site, user }) => {
+const ProductCampaign = ({ site, user, products, host }) => {
     return (
         <Layout site={site} user={user}>
             <Layout.Main>
                 <h1>Product Campaign</h1>
+                <ProductCampaignMain site={site} products={products} host={host} />
             </Layout.Main>
         </Layout>
     )
@@ -32,10 +34,10 @@ export const getServerSideProps = async (ctx) => {
 
         const postsCollRef = collection(firebaseDb, `/sites/${host}/productCampaigns`)
         const postsDocs = await getDocs(postsCollRef)
-        const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
+        const products = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
     
         return {
-            props: { posts, user: token }
+            props: { products, user: token, host }
         }
     } catch (err) {
 
