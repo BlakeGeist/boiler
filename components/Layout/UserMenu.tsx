@@ -85,6 +85,9 @@ export default function MenuListComposition() {
                     onKeyDown={handleListKeyDown}
                   >
                     <MenuItem>
+                      <Link href="/dashboard">Dashboard</Link>
+                    </MenuItem>                    
+                    <MenuItem>
                       <Link href="/dashboard/posts">Posts</Link>
                     </MenuItem>
                     <MenuItem>
@@ -92,6 +95,9 @@ export default function MenuListComposition() {
                     </MenuItem>
                     <MenuItem>
                       <Link href="/dashboard/posts/scheduled-posts">Scheduled Posts</Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link href="/dashboard/product-campaigns">Product Campagins</Link>
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
