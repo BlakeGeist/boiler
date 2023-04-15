@@ -4,9 +4,11 @@ import { firebaseDb } from 'utils/firebase'
 import DashboardMain from 'components/pages/dashboard/Main'
 import Layout from 'components/Layout'
 import UserNav from 'components/Layout/UserNav'
+import { firebaseAdmin } from 'utils/firebaseAdmin'
+import nookies from 'nookies'
 
-const Site = ({ posts, site, user = null }) => {
-    console.log('posts', posts)
+const Dashboard = ({ posts, site, user = null }) => {
+    console.log(posts)
     return (
         <Layout site={site} user={user}>
             <Layout.Main>
@@ -17,14 +19,25 @@ const Site = ({ posts, site, user = null }) => {
     )
 }
 
-export const getInitialProps = async (ctx) => {
-    const host = ctx.req.headers.host
+export const getServerSideProps = async (ctx) => {
+    try {
+        const cookies = nookies.get(ctx)
+        const host = ctx.req.headers.host
+        const lang = ctx.locale
+        const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
-    const postsCollRef = collection(firebaseDb, "sites", host, "posts")
-    const postsDocs = await getDocs(postsCollRef)
-    const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
+        const postsCollRef = collection(firebaseDb, `/sites/${host}/langs/${lang}/posts`)
+        const postsDocs = await getDocs(postsCollRef)
+        const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
+    
+        return {
+            props: { posts, user: token }
+        }
+    } catch (err) {
+        ctx.res.writeHead(302, { Location: '/dashboard/login' })
+        ctx.res.end()
 
-    return { posts }
+        return { props: {}}
+    }
 }
-
-export default Site
+export default Dashboard
