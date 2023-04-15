@@ -5,30 +5,29 @@ import { setDoc, doc } from 'firebase/firestore'
 import { cleanSlug } from 'utils/helpers'
 import Link from 'next/link'
 
-const ProductCampaignMain = ({ host, site, products }) => {
-    console.log(site.slug)
-
+const ProductCampaignMain = ({ host, products }) => {
     const createdAt = timestamp('YYYY/MM/DD:mm:ss')
-
     const [productsArray, setProductsArray] = useState(products)
 
     const onSubmit = async (e) => {
         e.preventDefault()
+
         const newProduct = e.target.product.value
-
         const productSlug = cleanSlug(newProduct)
-
         const productObj = {
             name: newProduct,
             slug: productSlug,
             createdAt: createdAt
         }
 
-        await setDoc(doc(firebaseDb, `/sites/${host}/productCampaigns`, productSlug), productObj)
-
-
-        setProductsArray([productObj, ...productsArray])
+        try {
+            await setDoc(doc(firebaseDb, `/sites/${host}/productCampaigns`, productSlug), productObj)
+            setProductsArray([productObj, ...productsArray])
+        } catch (err) {
+            console.log('err, ', err)
+        }
     }
+
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -44,7 +43,6 @@ const ProductCampaignMain = ({ host, site, products }) => {
                     </li>
                 ))}
             </ul>
-
         </div>
     )
 }
