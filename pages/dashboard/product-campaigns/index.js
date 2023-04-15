@@ -5,6 +5,15 @@ import { firebaseDb } from 'utils/firebase'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
 import { collection, getDocs } from 'firebase/firestore'
 
+//TODO
+//a product campaign has a 
+//name
+//slug
+//createdAt
+//ProductsArray
+//Keywords
+    //these keywords would one or many from the keywords table
+
 const ProductCampaign = ({ site, user }) => {
     return (
         <Layout site={site} user={user}>
