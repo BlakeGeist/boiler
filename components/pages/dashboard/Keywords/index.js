@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { cleanSlug } from 'utils/helpers'
-import { setDoc, doc } from 'firebase/firestore'
 import timestamp from 'time-stamp'
 import Link from 'next/link'
 import { firebaseDb } from 'utils/firebase'
+import { setDoc, doc } from 'firebase/firestore'
 
 const Keywords = ({ host, keywords }) => {
     const createdAt = timestamp('YYYY/MM/DD:mm:ss')
