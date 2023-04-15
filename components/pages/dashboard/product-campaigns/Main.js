@@ -3,6 +3,7 @@ import timestamp from 'time-stamp'
 import { firebaseDb } from 'utils/firebase'
 import { setDoc, doc } from 'firebase/firestore'
 import { cleanSlug } from 'utils/helpers'
+import Link from 'next/link'
 
 const ProductCampaignMain = ({ host, site, products }) => {
     console.log(site.slug)
@@ -37,7 +38,11 @@ const ProductCampaignMain = ({ host, site, products }) => {
             </form>
 
             <ul>
-                {productsArray.map(product => <li key={product.name}>{product.name}</li>)}
+                {productsArray.map(product => (
+                    <li key={product.name}>
+                        <Link href={`/dashboard/product-campaigns/${product.slug}`}>{product.name}</Link>
+                    </li>
+                ))}
             </ul>
 
         </div>
