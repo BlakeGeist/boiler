@@ -27,11 +27,7 @@ const Post = styled.div`
     
 `
 
-interface PostImageProps {
-    src: string
-}
-
-const PostImage = styled.div<PostImageProps>`
+const PostImage = styled.div`
     flex: 1 1 400px;
 
     a {

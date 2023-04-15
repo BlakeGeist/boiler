@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "components/*": ["components/*"]
+      "components/*": [
+        "components/*"
+      ]
     },
     "target": "es6",
     "lib": [
@@ -21,13 +23,25 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "utils/getGoogleSearchResults.js", "pages/sites/[site]/posts/new/index.js", "pages/posts/new/index.js", "pages/posts/[post]/edit.js", "pages/sites/[site]/posts/[post]/edit.js"  ],
+    "**/*.tsx",
+    "utils/getGoogleSearchResults.js",
+    "pages/sites/[site]/posts/new/index.js",
+    "pages/posts/new/index.js",
+    "pages/posts/[post]/edit.js",
+    "pages/sites/[site]/posts/[post]/edit.js",
+    ".next/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
