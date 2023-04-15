@@ -2,7 +2,7 @@
 import { getFirestore, doc, getDoc, getDocs } from "firebase/firestore" 
 
 import { initializeApp } from "firebase/app"
-import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence  } from "firebase/auth"
+import { getAuth  } from "firebase/auth"
 
 import { getStorage } from "firebase/storage"
 
@@ -18,22 +18,6 @@ export const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig)
 
 export const auth = getAuth(firebaseApp)
-
-  setPersistence(auth, browserSessionPersistence)
-    .then(() => {
-      // Existing and future Auth states are now persisted in the current
-      // session only. Closing the window would clear any existing state even
-      // if a user forgets to sign out.
-      // ...
-      // New sign-in will be persisted with session persistence.
-      return signInWithEmailAndPassword(auth, email, password) // eslint-disable-line
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorCode, errorMessage)
-    })
 
 
 export const firebaseDb = getFirestore(firebaseApp)

@@ -4,6 +4,8 @@ import { useAuth } from "context/AuthContext"
 import Layout from 'components/Layout'
 import Link from 'next/link'
 import { useRouter } from "next/router"
+import { setPersistence, signInWithEmailAndPassword, browserLocalPersistence  } from "firebase/auth"
+import { auth } from 'utils/firebase'
 
 const LoginPage = ({ site }) => {
   const methods = useForm({ mode: "onBlur" })
@@ -22,7 +24,31 @@ const LoginPage = ({ site }) => {
     try {
       await logIn(data.email, data.password)
       
-      router.push('/dashboard')
+      setPersistence(auth, browserLocalPersistence)
+        .then((whatsThis) => {
+          // Existing and future Auth states are now persisted in the current
+          // session only. Closing the window would clear any existing state even
+          // if a user forgets to sign out.
+          // ...
+
+          console.log(whatsThis)
+          console.log('email, password, ', data.email, data.password)
+
+          // New sign-in will be persisted with session persistence.
+          signInWithEmailAndPassword(auth, data.email, data.password) // eslint-disable-line
+
+          return router.push('/dashboard')
+
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          console.log(error)
+          const errorCode = error.code
+          const errorMessage = error.message
+          console.log(errorCode, errorMessage)
+        })
+
+
     } catch (error) {
       console.log(error.message)
     }

@@ -41,6 +41,7 @@
     "i": "^0.3.7",
     "moment": "^2.29.3",
     "next": "^13.3.0",
+    "next-absolute-url": "^1.2.2",
     "next-transpile-modules": "^9.1.0",
     "nookies": "^2.5.2",
     "npm": "^9.2.0",

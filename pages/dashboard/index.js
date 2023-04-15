@@ -3,13 +3,16 @@ import { collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import DashboardMain from 'components/pages/dashboard/Main'
 import Layout from 'components/Layout'
+import UserNav from 'components/Layout/UserNav'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
 import nookies from 'nookies'
 
-const Site = ({ posts, site, user }) => {
+const Dashboard = ({ posts, site, user = null }) => {
+    console.log(posts)
     return (
         <Layout site={site} user={user}>
             <Layout.Main>
+                <UserNav user={user} />
                 <DashboardMain posts={posts} site={site} />
             </Layout.Main>
         </Layout>
@@ -17,24 +20,24 @@ const Site = ({ posts, site, user }) => {
 }
 
 export const getServerSideProps = async (ctx) => {
-    const host = ctx.req.headers.host
+    try {
+        const cookies = nookies.get(ctx)
+        const host = ctx.req.headers.host
+        const lang = ctx.locale
+        const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
-    const cookies = nookies.get(ctx)
-
-    const token = cookies.token ? await firebaseAdmin.auth().verifyIdToken(cookies.token) : null 
-
-    if(ctx.req && !token) {
-        ctx.res.writeHead(301, { Location: '/' })
+        const postsCollRef = collection(firebaseDb, `/sites/${host}/langs/${lang}/posts`)
+        const postsDocs = await getDocs(postsCollRef)
+        const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
+    
+        return {
+            props: { posts, user: token }
+        }
+    } catch (err) {
+        ctx.res.writeHead(302, { Location: '/dashboard/login' })
         ctx.res.end()
-    }
 
-    const postsCollRef = collection(firebaseDb, "sites", host, "posts")
-    const postsDocs = await getDocs(postsCollRef)
-    const posts = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
-
-    return {
-        props: { posts, user: token }
+        return { props: {}}
     }
 }
-
-export default Site
+export default Dashboard
