@@ -21,6 +21,7 @@ export const getServerSideProps = async (ctx) => {
         const cookies = nookies.get(ctx)
         const host = ctx.req.headers.host
         const lang = ctx.locale
+        
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
         const postsCollRef = collection(firebaseDb, `/sites/${host}/langs/${lang}/posts`)
