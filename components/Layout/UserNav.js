@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAuth } from "context/AuthContext"
 import { useRouter }  from 'next/router'
-import Link from 'next/link'
+import UserMenu from './UserMenu'
 
 const UserNav = ({ user }) => {
     const { logOut } = useAuth()
@@ -24,16 +24,7 @@ const UserNav = ({ user }) => {
         <div>
             <div>
                 {user.email}: <button onClick={signOut}>Sign Out</button>
-                <ul>
-                    <li>
-                        <Link href="/dashboard/posts">Posts</Link>
-                        <ul>
-                            <li><Link href="/dashboard/posts/new">New Post</Link></li>
-                            <li><Link href="/dashboard/posts/drafts">Draft Posts</Link></li>
-                            <li><Link href="/dashboard/posts/scheduled-posts">Scheduled Posts</Link></li>
-                        </ul>
-                    </li>
-                </ul>
+                <UserMenu />
             </div>
         </div>
     )

@@ -3,16 +3,13 @@ import { collection, getDocs } from 'firebase/firestore'
 import { firebaseDb } from 'utils/firebase'
 import DashboardMain from 'components/pages/dashboard/Main'
 import Layout from 'components/Layout'
-import UserNav from 'components/Layout/UserNav'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
 import nookies from 'nookies'
 
 const Dashboard = ({ posts, site, user = null }) => {
-    console.log(posts)
     return (
         <Layout site={site} user={user}>
             <Layout.Main>
-                <UserNav user={user} />
                 <DashboardMain posts={posts} site={site} />
             </Layout.Main>
         </Layout>
