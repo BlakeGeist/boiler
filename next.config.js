@@ -16,8 +16,5 @@ module.exports = {
           pathname: '/v0/b/legos-1ab16.appspot.com/o/**',
         },
       ],
-    },
-    experimental: {
-      appDir: true,
     }
 }
