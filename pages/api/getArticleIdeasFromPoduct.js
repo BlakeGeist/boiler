@@ -6,7 +6,7 @@ import { promptResponse } from 'utils/apiHelpers'
 
 export default async function handler(req, res) {
     const { prompt } = req.query
-    const articleIdeaPromot = `You are a content writer and online affiliate marketing specialist, please create 31 article titles that can be used in a series of content that can be used to ${prompt}.`
+    const articleIdeaPromot = `You are a content writer and online affiliate marketing specialist, please create 31 individual and unique article titles that can be used in a series of content that can be used to ${prompt}.`
 
     try {
         const articleResponse = await promptResponse(articleIdeaPromot)
