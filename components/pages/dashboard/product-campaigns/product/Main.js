@@ -4,21 +4,34 @@ import { firebaseDb } from 'utils/firebase'
 import ArticleIdeas from './components/ArticleIdeas'
 import SelectedIdeas from './components/SelectedIdeas'
 import AddProductNameForm from './components/AddProductNameForm'
+import moment from 'moment'
 
 import DateTimePicker from 'react-datetime-picker'
+import CampagainLength from './components/CampagionLength'
 
 const ProductMain = ({ product, host }) => {
     const [articleIdeas, setArticleIdeas] = useState(product.articleIdeasArray || [])
     const [isLoading, setIsLoading] = useState(false)
     const [selectedIdeas, setSelectedIdeas] = useState(product.articlesToBeCreated || [])
+    const [campaignLength, setCampaignLength] = useState(product.campaignLength || '')
 
-    const [startDate, setStartDate] = useState(new Date())
+    const initalStartDate = product.startCampaginDate ? moment(product.startCampaginDate, "YYYY/MM/DD:HH:mm:ss").toDate() : new Date()
+    const [startDate, setStartDate] = useState(initalStartDate)
+
+    const initalEndDate = product.endCampginDate ? moment(product.endCampginDate, "YYYY/MM/DD:HH:mm:ss").toDate() : new Date()
+
+    const monthsAgo = (date, months) => {
+        return moment(date).add(months, 'months').toDate()
+    }
+
+    const incedDate = monthsAgo(initalEndDate, campaignLength)
+    const [endDate, setEndDate] = useState(incedDate)
+
 
     const handleAddTitleToProductCampagin = async (e) => {
         e.preventDefault()
 
         try {
-
             const updatedProductCampaign = {
                 articlesToBeCreated: selectedIdeas
             }
@@ -37,14 +50,19 @@ const ProductMain = ({ product, host }) => {
             <div>
                 Campaign Schedule
 
+                <CampagainLength startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
+
                 <div>
-                    <p>
+                    <div>
                         <strong>Start Date: </strong>
-                    </p>
-                    <p><strong>End Date: </strong></p>
+                        <DateTimePicker onChange={setStartDate} value={startDate} />
+                    </div>
+                    <div>
+                        <strong>End Date: </strong>
+                        <DateTimePicker onChange={setEndDate} value={endDate} />
+                    </div>
                 </div>
             </div>
-
 
             <AddProductNameForm 
                 host={host}
@@ -52,6 +70,8 @@ const ProductMain = ({ product, host }) => {
                 product={product}
                 setArticleIdeas={setArticleIdeas}
                 setIsLoading={setIsLoading}
+                startDate={startDate}
+                endDate={endDate} 
                 />
             <ArticleIdeas
                 articleIdeas={articleIdeas}
@@ -61,6 +81,11 @@ const ProductMain = ({ product, host }) => {
                 />
             <SelectedIdeas 
                 selectedIdeas={selectedIdeas}
+                campaignLength={campaignLength}
+                product={product}
+                startDate={startDate}
+                endDate={endDate}
+                setSelectedIdeas={setSelectedIdeas}
                 />
         </>
     )

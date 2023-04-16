@@ -2,7 +2,7 @@ import React from 'react'
 
 import ArticleIdea from './ArticleIdea'
 
-const ArticleIdeas = ({ articleIdeas, handleAddTitleToProductCampagin, setSelectedIdeas, selectedIdeas }) => {
+const ArticleIdeas = ({ setSchedule, articleIdeas, handleAddTitleToProductCampagin, setSelectedIdeas, selectedIdeas }) => {
     if(!articleIdeas || articleIdeas.length === 0) return null
 
     return (
@@ -11,7 +11,7 @@ const ArticleIdeas = ({ articleIdeas, handleAddTitleToProductCampagin, setSelect
             <form onSubmit={handleAddTitleToProductCampagin}>
                 
                 {articleIdeas.map((articleIdea, i) => (
-                    <ArticleIdea articleIdea={articleIdea} key={`${articleIdea.title}-checkbox`} i={i} setSelectedIdeas={setSelectedIdeas} selectedIdeas={selectedIdeas} />
+                    <ArticleIdea setSchedule={setSchedule} articleIdea={articleIdea} key={`${articleIdea.title}-checkbox`} i={i} setSelectedIdeas={setSelectedIdeas} selectedIdeas={selectedIdeas} />
                 ))}
                 <input type="submit" />
             </form>

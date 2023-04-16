@@ -1,9 +1,9 @@
 import React from 'react'
 import Layout from 'components/Layout'
 import nookies from 'nookies'
-import { firebaseDb } from 'utils/firebase'
+import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, query } from 'firebase/firestore'
 import ProductCampaignMain from 'components/pages/dashboard/product-campaigns/Main'
 
 //TODO
@@ -32,10 +32,12 @@ export const getServerSideProps = async (ctx) => {
         const host = ctx.req.headers.host
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
-        const postsCollRef = collection(firebaseDb, `/sites/${host}/productCampaigns`)
-        const postsDocs = await getDocs(postsCollRef)
-        const products = postsDocs.docs?.map(d => ({id: d.id, ...d.data()})) || null
-    
+        const productsPath = `sites/${host}/productCampaigns`
+        const productsQuery = query(collection(firebaseDb, productsPath))
+        const products = await getDocsFromQuery(productsQuery)
+
+        console.log(products)
+
         return {
             props: { products, user: token, host }
         }

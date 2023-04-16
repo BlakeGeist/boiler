@@ -15,15 +15,14 @@ const AddProductNameForm = ({ host, isLoading, setIsLoading, setArticleIdeas, pr
                 prompt: productName
             }
             const articleIdeasRes = await axios.get('/api/getArticleIdeasFromPoduct', { params })
-
-            const articleIdeasObjArray = articleIdeasRes.data.map(articleIdea => {
+            
+            const articleIdeasObjArray = articleIdeasRes.data.map((articleIdea) => {
                 return { 
                     title: articleIdea,
                     isPosted: false,
                     isSelected: false
                 }
             })
-            
             setArticleIdeas(articleIdeasObjArray)
 
             const updatedProductCampaign = {

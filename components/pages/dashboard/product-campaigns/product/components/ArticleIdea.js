@@ -16,7 +16,7 @@ const ArticleIdea = ({ articleIdea, i, selectedIdeas, setSelectedIdeas }) => {
         }
 
         if(!isChecked === true) {
-            console.log('is checked')
+
             return setSelectedIdeas([...selectedIdeas, dis])
         }
 

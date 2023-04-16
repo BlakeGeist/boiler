@@ -1,33 +1,44 @@
-import React, { useState } from 'react'
-import 'react-datetime-picker/dist/DateTimePicker.css'
-import 'react-calendar/dist/Calendar.css'
-import 'react-clock/dist/Clock.css'
-import DateTimePicker from 'react-datetime-picker'
+import React from 'react'
+import SelectedIdea from './SelectedIdea'
+import { generateEvenlySpacedDates } from 'utils/helpers'
 
-const SelectedIdeas = ({ selectedIdeas }) => {
-    if(!selectedIdeas || selectedIdeas.length === 0) return null
-    var m = new Date()
-    
+const SelectedIdeas = ({ selectedIdeas, setSelectedIdeas, campaignLength, startDate, endDate }) => {
+
+    const setSchedule = (e) => {
+        e.preventDefault()
+
+        const schedule = generateEvenlySpacedDates(startDate, endDate, selectedIdeas.length)
+
+        console.log(schedule)
+
+        const mappedSelectedIdeas = selectedIdeas.map((idea, i) => {
+            return {
+                ...idea,
+                publishedDate: schedule[i]
+            }
+        })
+
+        setSelectedIdeas(mappedSelectedIdeas)
+    }
+
     return (
         <>
             <h2>Selected Ideas</h2>
+
+            <div>
+                <div>Ideas selected: {selectedIdeas.length}</div>
+                <div>Campaign Length: {campaignLength} months</div>
+                <div>There are  weeks in this campagin</div>
+                
+            </div>
+
             <ul>
-                {selectedIdeas.map(item => {
-                    const [dateSelected, setDateSlected] = useState(typeof window !== 'undefined' ? m : null)
-
-                    return (
-                        <li key={`${item.title}-checkbox-item`}>
-                            {item.title}
-
-                            <div>
-                                <p>
-                                    <strong>Schedule: </strong>
-                                </p>
-                            </div>
-                        </li>
-                    )
-                })}
+                {selectedIdeas.map((item, i) => (
+                    <SelectedIdea item={item} key={`${item.title}-idea`} i={i} />
+                ))}
             </ul>
+
+            <button onClick={setSchedule}>Set Schedule</button>
         </>
     )
 }
