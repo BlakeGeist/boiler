@@ -24,19 +24,34 @@ export const firebaseDb = getFirestore(firebaseApp)
 
 export const storage = getStorage(firebaseApp)
 
-
 export const getDocFromPathAndSlug = async (path, slug) => {
   const docRef = doc(firebaseDb, path, slug)
   const postDoc = await getDoc(docRef)
   const document = postDoc.data()
   document.id = postDoc.id
 
+  if(document.startDate) document.startDate = document.startDate.toDate().getTime()
+  if(document.endDate) document.endDate = document.endDate.toDate().getTime()
+  if(document.publishedDate) document.publishedDate = document.publishedDate.toDate().getTime()
+
   return document
 }
 
 export const getDocsFromQuery = async (q) => {
   const postsSnap = await getDocs(q)
-  const posts = postsSnap.docs.map(doc => { return { ...doc.data(), id: doc.id}})
+  const posts = postsSnap.docs.map(doc => { 
+
+    const document = { 
+      ...doc.data(), 
+      id: doc.id
+    }
+
+    if(document.startDate) document.startDate = document.startDate.toDate().getTime()
+    if(document.endDate) document.endDate = document.endDate.toDate().getTime()
+
+    return document
+
+  })
 
   return posts
 }

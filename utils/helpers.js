@@ -103,3 +103,24 @@ export const removeStartingAndEndingQuote = (string) => {
 
   return string
 }    
+
+
+export const generateEvenlySpacedDates = (startDate, endDate, amount) => {
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+
+  if (start >= end || amount <= 0) {
+    return []
+  }
+
+  const dateArray = [start]
+  const timeDifference = end.getTime() - start.getTime()
+  const interval = timeDifference / (amount - 1)
+
+  for (let i = 1; i < amount; i++) {
+    const nextDate = new Date(start.getTime() + i * interval)
+    dateArray.push(nextDate)
+  }
+
+  return dateArray
+}
