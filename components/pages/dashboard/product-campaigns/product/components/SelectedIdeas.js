@@ -1,24 +1,85 @@
 import React from 'react'
 import SelectedIdea from './SelectedIdea'
 import { generateEvenlySpacedDates } from 'utils/helpers'
+import { doc, updateDoc } from "firebase/firestore"
+import { firebaseDb } from 'utils/firebase'
+import moment from 'moment'
 
-const SelectedIdeas = ({ selectedIdeas, setSelectedIdeas, campaignLength, startDate, endDate }) => {
+const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaignLength, startDate, endDate }) => {
 
     const setSchedule = (e) => {
         e.preventDefault()
 
         const schedule = generateEvenlySpacedDates(startDate, endDate, selectedIdeas.length)
 
-        console.log(schedule)
+        console.log('schedule, ', schedule)
 
         const mappedSelectedIdeas = selectedIdeas.map((idea, i) => {
+            const dateString = moment(schedule[i]).format('YYYY/MM/DD:HH:mm:ss').toString()
             return {
                 ...idea,
-                publishedDate: schedule[i]
+                publishedDate: dateString
             }
         })
 
+        console.log('selectedIdeas, ', selectedIdeas)
+        console.log('mappedSelectedIdeas, ', mappedSelectedIdeas)
+
         setSelectedIdeas(mappedSelectedIdeas)
+    }
+
+    const approveSchedule = async (e) => {
+        e.preventDefault()
+
+        try {
+            const updatedProductCampaign = {
+                articlesToBeCreated: selectedIdeas
+            }
+            const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
+            await updateDoc(productCampaginRef, updatedProductCampaign)
+            console.log(`added articlesToBeCreated, `, selectedIdeas)
+        } catch (e) {
+            console.log('e, ', e)
+        }
+    }
+
+    const setKeywords = async (e) => {
+        e.preventDefault()
+
+        const array = product.altProductNames
+
+        let index = 0
+
+        const getNextItemInArray = (idea) => {
+            let itemInArray = array[index]
+            index++
+
+            if(idea === itemInArray) itemInArray = array[index]
+
+            if(index === array.length) index = 0
+            return itemInArray
+        }
+
+        const mappedSelectedIdeas = selectedIdeas.map((idea) => {
+            return {
+                ...idea,
+                keywords: [
+                    product.name,
+                    getNextItemInArray(idea)
+                ]
+            }
+        })
+
+        try {
+            const updatedProductCampaign = {
+                articlesToBeCreated: mappedSelectedIdeas
+            }
+            const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
+            await updateDoc(productCampaginRef, updatedProductCampaign)
+            console.log(`updated articlesToBeCreated, `, selectedIdeas)
+        } catch (e) {
+            console.log('e, ', e)
+        }
     }
 
     return (
@@ -39,6 +100,10 @@ const SelectedIdeas = ({ selectedIdeas, setSelectedIdeas, campaignLength, startD
             </ul>
 
             <button onClick={setSchedule}>Set Schedule</button>
+
+            <button onClick={approveSchedule}>Approve Schedule</button>
+
+            <button onClick={setKeywords}>Set Keywords</button>
         </>
     )
 }

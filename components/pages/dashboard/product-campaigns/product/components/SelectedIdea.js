@@ -1,20 +1,29 @@
-import React, { useState } from 'react'
-import 'react-datetime-picker/dist/DateTimePicker.css'
-import 'react-calendar/dist/Calendar.css'
-import 'react-clock/dist/Clock.css'
-import DateTimePicker from 'react-datetime-picker'
+import React from 'react'
 import moment from 'moment'
 
 const ScheduledIdea = ({ item }) => {
-    const [dateSelected, setDateSelected] = useState(item.publishedDate ? moment(item.publishedDate, "YYYY/MM/DD:HH:mm:ss").toDate() : new Date())
+
+    const scheduledDate = item.publishedDate ? moment(item.publishedDate, "YYYY/MM/DD:HH:mm:ss").format('YYYY/MM/DD:hh:mm:ss').toString() : ''
 
     return (
-        <li key={`${item.title}-checkbox-item`}>
-            {item.title}
+        <li style={{borderBottom: '1px solid #ccc', padding: '15px 0'}} key={`${item.title}-checkbox-item`}>
+            <div>
+                <strong>Title: </strong> {item.title}
+            </div>
             <div>
                 <div>
-                    <strong>Schedule:</strong>
-                    <DateTimePicker onChange={setDateSelected} value={dateSelected} />
+                    <strong>Schedule: </strong> {scheduledDate}
+                </div>
+                <div>
+                    <div>
+                        <strong>Keywords: </strong>
+                    </div>
+                    <ul>
+                        {item.keywords?.map(keyword => {
+                            return <li key={`${item.title}-${keyword}-keyword`}>{keyword}</li>
+                        })}
+                    </ul>
+
                 </div>
             </div>
         </li>

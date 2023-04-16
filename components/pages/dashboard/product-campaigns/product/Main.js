@@ -5,6 +5,10 @@ import ArticleIdeas from './components/ArticleIdeas'
 import SelectedIdeas from './components/SelectedIdeas'
 import AddProductNameForm from './components/AddProductNameForm'
 import moment from 'moment'
+import 'react-datetime-picker/dist/DateTimePicker.css'
+import 'react-calendar/dist/Calendar.css'
+import 'react-clock/dist/Clock.css'
+import axios from 'axios'
 
 import DateTimePicker from 'react-datetime-picker'
 import CampagainLength from './components/CampagionLength'
@@ -43,9 +47,64 @@ const ProductMain = ({ product, host }) => {
         }
     }
     
+    const getProductonyms = async (name, e) => {
+        e.preventDefault()
+
+        const prompt = `
+            You are a affiliate marketing specialst and expert in the industry.
+
+            Please create a list of 5 alternative phrasings and or similar products realted to ${name}. 
+            
+            Format list seperated by comma and do not number the list
+        `
+
+        const params = {
+            prompt
+        }
+
+        try {
+            const resp = await axios.get('/api/getPromptReponse', { params })
+            const sanitizedData = (data) => {
+                return data.replace('\n', '')
+            }
+            
+            const altProductNames = sanitizedData(resp.data).split(',').filter(Boolean)
+
+            try {
+                const updatedProductCampaign = {
+                    altProductNames
+                }
+                const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
+                await updateDoc(productCampaginRef, updatedProductCampaign)
+                console.log(`added updatedProductCampaign, `, updatedProductCampaign)
+            } catch (e) {
+                console.log('e, ', e)
+            }
+    
+
+        } catch (e) {
+            console.log(' there was an error, ', e)
+        }
+    }
+
     return (
         <>
             <h2>{product.name}</h2>
+
+            <div>
+                <h3>Productonyms:</h3>
+
+                <div style={{display: 'flex'}}>
+
+                    {product.altProductNames?.map(item => {
+                        return (
+                            <div style={{padding: '0 15px 0 0'}} key={item}>{item}</div>
+                        )
+                    })}
+                </div>
+
+                <button onClick={e => getProductonyms(product.name, e)}>Get Productonyms</button>
+            </div>
 
             <div>
                 Campaign Schedule
@@ -86,6 +145,7 @@ const ProductMain = ({ product, host }) => {
                 startDate={startDate}
                 endDate={endDate}
                 setSelectedIdeas={setSelectedIdeas}
+                host={host}
                 />
         </>
     )
