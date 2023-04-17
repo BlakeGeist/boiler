@@ -49,6 +49,7 @@ export default async function handler(req, res) {
             slug,
             heading,
             createdAt,
+            lastModified: createdAt,
             map,
             keywords,
             rawArticleResponse,

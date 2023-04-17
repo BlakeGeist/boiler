@@ -24,8 +24,6 @@ const ArticleIdeas = ({ setSchedule, articleIdeas, handleAddTitleToProductCampag
             }
         })
 
-        console.log(newSelectedIdeas)
-
         setSelectedIdeas(newSelectedIdeas)
     }
 

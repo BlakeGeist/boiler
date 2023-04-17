@@ -55,6 +55,7 @@
     "react-json-to-table": "^0.1.7",
     "react-sticky-box": "^1.0.2",
     "sharp": "^0.31.3",
+    "sitemap": "^7.1.1",
     "slugify": "^1.6.5",
     "styled-components": "^5.3.3",
     "time-stamp": "^2.2.0",
