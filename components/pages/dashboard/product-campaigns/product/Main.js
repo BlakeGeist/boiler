@@ -12,6 +12,7 @@ import axios from 'axios'
 
 import DateTimePicker from 'react-datetime-picker'
 import CampagainLength from './components/CampagionLength'
+import AddAmazonLink from './components/AddAmazonLink'
 
 const ProductMain = ({ product, host }) => {
     const [articleIdeas, setArticleIdeas] = useState(product.articleIdeasArray || [])
@@ -106,6 +107,8 @@ const ProductMain = ({ product, host }) => {
                 <button onClick={e => getProductonyms(product.name, e)}>Get Productonyms</button>
             </div>
 
+            <hr />
+
             <div>
                 Campaign Schedule
 
@@ -123,6 +126,15 @@ const ProductMain = ({ product, host }) => {
                 </div>
             </div>
 
+            <hr />
+
+            <AddAmazonLink 
+                host={host}
+                product={product}
+                />
+
+            <hr />
+
             <AddProductNameForm 
                 host={host}
                 isLoading={isLoading}
@@ -132,6 +144,9 @@ const ProductMain = ({ product, host }) => {
                 startDate={startDate}
                 endDate={endDate} 
                 />
+
+            <hr />
+
             <ArticleIdeas
                 articleIdeas={articleIdeas}
                 handleAddTitleToProductCampagin={handleAddTitleToProductCampagin}
@@ -147,6 +162,10 @@ const ProductMain = ({ product, host }) => {
                 setSelectedIdeas={setSelectedIdeas}
                 host={host}
                 />
+
+
+            
+
         </>
     )
 }
