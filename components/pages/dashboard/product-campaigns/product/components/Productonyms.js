@@ -68,7 +68,7 @@ const Productonyms = ({ product, host }) => {
             <h3>Productonyms:</h3>
 
             <form onSubmit={handleAddProductonym}>
-                <label htmlFor="productonym">Add Productonym</label>
+                <label htmlFor="productonym">Add Productonym: </label>
                 <input type="text" name="productonym" id="productonym" />
                 <input type="submit" />
             </form>

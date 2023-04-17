@@ -9,29 +9,40 @@ import 'react-datetime-picker/dist/DateTimePicker.css'
 import 'react-calendar/dist/Calendar.css'
 import 'react-clock/dist/Clock.css'
 
-import DateTimePicker from 'react-datetime-picker'
-import CampagainLength from './components/CampagionLength'
+
 import AddAmazonLink from './components/AddAmazonLink'
 import Productonyms from './components/Productonyms'
+import CampaignSchedule from './components/CampgainSchedule'
+
+const monthsBetweenDates = (date1, date2) => {
+    if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
+      throw new Error('Invalid input: both arguments must be Date objects')
+    }
+  
+    const yearDiff = date2.getFullYear() - date1.getFullYear()
+    const monthDiff = date2.getMonth() - date1.getMonth()
+    const totalMonths = yearDiff * 12 + monthDiff
+  
+    // Check if date2 is after the same day of the month as date1
+    if (date2.getDate() >= date1.getDate()) {
+      return totalMonths
+    } else {
+      return totalMonths - 1
+    }
+  }
 
 const ProductMain = ({ product, host }) => {
     const [articleIdeas, setArticleIdeas] = useState(product.articleIdeasArray || [])
     const [isLoading, setIsLoading] = useState(false)
     const [selectedIdeas, setSelectedIdeas] = useState(product.articlesToBeCreated || [])
-    const [campaignLength, setCampaignLength] = useState(product.campaignLength || '')
 
-    const initalStartDate = product.startCampaginDate ? moment(product.startCampaginDate, "YYYY/MM/DD:HH:mm:ss").toDate() : new Date()
+    const initalStartDate = product.startDate ? moment(product.startDate).toDate() : new Date()
     const [startDate, setStartDate] = useState(initalStartDate)
 
-    const initalEndDate = product.endCampginDate ? moment(product.endCampginDate, "YYYY/MM/DD:HH:mm:ss").toDate() : new Date()
+    const initalEndDate = product.endDate ? moment(product.endDate).toDate() : new Date()
 
-    const monthsAgo = (date, months) => {
-        return moment(date).add(months, 'months').toDate()
-    }
-
-    const incedDate = monthsAgo(initalEndDate, campaignLength)
-    const [endDate, setEndDate] = useState(incedDate)
-
+    const [endDate, setEndDate] = useState(initalEndDate)
+    const [campaignLength, setCampaignLength] = useState(monthsBetweenDates(initalStartDate, initalEndDate) || '')
 
     const handleAddTitleToProductCampagin = async (e) => {
         e.preventDefault()
@@ -56,22 +67,7 @@ const ProductMain = ({ product, host }) => {
 
             <hr />
 
-            <div>
-                Campaign Schedule
-
-                <CampagainLength startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
-
-                <div>
-                    <div>
-                        <strong>Start Date: </strong>
-                        <DateTimePicker onChange={setStartDate} value={startDate} />
-                    </div>
-                    <div>
-                        <strong>End Date: </strong>
-                        <DateTimePicker onChange={setEndDate} value={endDate} />
-                    </div>
-                </div>
-            </div>
+            <CampaignSchedule setStartDate={setStartDate} setEndDate={setEndDate} startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
 
             <hr />
 
@@ -100,6 +96,9 @@ const ProductMain = ({ product, host }) => {
                 selectedIdeas={selectedIdeas}
                 setSelectedIdeas={setSelectedIdeas}
                 />
+
+            <hr />
+
             <SelectedIdeas 
                 selectedIdeas={selectedIdeas}
                 campaignLength={campaignLength}
