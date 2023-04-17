@@ -47,7 +47,7 @@ const AddAmazonLink = ({ product, host }) => {
             <h2>Add Amazon links</h2>
 
             <form onSubmit={handleAddAmazonIframe}>
-                <label htmlFor="amazonIframeLink">Add Amazon Link</label>
+                <label htmlFor="amazonIframeLink">Add Amazon Link: </label>
                 <input required type="text" name="amazonIframeLink" id="amazonIframeLink" onChange={handleAmazonLinkInput} value={amazonLinkInput} />
                 <input type="submit" />
             </form>

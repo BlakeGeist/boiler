@@ -43,11 +43,14 @@ const AddProductNameForm = ({ host, isLoading, setIsLoading, setArticleIdeas, pr
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Get Article Ideas Based on product name: </label>
-            <input name="name" id="name" defaultValue={product.name} />
-            <LoadingButton type='submit' loading={isLoading} loadingIndicator="Loading…" variant="outlined">Submit</LoadingButton>
-        </form>
+        <div>
+            <h2>Get article ideas from product name</h2>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="name">Get Article Ideas Based on product name: </label>
+                <input name="name" id="name" defaultValue={product.name} />
+                <LoadingButton type='submit' loading={isLoading} loadingIndicator="Loading…" variant="outlined">Submit</LoadingButton>
+            </form>
+        </div>
     )
 }
 
