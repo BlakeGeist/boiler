@@ -34,11 +34,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
         posttemp = res.data
         setStep(4)
 
-        console.log('before SEt HTNK')
-
         setHtml(res.data.articleHtml)
-
-        console.log('afterSetHtml')
 
         return params
     })

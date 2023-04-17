@@ -32,7 +32,6 @@ export const getDocFromPathAndSlug = async (path, slug) => {
 
   if(document.startDate) document.startDate = document.startDate.toDate().getTime()
   if(document.endDate) document.endDate = document.endDate.toDate().getTime()
-  if(document.publishedDate) document.publishedDate = document.publishedDate.toDate().getTime()
 
   return document
 }

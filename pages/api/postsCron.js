@@ -3,8 +3,8 @@ import { firebaseDb } from 'utils/firebase'
 import moment from 'moment'
 
 export default async function handler(req, res) {
-    const currentTime = moment().format('YYYY/MM/DD:hh:mm:ss')
-    const host = 'pet-tips-n-tricks.com'
+    const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
+    const host = 'localhost:3000'
 
     const path = `sites/${host}/langs/en/posts`
 

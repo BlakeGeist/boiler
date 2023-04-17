@@ -39,8 +39,6 @@ const Productonyms = ({ product, host }) => {
                 return data
             }
 
-            console.log(sanitizedData(resp.data))
-
             const altProductNames = sanitizedData(resp.data)
 
             try {
@@ -50,7 +48,6 @@ const Productonyms = ({ product, host }) => {
                 const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
                 await updateDoc(productCampaginRef, updatedProductCampaign)
                 setProductonyms(altProductNames)
-                console.log(`added updatedProductCampaign, `, updatedProductCampaign)
             } catch (e) {
                 console.log('e, ', e)
             }

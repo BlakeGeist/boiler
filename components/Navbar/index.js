@@ -1,8 +1,7 @@
 import React from 'react'
 import Link from "next/link"
 
-const Navbar = ({ user, children }) => {
-  console.log('here, ', user)
+const Navbar = ({ children }) => {
   const menuItems = [
     {
       id: 1,
