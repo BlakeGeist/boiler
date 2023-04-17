@@ -91,7 +91,10 @@ export default function MenuListComposition() {
                       <Link href="/dashboard/posts">Posts</Link>
                     </MenuItem>
                     <MenuItem>
-                      <Link href="/dashboard/posts/drafts">Drafts</Link>
+                      <Link href="/dashboard/posts/new">New Post</Link>
+                    </MenuItem>                    
+                    <MenuItem>
+                      <Link href="/dashboard/posts/drafts">Draft Posts</Link>
                     </MenuItem>
                     <MenuItem>
                       <Link href="/dashboard/posts/scheduled-posts">Scheduled Posts</Link>
