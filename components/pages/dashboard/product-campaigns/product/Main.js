@@ -8,28 +8,13 @@ import moment from 'moment'
 import 'react-datetime-picker/dist/DateTimePicker.css'
 import 'react-calendar/dist/Calendar.css'
 import 'react-clock/dist/Clock.css'
-
+import { monthsBetweenDates } from 'utils/helpers'
 
 import AddAmazonLink from './components/AddAmazonLink'
 import Productonyms from './components/Productonyms'
 import CampaignSchedule from './components/CampgainSchedule'
 
-const monthsBetweenDates = (date1, date2) => {
-    if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
-      throw new Error('Invalid input: both arguments must be Date objects')
-    }
-  
-    const yearDiff = date2.getFullYear() - date1.getFullYear()
-    const monthDiff = date2.getMonth() - date1.getMonth()
-    const totalMonths = yearDiff * 12 + monthDiff
-  
-    // Check if date2 is after the same day of the month as date1
-    if (date2.getDate() >= date1.getDate()) {
-      return totalMonths
-    } else {
-      return totalMonths - 1
-    }
-  }
+
 
 const ProductMain = ({ product, host }) => {
     const [articleIdeas, setArticleIdeas] = useState(product.articleIdeasArray || [])
@@ -61,7 +46,7 @@ const ProductMain = ({ product, host }) => {
     
     return (
         <>
-            <h2>{product.name}</h2>
+            <h1>Product Campagin: {product.name}</h1>
 
             <Productonyms product={product} host={host} />
 

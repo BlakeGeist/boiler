@@ -124,3 +124,40 @@ export const generateEvenlySpacedDates = (startDate, endDate, amount) => {
 
   return dateArray
 }
+
+export const monthsBetweenDates = (date1, date2) => {
+  if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
+    throw new Error('Invalid input: both arguments must be Date objects')
+  }
+
+  const yearDiff = date2.getFullYear() - date1.getFullYear()
+  const monthDiff = date2.getMonth() - date1.getMonth()
+  const totalMonths = yearDiff * 12 + monthDiff
+
+  // Check if date2 is after the same day of the month as date1
+  if (date2.getDate() >= date1.getDate()) {
+    return totalMonths
+  } else {
+    return totalMonths - 1
+  }
+}
+
+export const addMonths = (startDate, monthsFrom) => {
+  if (!(startDate instanceof Date)) {
+    throw new Error('Invalid input: startDate must be a Date object')
+  }
+
+  if (typeof monthsFrom !== 'number') {
+    throw new Error('Invalid input: monthsFrom must be a number')
+  }
+
+  const newDate = new Date(startDate)
+  newDate.setMonth(startDate.getMonth() + monthsFrom)
+  
+  // Check for month overflow
+  if (newDate.getMonth() !== (startDate.getMonth() + monthsFrom) % 12) {
+    newDate.setDate(0) // Set to last day of previous month
+  }
+
+  return newDate
+}
