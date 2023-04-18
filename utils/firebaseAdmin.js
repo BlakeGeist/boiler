@@ -1,5 +1,6 @@
 import * as firebaseAdmin from 'firebase-admin'
 const fs = require('fs')
+const { Readable } = require('stream')
 
 export const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -36,25 +37,28 @@ export const uploadSitemapToHosting = async (sitemapXml) => {
   fs.writeFileSync(sitemapFilePath, sitemapXml)
 
   try {
+    // Create a Readable stream from the sitemap XML string
+    const stream = Readable.from(sitemapXml)
+
     // Upload the sitemap XML file to Firebase Hosting
-    await bucket.upload(sitemapFilePath, {
-      destination: 'sitemap.xml',
-      public: true
-    }).then(res =>{
-      console.log(res)
-    })
-
     const file = bucket.file('sitemap.xml')
-    const [metadata] = await file.getMetadata()
-    const downloadUrl = metadata.mediaLink
-
-    console.log(downloadUrl)
+    await stream.pipe(file.createWriteStream({
+      metadata: {
+        contentType: 'application/xml',
+        cacheControl: 'public, max-age=86400' // Cache for 1 day
+      },
+      public: true
+    }))
 
     console.log('Sitemap uploaded successfully')
+
+    // Get the download URL for the sitemap XML file
+    const [metadata] = await file.getMetadata()
+    const downloadUrl = metadata.mediaLink
+    console.log(`Download URL: ${downloadUrl}`)
+
+    return downloadUrl
   } catch (error) {
     console.error('Error uploading sitemap:', error)
-  } finally {
-    // Delete the sitemap XML file
-    //fs.unlinkSync(sitemapFilePath);
-  }  
+  }
 }
