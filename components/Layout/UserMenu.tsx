@@ -102,6 +102,9 @@ export default function MenuListComposition() {
                     <MenuItem>
                       <Link href="/dashboard/product-campaigns">Product Campagins</Link>
                     </MenuItem>
+                    <MenuItem>
+                      <Link href="/dashboard/keywords">Keywords</Link>
+                    </MenuItem>                    
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
