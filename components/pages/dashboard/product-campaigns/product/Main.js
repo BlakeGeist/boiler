@@ -16,7 +16,7 @@ import CampaignSchedule from './components/CampgainSchedule'
 
 
 
-const ProductMain = ({ product, host }) => {
+const ProductMain = ({ product, host, lang }) => {
     const [articleIdeas, setArticleIdeas] = useState(product.articleIdeasArray || [])
     const [isLoading, setIsLoading] = useState(false)
     const [selectedIdeas, setSelectedIdeas] = useState(product.articlesToBeCreated || [])
@@ -96,6 +96,7 @@ const ProductMain = ({ product, host }) => {
                 endDate={endDate}
                 setSelectedIdeas={setSelectedIdeas}
                 host={host}
+                lang={lang}
                 />
 
 
