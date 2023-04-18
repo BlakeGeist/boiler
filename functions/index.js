@@ -9,7 +9,7 @@ const https = require('https')
 // });
 
 exports.serveSitemap = functions.https.onRequest((req, res) => {
-  https.get('https://legos-1ab16.web.app/sitemap.xml', (response) => {
+  https.get('https://storage.googleapis.com/legos-1ab16.appspot.com/sitemap.xml', (response) => {
     res.setHeader('Content-Type', 'application/xml')
     response.pipe(res)
   })
