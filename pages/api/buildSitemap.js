@@ -1,22 +1,40 @@
-const { SitemapStream, streamToPromise } = require( 'sitemap' )
-const { Readable } = require( 'stream' )
+const { simpleSitemapAndIndex } = require( 'sitemap' )
+const { petTipsNTricksPostsIndex } = require('utils/searchClient')
+const moment = require('moment')
 
-export default async function handler() {
+export default async function handler(req, res) {
     //req, res
     
+    console.log('before')
+
+    const host = `https://pet-tips-n-tricks.com`
+
+    const links = await petTipsNTricksPostsIndex.search().then(async ({ hits }) => {
+        const mappedHits = hits.map(hit => {
+            return {
+                url: `/posts/${hit.objectID}`,
+                lastmod: moment(hit.lastmodified).format('YYYY/MM/DD:HH:mm:ss').toString(),
+                priority: 0.3,
+                changefreq: 'monthly'
+            }
+        })
+
+        return mappedHits
+    })
+
+    console.log(links)
+
     //query a list of all the posts
 
-    //loop the posts and map them with changeFreq and priorty
+    simpleSitemapAndIndex({
+        hostname: host,
+        destinationDir: './public',
+        sourceData: links,
+        gzip: false
+      }).then(() => {
+        // Do follow up actions
+      })
 
-    // An array with your links
-    const links = [{ url: '/page-1/',  changefreq: 'daily', priority: 0.3  }]
+    res.status(200)
 
-    // Create a stream to write to
-    const stream = new SitemapStream( { hostname: 'https://...' } )
-
-    streamToPromise(Readable.from(links).pipe(stream)).then((data) => {
-        data.toString()
-
-        console.log(data.toString())
-    })
 }

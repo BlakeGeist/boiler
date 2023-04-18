@@ -2,23 +2,35 @@ import React from 'react'
 import { getDocFromPathAndSlug } from 'utils/firebase'
 import KeywordPageTemplate from 'components/pages/dashboard/Keywords/Keyword'
 import Layout from 'components/Layout'
+import nookies from 'nookies'
+import { firebaseAdmin } from 'utils/firebaseAdmin'
 
-const Keyword = ({ keyword, site, locale }) => (
-    <Layout site={site}>
+const Keyword = ({ user, keyword, site, locale }) => (
+    <Layout site={site} user={user}>
         <Layout.Main>
             <KeywordPageTemplate keyword={keyword} locale={locale} />
         </Layout.Main>
     </Layout>
 )
 
-export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
-    const host = req.headers.host
-    const{ keyword: slug } = reqQuery
+export const getServerSideProps = async (ctx) => {
+    try {
+        const cookies = nookies.get(ctx)
+        const host = ctx.req.headers.host
+        const locale = ctx.locale
+        const slug = ctx.query.keyword
+        
+        const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
-    const keyword = await getDocFromPathAndSlug(`sites/${host}/keywords`, slug)
+        const keyword = await getDocFromPathAndSlug(`sites/${host}/keywords`, slug)
 
-    return { props: { keyword, host, locale } }
+        return {
+            props: { host, keyword, locale, user: token }
+        }
+    } catch (err) {
+        console.log(err)
+        return { props: {}}
+    }
 }
-
 
 export default Keyword
