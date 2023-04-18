@@ -1,6 +1,9 @@
-const { simpleSitemapAndIndex } = require( 'sitemap' )
+const { SitemapStream, streamToPromise } = require( 'sitemap' )
+const { Readable } = require( 'stream' )
 const { petTipsNTricksPostsIndex } = require('utils/searchClient')
 const moment = require('moment')
+
+const { uploadSitemapToHosting } = require("utils/firebaseAdmin")
 
 export default async function handler(req, res) {
     //req, res
@@ -26,15 +29,18 @@ export default async function handler(req, res) {
 
     //query a list of all the posts
 
-    simpleSitemapAndIndex({
-        hostname: host,
-        destinationDir: './',
-        sourceData: links,
-        gzip: false
-      }).then(() => {
-        // Do follow up actions
-      })
+    // Create a stream to write to
+    const stream = new SitemapStream( { hostname: host } )
 
-    res.status(200)
+    // Return a promise that resolves with your XML string
+    const xmlSitemap = await streamToPromise(Readable.from(links).pipe(stream)).then((data) =>
+        data.toString()
+    )
+
+    console.log(xmlSitemap)
+
+    await uploadSitemapToHosting(xmlSitemap)
+
+    res.status(200).json(xmlSitemap)
 
 }
