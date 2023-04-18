@@ -13,9 +13,6 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
         lang: 'en'
     }
 
-    const headerImagePrompt = e.target.headerImage.value
-    const mediumImagePrompt = e.target.mediumImage.value
-
     setStep(3)
     setLoading(true)
 
@@ -39,10 +36,33 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
         return params
     })
     .then(async (params) => {
+
+        const prompt = `
+            You are a proffesional copy writer, using that experience,
+            please create and return an image description that would describe the header image of a web article titled "${promptText}"
+        `
+
+        let headerImagePromptParams = {
+            prompt
+        }
+
+        const resp = await axios.get('/api/getPromptReponse', { params: headerImagePromptParams })
+
+        const mediumPrompt = `
+            You are a proffesional copy writer, using that experience,
+            please create and return an image description that would describe the seeondary or embeded image of a web article titled "${promptText}"
+        `
+
+        let mediumImagePromptParams = {
+            prompt: mediumPrompt
+        }
+
+        const resp2 = await axios.get('/api/getPromptReponse', { params: mediumImagePromptParams })
+
         params = {
             ...params,
-            headerImagePrompt,
-            mediumImagePrompt
+            headerImagePrompt: await resp.data.trim(),
+            mediumImagePrompt: await resp2.data.trim()
         }
 
         const addSecondaryPostData   = tryXTimes(axios.get('/api/addSecondaryPostData',   { params }))

@@ -136,14 +136,6 @@ const NewPostTemplate = ({ site, host, lang }) => {
                 <>
                     <form onSubmit={(e) => submitArticle(selectedIdea, e, setStep, setPost, host, setHtml, setLoading, post, keywords, router )}>
                         <div>
-                            <label htmlFor="headerImage">Describe Header Image</label> <br />
-                            <input name="headerImage" id="headerImage" type="text" />
-                        </div>
-                        <div>
-                            <label htmlFor="mediumImage">Describe Medium Image</label> <br />
-                            <input name="mediumImage" id="mediumImage" type="text" />
-                        </div>
-                        <div>
                             <label htmlFor="map">Map Url</label> <br />
                             <input name="map" id="map" type="text" />
                         </div>
