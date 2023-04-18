@@ -1,5 +1,10 @@
 import React, { FC } from 'react'
 import Link from 'next/link'
+import styled from 'styled-components'
+
+const BradCrumbsContainer = styled.div`
+    margin-top: 15px;
+`
 
 interface BreadcrumbProps {
     breadcrumb: {
@@ -20,20 +25,24 @@ const Breadcrumb:FC<BreadcrumbProps> = ({ breadcrumb }) => {
 }
 
 export const Breadcrumbs = ({ pathArray }) => {
-    return pathArray.map((breadcrumb, i) => {
+    return (
+        <BradCrumbsContainer>
+            {pathArray.map((breadcrumb, i) => {
 
-        const ArrowAfter = () => {
-            if(pathArray.length === i+1) return null
-            return <>{` `} - {` `}</>
-        }
+                const ArrowAfter = () => {
+                    if(pathArray.length === i+1) return null
+                    return <>{` `} - {` `}</>
+                }
 
-        return (
-            <span key={`${i}-${breadcrumb.text}`}>
-                <Breadcrumb breadcrumb={breadcrumb} key={breadcrumb.text} /> 
-                <ArrowAfter />
-            </span>
-        )
-    })
+                return (
+                    <span key={`${i}-${breadcrumb.text}`}>
+                        <Breadcrumb breadcrumb={breadcrumb} key={breadcrumb.text} /> 
+                        <ArrowAfter />
+                    </span>
+                )
+            })}
+        </BradCrumbsContainer>
+    )
 }
 
 export default Breadcrumbs

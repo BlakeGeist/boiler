@@ -5,8 +5,11 @@
 import { promptResponse } from 'utils/apiHelpers'
 
 export default async function handler(req, res) {
-    const { prompt } = req.query
-    const articleIdeaPromot = `You are a content writer and online affiliate marketing specialist, please create 31 individual and unique article titles that can be used in a series of content that can be used to ${prompt}.`
+    const { prompt, amount } = req.query
+    const articleIdeaPromot = `
+        You are a content writer and online affiliate marketing specialist.
+        
+        Please create ${amount || 26} individual and unique article titles that can be used in a series of content that can be used to promote affiliate marketing links realted to ${prompt}.`
 
     try {
         const articleResponse = await promptResponse(articleIdeaPromot)

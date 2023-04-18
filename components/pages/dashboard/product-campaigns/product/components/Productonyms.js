@@ -3,13 +3,31 @@ import axios from 'axios'
 import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import Productonym from './Productonym'
+import { LoadingButton } from '@mui/lab'
+import styled from 'styled-components'
+
+const ButtonContainer = styled.div`
+    margin-top: 25px;
+`
+const ProductonymsContainer = styled.div`
+    display: flex;
+    margin-top: 25px;
+    flex-wrap: wrap;
+    justify-contet: space-between;
+`
+
+const AddProductonymFormContainer = styled.form`
+    margin-top: 25px;
+`
 
 const Productonyms = ({ product, host }) => {
     const [productonyms, setProductonyms] = useState(product?.altProductNames || [])
+    const [isLoading, setIsLoading] = useState(false)
+    const [inputVal, setInputVal] = useState('')
 
     const getProductonyms = async (name, e) => {
         e.preventDefault()
-
+        setIsLoading(true)
         const prompt = `
             You are a affiliate marketing specialst and expert in the industry.
 
@@ -56,28 +74,51 @@ const Productonyms = ({ product, host }) => {
         } catch (e) {
             console.log(' there was an error, ', e)
         }
+
+        setIsLoading(false)
     }
 
-    const handleAddProductonym = (e) => {
-        const name = e.target.productonym.value
-        console.log(name)
+    const handleAddProductonym =async  (e) => {
+        e.preventDefault()
+        const name = inputVal
+  
+        const newProductonyms = [...productonyms, name]
+
+        try {
+            const updatedProductCampaign = {
+                altProductNames: newProductonyms
+            }
+            const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
+            await updateDoc(productCampaginRef, updatedProductCampaign)
+            setProductonyms(newProductonyms)
+            console.log('added productonym, ', name)
+        } catch (e) {
+            console.log('e, ', e)
+        }
+    }
+
+    const handleInputChange = (e) => {
+        const newInputVal = e.target.value
+        setInputVal(newInputVal)
     }
 
     return (
         <div>
-            <h3>Productonyms:</h3>
+            <h2>Productonyms:</h2>
 
-            <form onSubmit={handleAddProductonym}>
-                <label htmlFor="productonym">Add Productonym: </label>
-                <input type="text" name="productonym" id="productonym" />
-                <input type="submit" />
-            </form>
-
-            <div style={{display: 'flex'}}>
+            <ProductonymsContainer>
                 {productonyms?.map(item => <Productonym product={product} host={host} productonyms={productonyms} setProductonyms={setProductonyms} productonym={item} key={item} />)}
-            </div>
+            </ProductonymsContainer>
 
-            <button onClick={e => getProductonyms(product.name, e)}>Get Productonyms</button>
+            <AddProductonymFormContainer onSubmit={handleAddProductonym}>
+                <label htmlFor="productonym">Add Productonym: </label>
+                <input type="text" name="productonym" id="productonym" value={inputVal} onChange={handleInputChange} />
+                <input type="submit" />
+            </AddProductonymFormContainer>
+
+            <ButtonContainer>
+                <LoadingButton onClick={e => getProductonyms(product.name, e)} loading={isLoading} loadingIndicator="Loading…" variant="outlined">Get Productonyms from AI</LoadingButton>
+            </ButtonContainer>
         </div>
     )
 }
