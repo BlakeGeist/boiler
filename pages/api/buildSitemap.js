@@ -1,11 +1,6 @@
-const { SitemapStream, streamToPromise, simpleSitemapAndIndex, lineSeparatedURLsToSitemapOptions } = require( 'sitemap' )
-const { Readable } = require( 'stream' )
+const { simpleSitemapAndIndex } = require( 'sitemap' )
 const { petTipsNTricksPostsIndex } = require('utils/searchClient')
 const moment = require('moment')
-
-const { createReadStream, createWriteStream } = require('fs');
-const { resolve } = require('path');
-const { createGzip } = require('zlib')
 
 export default async function handler(req, res) {
     //req, res
