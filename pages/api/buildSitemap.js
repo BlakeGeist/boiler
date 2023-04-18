@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
     simpleSitemapAndIndex({
         hostname: host,
-        destinationDir: './public',
+        destinationDir: './',
         sourceData: links,
         gzip: false
       }).then(() => {
