@@ -4,7 +4,13 @@
         "path": "/api/postsCron",
         "schedule": "*/5 * * * *"
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/sitemap.xml",
+        "destination": "https://us-central1-legos-1ab16.cloudfunctions.net/serveSitemap"
+      }
     ]
-  }
+}
 
   
