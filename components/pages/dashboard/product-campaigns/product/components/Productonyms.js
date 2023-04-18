@@ -12,6 +12,8 @@ const ButtonContainer = styled.div`
 const ProductonymsContainer = styled.div`
     display: flex;
     margin-top: 25px;
+    flex-wrap: wrap;
+    justify-contet: space-between;
 `
 
 const AddProductonymFormContainer = styled.form`
@@ -21,6 +23,7 @@ const AddProductonymFormContainer = styled.form`
 const Productonyms = ({ product, host }) => {
     const [productonyms, setProductonyms] = useState(product?.altProductNames || [])
     const [isLoading, setIsLoading] = useState(false)
+    const [inputVal, setInputVal] = useState('')
 
     const getProductonyms = async (name, e) => {
         e.preventDefault()
@@ -75,9 +78,28 @@ const Productonyms = ({ product, host }) => {
         setIsLoading(false)
     }
 
-    const handleAddProductonym = (e) => {
-        const name = e.target.productonym.value
-        console.log(name)
+    const handleAddProductonym =async  (e) => {
+        e.preventDefault()
+        const name = inputVal
+  
+        const newProductonyms = [...productonyms, name]
+
+        try {
+            const updatedProductCampaign = {
+                altProductNames: newProductonyms
+            }
+            const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
+            await updateDoc(productCampaginRef, updatedProductCampaign)
+            setProductonyms(newProductonyms)
+            console.log('added productonym, ', name)
+        } catch (e) {
+            console.log('e, ', e)
+        }
+    }
+
+    const handleInputChange = (e) => {
+        const newInputVal = e.target.value
+        setInputVal(newInputVal)
     }
 
     return (
@@ -90,12 +112,12 @@ const Productonyms = ({ product, host }) => {
 
             <AddProductonymFormContainer onSubmit={handleAddProductonym}>
                 <label htmlFor="productonym">Add Productonym: </label>
-                <input type="text" name="productonym" id="productonym" />
+                <input type="text" name="productonym" id="productonym" value={inputVal} onChange={handleInputChange} />
                 <input type="submit" />
             </AddProductonymFormContainer>
 
             <ButtonContainer>
-                <LoadingButton onClick={e => getProductonyms(product.name, e)} loading={isLoading} loadingIndicator="Loading…" variant="outlined">Get Productonyms</LoadingButton>
+                <LoadingButton onClick={e => getProductonyms(product.name, e)} loading={isLoading} loadingIndicator="Loading…" variant="outlined">Get Productonyms from AI</LoadingButton>
             </ButtonContainer>
         </div>
     )

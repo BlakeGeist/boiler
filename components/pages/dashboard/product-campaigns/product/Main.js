@@ -8,7 +8,7 @@ import moment from 'moment'
 import 'react-datetime-picker/dist/DateTimePicker.css'
 import 'react-calendar/dist/Calendar.css'
 import 'react-clock/dist/Clock.css'
-import { monthsBetweenDates } from 'utils/helpers'
+import { monthsBetweenDates, getDateXMonthsFromStartDate } from 'utils/helpers'
 
 import AddAmazonLink from './components/AddAmazonLink'
 import Productonyms from './components/Productonyms'
@@ -24,10 +24,12 @@ const ProductMain = ({ product, host }) => {
     const initalStartDate = product.startDate ? moment(product.startDate).toDate() : new Date()
     const [startDate, setStartDate] = useState(initalStartDate)
 
-    const initalEndDate = product.endDate ? moment(product.endDate).toDate() : new Date()
+    const initalCampaginLength = 6
+
+    const initalEndDate = product.endDate ? moment(product.endDate).toDate() : getDateXMonthsFromStartDate(new Date(), parseInt(initalCampaginLength))
 
     const [endDate, setEndDate] = useState(initalEndDate)
-    const [campaignLength, setCampaignLength] = useState(monthsBetweenDates(initalStartDate, initalEndDate) || '')
+    const [campaignLength, setCampaignLength] = useState(monthsBetweenDates(initalStartDate, initalEndDate) || initalCampaginLength)
 
     const handleAddTitleToProductCampagin = async (e) => {
         e.preventDefault()
@@ -71,6 +73,8 @@ const ProductMain = ({ product, host }) => {
                 setIsLoading={setIsLoading}
                 startDate={startDate}
                 endDate={endDate} 
+                campaignLength={campaignLength}
+
                 />
 
             <hr />

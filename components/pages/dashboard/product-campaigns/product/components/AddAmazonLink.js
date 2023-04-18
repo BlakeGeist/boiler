@@ -5,6 +5,8 @@ import styled from 'styled-components'
 
 const ProductsWrapper = styled.div`
     display: flex;
+    flex-wrap: wrap;
+    margin-top: 25px;
 
     div {
         padding: 0 5px;

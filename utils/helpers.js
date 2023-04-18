@@ -142,7 +142,7 @@ export const monthsBetweenDates = (date1, date2) => {
   }
 }
 
-export const addMonths = (startDate, monthsFrom) => {
+export const getDateXMonthsFromStartDate = (startDate, monthsFrom) => {
   if (!(startDate instanceof Date)) {
     throw new Error('Invalid input: startDate must be a Date object')
   }
