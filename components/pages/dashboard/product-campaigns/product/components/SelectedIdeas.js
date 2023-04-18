@@ -5,7 +5,7 @@ import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import moment from 'moment'
 
-const SelectedIdeas = ({ lang, product, host, selectedIdeas, setSelectedIdeas, campaignLength, startDate, endDate }) => {
+const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaignLength, startDate, endDate }) => {
 
     const setSchedule = (e) => {
         e.preventDefault()
@@ -95,7 +95,7 @@ const SelectedIdeas = ({ lang, product, host, selectedIdeas, setSelectedIdeas, c
 
             <ul>
                 {selectedIdeas.map((item, i) => (
-                    <SelectedIdea lang={lang} slug={product.slug} host={host} item={item} key={`${item.title}-idea`} i={i} />
+                    <SelectedIdea item={item} key={`${item.title}-idea`} i={i} />
                 ))}
             </ul>
 

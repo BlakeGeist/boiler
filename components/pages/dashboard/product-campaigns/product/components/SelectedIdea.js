@@ -1,9 +1,8 @@
 import React from 'react'
 import moment from 'moment'
 import axios from 'axios'
-import { tryXTimes } from 'utils/apiHelpers'
 
-const ScheduledIdea = ({ slug, lang, host, item }) => {
+const ScheduledIdea = ({ item }) => {
     const scheduledDate = item.publishedDate ? moment(item.publishedDate, "YYYY/MM/DD:HH:mm:ss").format('YYYY/MM/DD:hh:mm:ss').toString() : ''
 
     const handleGetImagePrompt = async (e) => {
