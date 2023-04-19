@@ -33,9 +33,6 @@ export const uploadSitemapToHosting = async (sitemapXml) => {
 
   const bucket = firebaseAdmin.storage().bucket()
 
-  const sitemapFilePath = 'sitemap.xml'
-  fs.writeFileSync(sitemapFilePath, sitemapXml)
-
   try {
     // Create a Readable stream from the sitemap XML string
     const stream = Readable.from(sitemapXml)
