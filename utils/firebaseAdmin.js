@@ -1,5 +1,4 @@
 import * as firebaseAdmin from 'firebase-admin'
-const fs = require('fs')
 const { Readable } = require('stream')
 
 export const firebaseConfig = {
@@ -32,9 +31,6 @@ export { firebaseAdmin }
 export const uploadSitemapToHosting = async (sitemapXml) => {
 
   const bucket = firebaseAdmin.storage().bucket()
-
-  const sitemapFilePath = 'sitemap.xml'
-  fs.writeFileSync(sitemapFilePath, sitemapXml)
 
   try {
     // Create a Readable stream from the sitemap XML string
