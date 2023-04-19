@@ -1,5 +1,4 @@
 import * as firebaseAdmin from 'firebase-admin'
-const fs = require('fs')
 const { Readable } = require('stream')
 
 export const firebaseConfig = {
