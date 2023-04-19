@@ -13,7 +13,6 @@ export default class MyDocument extends Document {
                     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet" />                    
                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7240508925750002" crossOrigin="anonymous"></script>
                 
-                    
                     <Script async src="https://www.googletagmanager.com/gtag/js?id=G-HMMSNDKE0N"></Script>
                     <Script id="google-analytics">
                         {`window.dataLayer = window.dataLayer || [];

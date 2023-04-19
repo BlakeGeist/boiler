@@ -8,7 +8,7 @@ import Layout from 'components/Layout'
 const Home = ({ posts, site }) => (
   <>
     <Head>
-      <title>Pet Blog - Pet Tips N Tricks</title>
+      <title>Pet Tips N Tricks | Pet Blog</title>
       <meta name="description" content="Pet Blog, Articles, FAQs and How To's related to furry and scaly friends." />
       <link rel="icon" href="/favicon.ico" />
     </Head>
