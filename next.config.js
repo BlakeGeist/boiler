@@ -1,4 +1,12 @@
 module.exports = {
+    async rewrites() {
+      return [
+        {
+          source: "/sitemap.xml",
+          destination: "https://us-central1-legos-1ab16.cloudfunctions.net/serveSitemap"
+        }
+      ]
+    },
     webpack: (config) => { 
       config.resolve.preferRelative = true
       return config
