@@ -1,9 +1,9 @@
 import React from 'react'
 import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
-import { getDateXMonthsFromStartDate } from 'utils/helpers'
+import { getDateXMonthsFromStartDate, generateEvenlySpacedDates } from 'utils/helpers'
 
-const CampagainLength = ({ setEndDate, startDate, host, product, campaignLength, setCampaignLength }) => {
+const CampagainLength = ({ setPostSchedule, setEndDate, startDate, host, product, campaignLength, setCampaignLength }) => {
 
     const handleChange = async (e) => {
       const newCampaginLength  = e.target.value

@@ -18,7 +18,7 @@ const DatePickersContainer = styled.div`
     }
 `
 
-const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, product, campaignLength, setCampaignLength, postSchedule, setPostSchedule }) => {
+const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, product, campaignLength, setCampaignLength, setPostSchedule }) => {
 
     const hanndleStartDateUpdate = async (e) => {
         const newStartDate = e
@@ -61,7 +61,7 @@ const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, 
         <div>
             <h2>Campaign Schedule</h2>
 
-            <CampagainLength setEndDate={setEndDate} startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
+            <CampagainLength setPostSchedule={setPostSchedule} setEndDate={setEndDate} startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
             <DatePickersContainer>
                 <div>
                     <strong>Start Date: </strong>

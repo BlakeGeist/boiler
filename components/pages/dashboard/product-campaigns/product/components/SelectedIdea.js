@@ -1,6 +1,5 @@
 import React from 'react'
 import moment from 'moment'
-import axios from 'axios'
 
 const ScheduledIdea = ({ item }) => {
     const scheduledDate = item.publishedDate ? moment(item.publishedDate, "YYYY/MM/DD:HH:mm:ss").format('YYYY/MM/DD:hh:mm:ss').toString() : ''

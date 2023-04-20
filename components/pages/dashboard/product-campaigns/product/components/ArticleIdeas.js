@@ -7,7 +7,7 @@ const ArticleIdeas = ({ articleIdeas }) => {
     return (
         <>
             <h2>Article Ideas</h2>
-            {articleIdeas.map((articleIdea, i) => (
+            {articleIdeas.map((articleIdea) => (
                 <ArticleIdea articleIdea={articleIdea} key={`${articleIdea.title}-checkbox`} />
             ))}
         </>        
