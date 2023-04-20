@@ -1,40 +1,95 @@
 import React from 'react'
 import Layout from 'components/Layout'
+import Head from 'next/head'
 
 const Terms = ({ site }) => {
     return (
-        <Layout site={site}>
-            <Layout.Main>
+        <>
+            <Head>
+                <title>Privacy Policy </title>
+            </Head>
 
-                <h1>Terms of Service for Pet Adoption Website</h1>
+            <Layout site={site}>
+                <Layout.Main>
 
-                <p>Welcome to our pet adoption website! These Terms of Service (the &#34;Terms&#34;) govern your use of our website located at [insert website URL] (the &#34;Website&#34;), which is owned and operated by [insert company name] (&#34;we&#34;, &#34;us&#34;, or &#34;our&#34;).</p>
+                    <h1>Privacy Policy</h1>
 
-                <p>By accessing or using the Website, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the Website.</p>
+                    <p>We are committed to protecting your privacy. This Privacy Policy (the &quot;Policy&quot;) describes how we collect, use, and disclose information about you when you use our website located at [insert website URL] (the &quot;Website&quot;), which is owned and operated by [insert company name] (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;).</p>
 
-                <p>Pet Adoption: Our Website provides a platform for pet owners and potential adopters to connect. We do not represent or warrant the health or temperament of any pets listed on our Website, and we do not endorse any pet owners or adopters who use our platform.</p>
+                    <h2>Information We Collect</h2>
+                    <p>We may collect information about you when you use our Website, including:</p>
 
-                <p>User Content: We may allow users to submit content, such as pet profiles or adoption applications, to the Website (the &#34;User Content&#34;). By submitting User Content, you grant us a non-exclusive, transferable, sub-licensable, royalty-free, worldwide license to use, copy, modify, create derivative works based on, distribute, publicly display, publicly perform, and otherwise exploit in any manner such User Content in all formats and distribution channels now known or hereafter devised (including in connection with the Website and our business and on third-party sites and services), without further notice to or consent from you, and without the requirement of payment to you or any other person or entity.</p>
+                    <p>Information you provide: We may collect personal information you provide to us, such as your name, email address, and phone number, when you create an account or contact us.</p>
 
-                <p>You represent and warrant that: (i) you either are the sole and exclusive owner of all User Content or you have all rights, licenses, consents, and releases that are necessary to grant to us the rights in such User Content, as contemplated under these Terms; and (ii) neither the User Content, nor your submission, uploading, publishing or otherwise making available of such User Content, nor our use of the User Content as permitted herein will infringe, misappropriate or violate a third party&apos;s patent, copyright, trademark, trade secret, moral rights or other proprietary or intellectual property rights, or rights of publicity or privacy, or result in the violation of any applicable law or regulation.</p>
+                    <p>Usage data: We may collect information about your use of the Website, such as the pages you visit and the actions you take, using cookies and similar technologies.</p>
 
-                <p>Prohibited Conduct: You may not use the Website for any illegal or unauthorized purpose. You agree to comply with all laws, rules, and regulations applicable to your use of the Website. You may not post or transmit, or cause to be posted or transmitted, any communication or solicitation designed or intended to obtain password, account, or private information from any user of the Website.</p>
+                    <h2>How We Use Your Information</h2>
 
-                <p>Indemnification: You agree to indemnify, defend, and hold harmless us and our affiliates, officers, directors, employees, agents, and licensors from and against any and all claims, liabilities, expenses, damages, and costs (including reasonable attorneys&apos; fees) arising out of or in any way related to your use of the Website, your User Content, or your breach of these Terms.</p>
+                    <h3>We may use your information for the following purposes:</h3>
 
-                <p>Limitation of Liability: In no event shall we be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Website; (ii) any conduct or content of any third party on the Website; (iii) any content obtained from the Website; or (iv) unauthorized access, use, or alteration of your transmissions or content.</p>
+                    <ul>
+                        <li>
+                            <p>To operate and improve the Website;</p>
+                        </li>
+                        <li>
+                            <p>To provide customer support and respond to your inquiries;</p>
+                        </li>
+                        <li>
+                            <p>To communicate with you about our services;</p>
+                        </li>
+                        <li>
+                            <p>To personalize your experience on the Website;</p>
+                        </li>
+                        <li>
+                            <p>To analyze and improve the Website&apos;s performance and user experience;</p>
+                        </li>
+                        <li>
+                            <p>To enforce our policies and protect our rights;</p>
+                        </li>
+                        <li>
+                            <p>To comply with applicable laws and regulations.</p>
+                        </li>
+                    </ul>
 
-                <p>Governing Law: These Terms shall be governed by and construed in accordance with the laws of the jurisdiction where our company is located, without giving effect to any principles of conflicts of law.</p>
+                    <h2>Sharing of Your Information</h2>
 
-                <p>Changes to the Terms: We reserve the right to modify or update these Terms from time to time, in our sole discretion. If we make any material changes to these Terms, we will notify you by posting a notice on the Website or by sending an email to the email address associated with your account. Your continued use of the Website after any such changes constitutes your acceptance of the new Terms.</p>
+                    <p>We may share your information with third parties in the following circumstances:</p>
 
-                <p>Termination: We reserve the right, without notice and in our sole discretion, to terminate your access to the Website, for any reason or no reason, including if we believe that you have violated or acted inconsistently with these Terms.</p>
+                    <ul>
+                        <li>
+                            <p>Service providers: We may share your information with third-party service providers who perform services on our behalf, such as website hosting, data analysis, and customer service.</p>
+                        </li>
+                        <li>
+                            <p>Legal purposes: We may disclose your information in response to a subpoena, court order, or other governmental request.</p>
+                        </li>
+                        <li>
+                            <p>Business transfers: We may share your information in connection with a merger, acquisition, or other business transfer.</p>
+                        </li>
+                    </ul>
 
-                <p>Miscellaneous: These Terms constitute the entire agreement between you and us regarding the use of the Website. If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall remain in full force and effect. Our failure to enforce any right or provision of these Terms shall not be deemed a waiver of such right or provision. You may not assign or transfer these Terms, by operation of law or otherwise, without our prior written consent. We may assign these Terms at any time without notice. These Terms do not create any agency, partnership, joint venture, or employment relationship, and you may not make any representations on our behalf.</p>
+                    <h2>Your Choices</h2>
+                    <p>You can choose not to provide certain information to us, but this may limit your ability to use certain features of the Website.</p>
 
-            </Layout.Main>
-            <Layout.Aside />
-        </Layout>        
+                    <p>You can opt-out of receiving marketing communications from us by following the instructions in the communication.</p>
+
+                    <p>You can also disable cookies in your browser settings, but this may limit your ability to use certain features of the Website.</p>
+
+                    <h2>Data Security</h2>
+                    <p>We take reasonable measures to protect your information from unauthorized access, disclosure, alteration, or destruction. However, no data security measures can guarantee 100% security.</p>
+
+                    <h2>Children&apos;s Privacy</h2>
+                    <p>Our Website is not directed to children under the age of 13, and we do not knowingly collect personal information from children under the age of 13. If we learn that we have collected personal information of a child under the age of 13, we will take steps to delete such information as soon as possible.</p>
+
+                    <h2>Changes to the Policy</h2>
+                    <p>We may update this Policy from time to time. If we make any material changes to the Policy, we will notify you by posting a notice on the Website or by sending an email to the email address associated with your account. Your continued use of the Website after any such changes constitutes your acceptance of the new Policy.</p>
+
+                    <h2>Contact Us</h2>
+                    <p>If you have any questions or concerns about this Policy, please contact us at [insert contact information].</p>
+
+                </Layout.Main>
+                <Layout.Aside />
+            </Layout>            
+        </>
     )
 }
 
