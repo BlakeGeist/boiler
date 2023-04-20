@@ -20,8 +20,7 @@ const AddProductonymFormContainer = styled.form`
     margin-top: 25px;
 `
 
-const Productonyms = ({ product, host }) => {
-    const [productonyms, setProductonyms] = useState(product?.altProductNames || [])
+const Productonyms = ({ product, host, productonyms, setProductonyms }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [inputVal, setInputVal] = useState('')
 

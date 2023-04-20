@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { monthsBetweenDates } from 'utils/helpers'
 import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
+import { generateEvenlySpacedDates } from 'utils/helpers'
 
 const DatePickersContainer = styled.div`
     margin-top: 25px;
@@ -17,7 +18,7 @@ const DatePickersContainer = styled.div`
     }
 `
 
-const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, product, campaignLength, setCampaignLength }) => {
+const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, product, campaignLength, setCampaignLength, setPostSchedule }) => {
 
     const hanndleStartDateUpdate = async (e) => {
         const newStartDate = e
@@ -30,9 +31,11 @@ const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, 
             startDate: newStartDate
           }
     
-          const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
-          await updateDoc(productCampaginRef, updatedProductCampaign)
-          console.log(`added updatedProductCampaign, `, updatedProductCampaign)
+        const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
+        await updateDoc(productCampaginRef, updatedProductCampaign)
+        console.log(`added updatedProductCampaign, `, updatedProductCampaign)
+        const schedule = generateEvenlySpacedDates(newStartDate, endDate, newCampaginLength)
+        setPostSchedule(schedule)
     }
 
     const hanndleEndDateUpdate = async (e) => {
@@ -46,16 +49,19 @@ const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, 
             endDate: newEndDate
           }
     
-          const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
-          await updateDoc(productCampaginRef, updatedProductCampaign)
-          console.log(`added updatedProductCampaign, `, updatedProductCampaign)        
+        const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
+        await updateDoc(productCampaginRef, updatedProductCampaign)
+        console.log(`added updatedProductCampaign, `, updatedProductCampaign)
+        
+        const schedule = generateEvenlySpacedDates(startDate, newEndDate, newCampaginLength)
+        setPostSchedule(schedule)
     }
 
     return (
         <div>
             <h2>Campaign Schedule</h2>
 
-            <CampagainLength setEndDate={setEndDate} startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
+            <CampagainLength setPostSchedule={setPostSchedule} setEndDate={setEndDate} startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
             <DatePickersContainer>
                 <div>
                     <strong>Start Date: </strong>
