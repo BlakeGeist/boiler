@@ -12,7 +12,7 @@ const ArticleIdea = ({ articleIdea, host, lang }) => {
         if(linkToScheduledPost.length === 0) return null
         return (
             <div>
-                <Link href={`/dashboard/posts/scheduled-posts/${linkToScheduledPost}`}>
+                <Link href={`/dashboard/posts/drafts/${linkToScheduledPost}`}>
                     <strong>View Scheduled Post:</strong> {articleIdea.title}
                 </Link>
             </div>
