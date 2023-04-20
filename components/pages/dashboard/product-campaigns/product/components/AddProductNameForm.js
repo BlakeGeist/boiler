@@ -3,8 +3,9 @@ import axios from 'axios'
 import { LoadingButton } from '@mui/lab'
 import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
+import moment from 'moment'
 
-const AddProductNameForm = ({ campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product }) => {
+const AddProductNameForm = ({ productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, postSchedule }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
@@ -15,16 +16,43 @@ const AddProductNameForm = ({ campaignLength, host, isLoading, setIsLoading, set
         try {
             const params = {
                 prompt: productName,
+                keywords: [productName, ...productonyms].toString(),
                 amount
             }
+            console.log('productonyms', productonyms)
+
             const articleIdeasRes = await axios.get('/api/getArticleIdeasFromPoduct', { params })
-            
-            const articleIdeasObjArray = articleIdeasRes.data.map((articleIdea) => {
-                return { 
+            let index = 0
+
+            const getNextItemInArray = (idea) => {
+                let itemInArray = productonyms[index]
+                console.log(itemInArray)
+                index++
+    
+                if(idea === itemInArray) itemInArray = productonyms[index]
+    
+                if(index === productonyms.length) index = 0
+                return itemInArray
+            }
+
+            const articleIdeasObjArray = articleIdeasRes.data.map((articleIdea, i) => {
+                console.log(postSchedule)
+                const dateString = moment(postSchedule[i]).format('YYYY/MM/DD:HH:mm:ss').toString() || moment().format('YYYY/MM/DD:HH:mm:ss').toString()
+
+                const newArticleIdea = { 
                     title: articleIdea,
                     isPosted: false,
-                    isSelected: false
+                    isSelected: false,
+                    publishedDate: dateString,
+                    keywords: [
+                        product.name,
+                        getNextItemInArray(articleIdea)
+                    ]
                 }
+
+                console.log(newArticleIdea)
+
+                return newArticleIdea
             })
             setArticleIdeas(articleIdeasObjArray)
 

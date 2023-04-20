@@ -1,32 +1,30 @@
-import React, { useState } from 'react'
-import timestamp from 'time-stamp'
+import React from 'react'
+import moment from 'moment'
 
-const ArticleIdea = ({ articleIdea, i, selectedIdeas, setSelectedIdeas }) => {
+const ArticleIdea = ({ articleIdea }) => {
     if(!articleIdea.title) return null
 
-    const [isChecked, setIsChecked] = useState(selectedIdeas.filter(item => item.title === articleIdea.title).length > 0)
-
-    const handleInputChange = () => {
-        setIsChecked(!isChecked)
-        const createdAt = timestamp('YYYY/MM/DD:mm:ss')
-
-        const dis = {
-            title: articleIdea.title,
-            createdAt: createdAt
-        }
-
-        if(!isChecked === true) {
-
-            return setSelectedIdeas([...selectedIdeas, dis])
-        }
-
-        return setSelectedIdeas(selectedIdeas.filter(item => item.title !== articleIdea.title))
-    }
-
+    const scheduledDate = articleIdea.publishedDate ? moment(articleIdea.publishedDate, "YYYY/MM/DD:HH:mm:ss").format('YYYY/MM/DD:hh:mm:ss').toString() : ''
     return (
         <div>
-            {articleIdea.title}
-            <input type='checkbox' name={`article-${i+1}`} onChange={handleInputChange} checked={isChecked} value={isChecked} />
+            <div>
+                <strong>Title: </strong> {articleIdea.title}
+            </div>
+            <div>
+                <div>
+                    <strong>Schedule: </strong> {scheduledDate}
+                </div>
+                <div>
+                    <div>
+                        <strong>Keywords: </strong>
+                    </div>
+                    <ul>
+                        {articleIdea.keywords?.map(keyword => {
+                            return <li key={`${articleIdea.title}-${keyword}-keyword`}>{keyword}</li>
+                        })}
+                    </ul>
+                </div>
+            </div>
         </div>   
     )
 }

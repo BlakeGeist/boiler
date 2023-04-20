@@ -1,13 +1,10 @@
 import styled from 'styled-components'
 
 export const SiteLayout = styled.div`
-    display: flex;
     max-width: 1110px;
     margin: 20px auto;
     background-color: #fff;
     font-family: 'Open Sans', sans-serif;
-    height: 100%;
-    flex-wrap: wrap;
 
     header, footer {
         flex: 1 1 100%;
@@ -16,6 +13,8 @@ export const SiteLayout = styled.div`
 
     main {
         flex: 1 1;
+        height: fit-content;
+        height: -webkit-fill-available;
     }
 
     footer {
