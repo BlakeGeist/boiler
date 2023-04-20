@@ -1,7 +1,3 @@
-
-
-
-
 import { promptResponse } from 'utils/apiHelpers'
 
 export default async function handler(req, res) {

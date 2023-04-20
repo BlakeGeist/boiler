@@ -22,11 +22,12 @@ export const getServerSideProps = async (ctx) => {
         const host = ctx.req.headers.host
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
         const slug = ctx.query.product
+        const lang = ctx.locale
 
         const product = await getDocFromPathAndSlug(`sites/${host}/productCampaigns`, slug)
 
         return {
-            props: { product, user: token, host }
+            props: { product, user: token, host, lang }
         }
     } catch (err) {
 
