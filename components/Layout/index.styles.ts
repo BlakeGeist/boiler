@@ -7,15 +7,18 @@ export const SiteLayout = styled.div`
     background-color: #fff;
     font-family: 'Open Sans', sans-serif;
     height: 100%;
-
-    flex-direction: column;
+    flex-wrap: wrap;
 
     header, footer {
-        flex: 0 0;
+        flex: 1 1 100%;
+        padding-bottom: 25px;
     }
 
     main {
-        flex: 1 1 auto;
+        flex: 1 1;
+    }
+
+    footer {
     }
 
     aside {
