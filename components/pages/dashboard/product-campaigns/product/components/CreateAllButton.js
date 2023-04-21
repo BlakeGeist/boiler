@@ -19,8 +19,6 @@ const CreateAllButton = ({ articleIdeas, host }) => {
         }
 
         setIsLoading(false)
-
-        console.log('create them all, ', articleIdeas)
     }
 
     return (

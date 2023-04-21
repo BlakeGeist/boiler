@@ -33,7 +33,6 @@ const CampaignSchedule = ({ articleIdeas, setStartDate, setEndDate, startDate, e
     
         const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
         await updateDoc(productCampaginRef, updatedProductCampaign)
-        console.log(`added updatedProductCampaign, `, updatedProductCampaign)
         const schedule = generateEvenlySpacedDates(newStartDate, endDate, newCampaginLength)
         setPostSchedule(schedule)
     }
@@ -51,8 +50,6 @@ const CampaignSchedule = ({ articleIdeas, setStartDate, setEndDate, startDate, e
 
         const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
         await updateDoc(productCampaginRef, updatedProductCampaign)
-        console.log(`added updatedProductCampaign, `, updatedProductCampaign)
-        
         const schedule = generateEvenlySpacedDates(startDate, newEndDate, newCampaginLength)
         setPostSchedule(schedule)
     }

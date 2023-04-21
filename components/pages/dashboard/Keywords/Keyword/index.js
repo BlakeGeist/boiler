@@ -42,9 +42,6 @@ const Keyword = ({ locale, keyword }) => {
     const handleAutoLink = async (post, e) => {
         e.preventDefault()
 
-        console.log(`we want to find, ${keyword.keyphrase}`)
-        console.log(`and we want to find it in ${post.slug} post`)
-
         const link = `<a href="${keyword.link}">${keyword.keyphrase}</a>`      
 
         const article = JSON.parse(post?.article)

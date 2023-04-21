@@ -8,8 +8,6 @@ const { uploadSitemapToHosting } = require("utils/firebaseAdmin")
 export default async function handler(req, res) {
     //req, res
     
-    console.log('before')
-
     const host = `https://pet-tips-n-tricks.com`
 
     const links = await petTipsNTricksPostsIndex.search().then(async ({ hits }) => {
@@ -25,8 +23,6 @@ export default async function handler(req, res) {
         return mappedHits
     })
 
-    console.log(links)
-
     //query a list of all the posts
 
     // Create a stream to write to
@@ -36,8 +32,6 @@ export default async function handler(req, res) {
     const xmlSitemap = await streamToPromise(Readable.from(links).pipe(stream)).then((data) =>
         data.toString()
     )
-
-    console.log(xmlSitemap)
 
     await uploadSitemapToHosting(xmlSitemap)
 

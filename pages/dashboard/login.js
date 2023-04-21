@@ -25,13 +25,12 @@ const LoginPage = ({ site }) => {
       await logIn(data.email, data.password)
       
       setPersistence(auth, browserLocalPersistence)
-        .then((whatsThis) => {
+        .then(() => {
           // Existing and future Auth states are now persisted in the current
           // session only. Closing the window would clear any existing state even
           // if a user forgets to sign out.
           // ...
 
-          console.log(whatsThis)
           console.log('email, password, ', data.email, data.password)
 
           // New sign-in will be persisted with session persistence.

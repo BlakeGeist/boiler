@@ -8,7 +8,6 @@ import nookies from 'nookies'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
 
 const Drafts = ({ user, site, host, draftPosts }) => {
-    console.log(draftPosts)
     return (
         <Layout site={site} user={user}>
             <Layout.Main>

@@ -24,7 +24,6 @@ export default async function handler(req, res) {
     await amazonPaapi.SearchItems(commonParameters, requestParameters)
         .then((data) => {
             // do something with the success response.
-            console.log(data)
             return res.status(200).json(data)
 
         })

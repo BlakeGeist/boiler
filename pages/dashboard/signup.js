@@ -17,7 +17,6 @@ const SignupPage = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log('here')
       await signUp(data.email, data.password)
       router.push("/dashboard")
     } catch (error) {
