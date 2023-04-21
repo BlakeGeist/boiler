@@ -1,11 +1,12 @@
 import React from 'react'
 import ScheduledPostsMain from 'components/pages/dashboard/posts/scheduled-posts/Main'
 import Layout from 'components/Layout'
-import { collection, where, query, orderBy, getDocs } from "firebase/firestore"
+import { collection, where, query, orderBy, getDocs, limit } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import Breadcrumbs from 'components/BreadCrumbs'
 import nookies from 'nookies'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
+import moment from 'moment'
 
 const SchdeduledPosts = ({ user, site, host, scheduledPosts, lang }) => (
     <Layout site={site} user={user}>
@@ -24,13 +25,15 @@ export const getServerSideProps = async (ctx) => {
         
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
+        const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
+
         const scheduledPostsPath = collection(firebaseDb, `sites/${host}/langs/${lang}/posts`)
-        const scheduledPostsQuery = query(scheduledPostsPath, where("status", "==", 'scheduled'), orderBy("createdAt", "desc"))
+        const scheduledPostsQuery = query(scheduledPostsPath, where("publishedDate", ">", currentTime), orderBy("publishedDate", "asc"), limit(25))
         const scheduledPostsDocs = await getDocs(scheduledPostsQuery)
         const scheduledPosts = scheduledPostsDocs?.docs?.map(doc => doc.data())
     
         return {
-            props: { host, scheduledPosts, user: token }
+            props: { host, scheduledPosts, user: token, lang }
         }
     } catch (err) {
         ctx.res.writeHead(302, { Location: '/dashboard/login' })

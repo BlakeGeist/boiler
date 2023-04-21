@@ -10,7 +10,7 @@ const DashboardPostsMain = ({ posts: initialPosts, host, lang }) => {
             <h1>Dashboard - Posts</h1>
             <PostsSearchForm setPosts={setPosts} initialPosts={initialPosts} />
             <hr />
-            <PostsTable posts={posts} host={host} lang={lang} />
+            <PostsTable setPosts={setPosts} posts={posts} host={host} lang={lang} />
         </>
     )
 }
