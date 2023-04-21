@@ -18,7 +18,7 @@ const DatePickersContainer = styled.div`
     }
 `
 
-const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, product, campaignLength, setCampaignLength, setPostSchedule }) => {
+const CampaignSchedule = ({ articleIdeas, setStartDate, setEndDate, startDate, endDate, host, product, campaignLength, setCampaignLength, setPostSchedule }) => {
 
     const hanndleStartDateUpdate = async (e) => {
         const newStartDate = e
@@ -47,8 +47,8 @@ const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, 
         const updatedProductCampaign = {
             campaignLength: parseInt(newCampaginLength),
             endDate: newEndDate
-          }
-    
+        }
+
         const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
         await updateDoc(productCampaginRef, updatedProductCampaign)
         console.log(`added updatedProductCampaign, `, updatedProductCampaign)
@@ -61,7 +61,7 @@ const CampaignSchedule = ({ setStartDate, setEndDate, startDate, endDate, host, 
         <div>
             <h2>Campaign Schedule</h2>
 
-            <CampagainLength setPostSchedule={setPostSchedule} setEndDate={setEndDate} startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
+            <CampagainLength articleIdeas={articleIdeas} setPostSchedule={setPostSchedule} setEndDate={setEndDate} startDate={startDate} endDate={endDate} host={host} product={product} campaignLength={campaignLength} setCampaignLength={setCampaignLength} />
             <DatePickersContainer>
                 <div>
                     <strong>Start Date: </strong>
