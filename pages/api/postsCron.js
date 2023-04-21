@@ -23,8 +23,6 @@ export default async function handler(req, res) {
         const postRef = doc(firebaseDb, `/sites/${host}/langs/en/posts`, post.slug)
 
         await updateDoc(postRef, postUpdates)
-
-        console.log(`published ${post.slug}`)
     }
 
     res.status(200).end('Hello Cron!')

@@ -19,8 +19,6 @@ const Scheduling = ({ handleScheduleUpdate, postSlug, host, lang, publishedDate 
         const transformedDate = moment(dateSelected).format('YYYY/MM/DD:HH:mm:ss')
         handleScheduleUpdate(transformedDate)
 
-        console.log(transformedDate)
-
         const post = {
             publishedDate: transformedDate,
             status: 'scheduled'

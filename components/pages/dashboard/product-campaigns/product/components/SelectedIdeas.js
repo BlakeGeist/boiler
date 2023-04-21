@@ -12,8 +12,6 @@ const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaig
 
         const schedule = generateEvenlySpacedDates(startDate, endDate, selectedIdeas.length)
 
-        console.log('schedule, ', schedule)
-
         const mappedSelectedIdeas = selectedIdeas.map((idea, i) => {
             const dateString = moment(schedule[i]).format('YYYY/MM/DD:HH:mm:ss').toString()
             return {
@@ -21,9 +19,6 @@ const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaig
                 publishedDate: dateString
             }
         })
-
-        console.log('selectedIdeas, ', selectedIdeas)
-        console.log('mappedSelectedIdeas, ', mappedSelectedIdeas)
 
         setSelectedIdeas(mappedSelectedIdeas)
     }
@@ -37,7 +32,6 @@ const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaig
             }
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
-            console.log(`added articlesToBeCreated, `, selectedIdeas)
         } catch (e) {
             console.log('e, ', e)
         }
@@ -76,7 +70,6 @@ const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaig
             }
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
-            console.log(`updated articlesToBeCreated, `, selectedIdeas)
         } catch (e) {
             console.log('e, ', e)
         }

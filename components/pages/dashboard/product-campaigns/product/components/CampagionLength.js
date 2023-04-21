@@ -18,7 +18,6 @@ const CampagainLength = ({ articleIdeas, setPostSchedule, setEndDate, startDate,
 
       const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
       await updateDoc(productCampaginRef, updatedProductCampaign)
-      console.log(`added updatedProductCampaign, `, updatedProductCampaign)
       const schedule = generateEvenlySpacedDates(startDate, newEndDate, articleIdeas.length)
       setPostSchedule(schedule)
 

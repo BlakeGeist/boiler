@@ -20,14 +20,12 @@ const AddProductNameForm = ({ articleIdeas, endDate, startDate, productonyms, ca
                 keywords: [productName, ...productonyms].toString(),
                 amount
             }
-            console.log('productonyms', productonyms)
 
             const articleIdeasRes = await axios.get('/api/getArticleIdeasFromPoduct', { params })
             let index = 0
 
             const getNextItemInArray = (idea) => {
                 let itemInArray = productonyms[index]
-                console.log(itemInArray)
                 index++
     
                 if(idea === itemInArray) itemInArray = productonyms[index]
@@ -61,9 +59,6 @@ const AddProductNameForm = ({ articleIdeas, endDate, startDate, productonyms, ca
             }
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
-
-            console.log(`added articleIdeasArray, `, articleIdeasObjArray)
-
         } catch (e) {
             console.log('error, ', e)
         }

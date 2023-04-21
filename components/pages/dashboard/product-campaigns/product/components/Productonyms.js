@@ -90,7 +90,6 @@ const Productonyms = ({ product, host, productonyms, setProductonyms }) => {
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
             setProductonyms(newProductonyms)
-            console.log('added productonym, ', name)
         } catch (e) {
             console.log('e, ', e)
         }

@@ -7,10 +7,7 @@ export default async function handler(req, res) {
         You are a content writer and online affiliate marketing specialist.
         
         Please create ${amount || 24} individual and unique article titles that can be used in a series of content that can be used to promote affiliate marketing links realted to ${keywords.replace(",", ", ")}.
-        
-        `
-
-        console.log(articleIdeaPromot)
+    `
 
     try {
         const articleResponse = await promptResponse(articleIdeaPromot)

@@ -49,8 +49,8 @@ const DraftPostMain = ({ site, host, post: initalPost, lang}) => {
             .catch(e => console.log('error:, ', e))
     }
 
-    const handleScheduleUpdate = (dateSelected) => {
-        console.log(dateSelected)
+    const handleScheduleUpdate = () => {
+        //console.log(dateSelected)
     }
 
     return (
