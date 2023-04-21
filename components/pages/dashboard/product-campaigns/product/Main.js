@@ -10,8 +10,7 @@ import { monthsBetweenDates, getDateXMonthsFromStartDate, generateEvenlySpacedDa
 import AddAmazonLink from './components/AddAmazonLink'
 import Productonyms from './components/Productonyms'
 import CampaignSchedule from './components/CampgainSchedule'
-
-
+import CreateAllButton from './components/CreateAllButton'
 
 const ProductMain = ({ product, host, lang }) => {
     const [articleIdeas, setArticleIdeas] = useState(product.articleIdeasArray || [])
@@ -83,6 +82,11 @@ const ProductMain = ({ product, host, lang }) => {
                 lang={lang}
                 product={product}
                 setArticleIdeas={setArticleIdeas}
+                />
+
+            <CreateAllButton
+                articleIdeas={articleIdeas}
+                host={host}
                 />
         </>
     )
