@@ -47,11 +47,11 @@ const PostTableRow = ({ setPosts, posts, host, post, lang }) => {
             </td>
             <td>
                 <PostHas>
-                    <PostHasItem hasItem={post.articleHtml.length > 0}>Article</PostHasItem>
-                    <PostHasItem hasItem={post.headerImageSrc.length > 0}>Header Image</PostHasItem>
-                    <PostHasItem hasItem={post.mediumImageSrc.length > 0}>Body Image</PostHasItem>
-                    <PostHasItem hasItem={post.faqs.length > 0}>Faqs</PostHasItem>
-                    <PostHasItem hasItem={post.listicleItems.length > 0}>Listicle</PostHasItem>
+                    <PostHasItem hasItem={post.articleHtml && post.articleHtml.length > 0}>Article</PostHasItem>
+                    <PostHasItem hasItem={post.headerImageSrc && post.headerImageSrc.length > 0}>Header Image</PostHasItem>
+                    <PostHasItem hasItem={post.mediumImageSrc && post.mediumImageSrc.length > 0}>Body Image</PostHasItem>
+                    <PostHasItem hasItem={post.faqs && post.faqs.length > 0}>Faqs</PostHasItem>
+                    <PostHasItem hasItem={post.listicleItems && post.listicleItems.length > 0}>Listicle</PostHasItem>
                 </PostHas>
             </td>
             <td>
