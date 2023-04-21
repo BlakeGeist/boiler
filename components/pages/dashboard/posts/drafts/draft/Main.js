@@ -76,7 +76,7 @@ const DraftPostMain = ({ site, host, post: initalPost, lang}) => {
                 post={post}
                 host={host}
                 site={site}
-                isEditable={true}
+                isEditing={true}
             />            
         </>
     )

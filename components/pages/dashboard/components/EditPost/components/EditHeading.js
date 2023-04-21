@@ -3,6 +3,19 @@ import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import { LoadingButton } from '@mui/lab'
 import { cleanSlug } from 'utils/helpers'
+import styled from 'styled-components'
+
+const HeadingInput = styled.input`
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+`
 
 const Heading = ({ post, host }) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -43,7 +56,7 @@ const Heading = ({ post, host }) => {
         <form onSubmit={handleSubmit}>
             <div>
                 Heading: 
-                <input placeholder='Heading' value={heading} onChange={handleChange} type='text' id='heading' />
+                <HeadingInput placeholder='Heading' value={heading} onChange={handleChange} type='text' id='heading' />
                 <LoadingButton type='submit' loading={isLoading} loadingIndicator="Loading…" variant="outlined">Update</LoadingButton>
             </div>
             <div>
