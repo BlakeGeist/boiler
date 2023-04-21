@@ -15,7 +15,8 @@ const CreateAllButton = ({ articleIdeas, host }) => {
         setIsLoading(true)
 
         for(let i = 0; articleIdeas.length > i; i++) {
-            await createPostFromName(articleIdeas[i], host)
+            await new Promise(r => setTimeout(r, 750));
+            createPostFromName(articleIdeas[i], host)
         }
 
         setIsLoading(false)

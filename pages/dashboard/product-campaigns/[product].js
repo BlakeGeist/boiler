@@ -9,7 +9,7 @@ import { getDocFromPathAndSlug } from 'utils/firebase'
 const ProductCampaign = ({ user, product, site, host, lang }) => (
     <Layout site={site} user={user}>
         <Layout.Main>
-            <Breadcrumbs pathArray={[{text: 'Dashboard', href: "/dashboard"}, {text: 'Product Campagins' }]} />
+            <Breadcrumbs pathArray={[{text: 'Dashboard', href: "/dashboard"}, {text: 'Product Campagins', href: "/dashboard/product-campaigns" }, { text: product.name}]} />
             <ProductMain product={product} site={site} host={host} lang={lang} />
         </Layout.Main>
     </Layout>
