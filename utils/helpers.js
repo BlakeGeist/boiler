@@ -104,7 +104,6 @@ export const removeStartingAndEndingQuote = (string) => {
   return string
 }    
 
-
 export const generateEvenlySpacedDates = (startDate, endDate, amount) => {
   const start = new Date(startDate)
   const end = new Date(endDate)

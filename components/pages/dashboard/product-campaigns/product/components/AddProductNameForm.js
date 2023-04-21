@@ -4,8 +4,9 @@ import { LoadingButton } from '@mui/lab'
 import { doc, updateDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import moment from 'moment'
+import { generateEvenlySpacedDates  } from 'utils/helpers'
 
-const AddProductNameForm = ({ productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, postSchedule }) => {
+const AddProductNameForm = ({ articleIdeas, endDate, startDate, productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, setPostSchedule }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
@@ -35,9 +36,13 @@ const AddProductNameForm = ({ productonyms, campaignLength, host, isLoading, set
                 return itemInArray
             }
 
+            console.log(startDate, endDate, articleIdeas.length)
+
+            const schedule = generateEvenlySpacedDates(startDate, endDate, articleIdeas.length)
+            setPostSchedule(schedule)
+
             const articleIdeasObjArray = articleIdeasRes.data.map((articleIdea, i) => {
-                console.log(postSchedule)
-                const dateString = moment(postSchedule[i]).format('YYYY/MM/DD:HH:mm:ss').toString() || moment().format('YYYY/MM/DD:HH:mm:ss').toString()
+                const dateString = moment(schedule[i]).format('YYYY/MM/DD:HH:mm:ss').toString() || moment().format('YYYY/MM/DD:HH:mm:ss').toString()
 
                 const newArticleIdea = { 
                     title: articleIdea,
@@ -49,19 +54,15 @@ const AddProductNameForm = ({ productonyms, campaignLength, host, isLoading, set
                         getNextItemInArray(articleIdea)
                     ]
                 }
-
                 console.log(newArticleIdea)
-
                 return newArticleIdea
             })
-            setArticleIdeas(articleIdeasObjArray)
 
+            setArticleIdeas(articleIdeasObjArray)
             const updatedProductCampaign = {
                 articleIdeasArray: articleIdeasObjArray
             }
-    
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
-    
             await updateDoc(productCampaginRef, updatedProductCampaign)
 
             console.log(`added articleIdeasArray, `, articleIdeasObjArray)

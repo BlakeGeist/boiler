@@ -1,7 +1,7 @@
 import React from 'react'
 import ScheduledPostsMain from 'components/pages/dashboard/posts/scheduled-posts/Main'
 import Layout from 'components/Layout'
-import { collection, where, query, orderBy, getDocs, limit } from "firebase/firestore"
+import { collection, where, query, orderBy, getDocs } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import Breadcrumbs from 'components/BreadCrumbs'
 import nookies from 'nookies'
@@ -27,8 +27,8 @@ export const getServerSideProps = async (ctx) => {
 
         const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
 
-        const scheduledPostsPath = collection(firebaseDb, `sites/${host}/langs/${lang}/posts`)
-        const scheduledPostsQuery = query(scheduledPostsPath, where("publishedDate", ">", currentTime), orderBy("publishedDate", "asc"), limit(25))
+        const scheduledPostsPath = collection(firebaseDb, `sites/pet-tips-n-tricks.com/langs/${lang}/posts`)
+        const scheduledPostsQuery = query(scheduledPostsPath, where("publishedDate", ">", currentTime), orderBy("publishedDate", "asc"))
         const scheduledPostsDocs = await getDocs(scheduledPostsQuery)
         const scheduledPosts = scheduledPostsDocs?.docs?.map(doc => doc.data())
     

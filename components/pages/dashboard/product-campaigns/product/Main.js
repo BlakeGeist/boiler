@@ -50,6 +50,7 @@ const ProductMain = ({ product, host, lang }) => {
                 setCampaignLength={setCampaignLength}
                 postSchedule={postSchedule}
                 setPostSchedule={setPostSchedule}
+                articleIdeas={articleIdeas}
                 />
 
             <hr />
@@ -68,10 +69,11 @@ const ProductMain = ({ product, host, lang }) => {
                 setArticleIdeas={setArticleIdeas}
                 setIsLoading={setIsLoading}
                 startDate={startDate}
-                endDate={endDate} 
+                endDate={endDate}
                 campaignLength={campaignLength}
                 productonyms={productonyms}
-                postSchedule={postSchedule}
+                setPostSchedule={setPostSchedule}
+                articleIdeas={articleIdeas}
                 />
 
             <hr />
