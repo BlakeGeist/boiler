@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import EditHeading from './EditHeading'
 import PostHeading from 'components/pages/posts/post/components/Heading'
 
-const Heading = ({ post, host }) => {
-    const [isEditing] = useState(!post?.heading?.length > 0)
+const Heading = ({ isEditing, post, host }) => {
+    //const [isEditing] = useState(!post?.heading?.length > 0)
 
     if(isEditing) return <EditHeading post={post} host={host} />
 
