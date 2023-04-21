@@ -81,6 +81,8 @@ const ProductMain = ({ product, host, lang }) => {
                 articleIdeas={articleIdeas}
                 host={host}
                 lang={lang}
+                product={product}
+                setArticleIdeas={setArticleIdeas}
                 />
         </>
     )

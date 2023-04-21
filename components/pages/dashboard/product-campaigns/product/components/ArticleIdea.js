@@ -3,8 +3,22 @@ import moment from 'moment'
 import axios from 'axios'
 import { LoadingButton } from '@mui/lab'
 import Link from 'next/link'
+import styled from 'styled-components'
 
-const ArticleIdea = ({ articleIdea, host }) => {
+const ArticleIdeaContainer = styled.div`
+    border-bottom: 1px solid #dbdbdb;
+    padding: 25px 0;
+`
+
+const ArticleIdeaContainerButtons = styled.div`
+    display: inline-flex;
+    max-width: 400px;
+    width: 100%;
+    justify-content: space-between;
+`
+
+
+const ArticleIdea = ({ handleDeleteArticle, articleIdea, host }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [linkToScheduledPost, setLinkToScheduledPost] = useState('')
 
@@ -84,19 +98,20 @@ const ArticleIdea = ({ articleIdea, host }) => {
     }
 
     const scheduledDate = articleIdea.publishedDate ? moment(articleIdea.publishedDate, "YYYY/MM/DD:HH:mm:ss").format('YYYY/MM/DD:hh:mm:ss').toString() : ''
+
     return (
-        <div>
-            <div>
+        <ArticleIdeaContainer>
+            <p>
                 <strong>Title: </strong> {articleIdea.title}
-            </div>
+            </p>
             <div>
-                <div>
+                <p>
                     <strong>Schedule: </strong> {scheduledDate}
-                </div>
+                </p>
                 <div>
-                    <div>
+                    <p>
                         <strong>Keywords: </strong>
-                    </div>
+                    </p>
                     <ul>
                         {articleIdea.keywords?.map(keyword => {
                             return <li key={`${articleIdea.title}-${keyword}-keyword`}>{keyword}</li>
@@ -107,10 +122,11 @@ const ArticleIdea = ({ articleIdea, host }) => {
 
             <LinkToScheduledPost />
 
-            <LoadingButton  onClick={handleOnClick} loading={isLoading} loadingIndicator="Loading…" variant="outlined">Generate and schdule article</LoadingButton>
-            
-            <hr />
-        </div>   
+            <ArticleIdeaContainerButtons>
+                <LoadingButton onClick={handleOnClick} loading={isLoading} loadingIndicator="Loading…" variant="outlined">Generate and schdule article</LoadingButton>
+                <LoadingButton onClick={e => handleDeleteArticle(articleIdea, e)} loading={isLoading} loadingIndicator="Loading…" variant="outlined">Delete</LoadingButton>
+            </ArticleIdeaContainerButtons>
+        </ArticleIdeaContainer>   
     )
 }
 
