@@ -24,7 +24,6 @@ export const getServerSideProps = async (ctx) => {
         const lang = ctx.locale
         
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
-
         const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
 
         const scheduledPostsPath = collection(firebaseDb, `sites/pet-tips-n-tricks.com/langs/${lang}/posts`)
