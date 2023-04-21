@@ -1,6 +1,6 @@
 import React from 'react'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
-import { collection, limit, query, orderBy } from "firebase/firestore"
+import { collection, query, orderBy } from "firebase/firestore"
 import Layout from 'components/Layout'
 import DashboardPostsMain from 'components/pages/dashboard/posts/Main'
 import Breadcrumbs from 'components/BreadCrumbs'
@@ -25,7 +25,7 @@ export const getServerSideProps = async (ctx) => {
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
         const postsPath = `sites/${host}/langs/${lang}/posts`
-        const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"), limit(10))
+        const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"))
         const posts = await getDocsFromQuery(postsQuery) || null
     
         return {

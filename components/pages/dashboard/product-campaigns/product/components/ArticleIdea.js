@@ -4,7 +4,7 @@ import axios from 'axios'
 import { LoadingButton } from '@mui/lab'
 import Link from 'next/link'
 
-const ArticleIdea = ({ articleIdea, host, lang }) => {
+const ArticleIdea = ({ articleIdea, host }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [linkToScheduledPost, setLinkToScheduledPost] = useState('')
 
@@ -20,25 +20,67 @@ const ArticleIdea = ({ articleIdea, host, lang }) => {
     }
 
     if(!articleIdea.title) return null
+
     const handleOnClick = async (e) => {
         e.preventDefault()
 
         setIsLoading(true)
 
-        const params = {
-            ...articleIdea,
-            host,
-            lang,
-            prompt: articleIdea.title,
-            keywords: articleIdea.keywords.toString()
+        try {
+            const prompt = `
+                You are a proffesional copy writer, using that experience,
+                please create and return an image description that would describe the header image of a web article titled "${articleIdea.title}"
+            `
+
+            let headerImagePromptParams = {
+                prompt
+            }
+
+            const headerImagePromptPrompt = await axios.get('/api/getPromptReponse', { params: headerImagePromptParams })
+
+            const mediumPrompt = `
+                You are a proffesional copy writer, using that experience,
+                please create and return an image description that would describe the seeondary or embeded image of a web article titled "${articleIdea.title}"
+            `
+
+            let mediumImagePromptParams = {
+                prompt: mediumPrompt
+            }
+
+            const mediumImagePrompt = await axios.get('/api/getPromptReponse', { params: mediumImagePromptParams })
+
+            let params = {
+                ...articleIdea,
+                host,
+                lang: 'en',
+                prompt: articleIdea.title,
+                keywords: articleIdea.keywords.toString(),
+                headerImagePrompt: headerImagePromptPrompt.data.trim(),
+                mediumImagePrompt: mediumImagePrompt.data.trim()
+            }
+
+            const createPostFromHeadingResp = await axios.get('/api/createPostFromHeading', { params })
+            
+            params = {
+                ...params,
+                slug: createPostFromHeadingResp.data.slug
+            }
+            
+            axios.get('/api/addSecondaryPostData',   { params })
+            axios.get('/api/addAndCreateCategories', { params })
+            axios.get('/api/addFaqsToPost',          { params })
+            axios.get('/api/addListicle',            { params })
+            axios.get('/api/addHeaderImage',         { params })
+            axios.get('/api/addMediumImage',         { params })
+
+            setIsLoading(false)
+            setLinkToScheduledPost(createPostFromHeadingResp.data.slug)
+
+
+        } catch(e) {
+            console.log('there was an error creating the post, ', e)
         }
 
-        const resp = await axios.get('/api/createPostFromHeading', { params })
-
-        console.log(resp)
-
-        setIsLoading(false)
-        setLinkToScheduledPost(resp.data.slug)
     }
 
     const scheduledDate = articleIdea.publishedDate ? moment(articleIdea.publishedDate, "YYYY/MM/DD:HH:mm:ss").format('YYYY/MM/DD:hh:mm:ss').toString() : ''
