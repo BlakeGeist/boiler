@@ -37,7 +37,7 @@ const ProductCampaignMain = ({ host, products }) => {
             </form>
 
             <ul>
-                {productsArray.map(product => (
+                {productsArray?.map(product => (
                     <li key={product.name}>
                         <Link href={`/dashboard/product-campaigns/${product.slug}`}>{product.name}</Link>
                     </li>
