@@ -34,7 +34,7 @@ const AddProductNameForm = ({ articleIdeas, endDate, startDate, productonyms, ca
                 return itemInArray
             }
 
-            const schedule = generateEvenlySpacedDates(startDate, endDate, articleIdeas.length)
+            const schedule = generateEvenlySpacedDates(await startDate, await endDate, await articleIdeas.length)
             setPostSchedule(schedule)
 
             const articleIdeasObjArray = articleIdeasRes.data.map((articleIdea, i) => {
