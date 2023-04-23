@@ -31,8 +31,6 @@ const LoginPage = ({ site }) => {
           // if a user forgets to sign out.
           // ...
 
-          console.log('email, password, ', data.email, data.password)
-
           // New sign-in will be persisted with session persistence.
           signInWithEmailAndPassword(auth, data.email, data.password) // eslint-disable-line
 

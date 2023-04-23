@@ -6,7 +6,7 @@ import { firebaseDb } from 'utils/firebase'
 import moment from 'moment'
 import { generateEvenlySpacedDates  } from 'utils/helpers'
 
-const AddProductNameForm = ({ articleIdeas, endDate, startDate, productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, setPostSchedule }) => {
+const AddProductNameForm = ({ endDate, startDate, productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, setPostSchedule }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
@@ -34,9 +34,9 @@ const AddProductNameForm = ({ articleIdeas, endDate, startDate, productonyms, ca
                 return itemInArray
             }
 
-            console.log(await startDate, await endDate, await articleIdeas.length)
+            console.log(await startDate, await endDate, amount)
 
-            const schedule = generateEvenlySpacedDates(await startDate, await endDate, await articleIdeas.length)
+            const schedule = generateEvenlySpacedDates(await startDate, await endDate, amount)
             setPostSchedule(schedule)
 
             const articleIdeasObjArray = articleIdeasRes.data.map((articleIdea, i) => {

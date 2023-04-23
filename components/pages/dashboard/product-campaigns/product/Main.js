@@ -27,6 +27,7 @@ const ProductMain = ({ product, host, lang }) => {
     const [campaignLength, setCampaignLength] = useState(monthsBetweenDates(initalStartDate, initalEndDate) || initalCampaginLength)
 
     const defaultPostsPerMonth = 4
+    console.log(initalCampaginLength * defaultPostsPerMonth)
     const schedule = generateEvenlySpacedDates(initalStartDate, initalEndDate, (initalCampaginLength * defaultPostsPerMonth))
     const [postSchedule, setPostSchedule] = useState(schedule)
     const [productonyms, setProductonyms] = useState(product?.altProductNames || [])
@@ -73,7 +74,6 @@ const ProductMain = ({ product, host, lang }) => {
                 campaignLength={campaignLength}
                 productonyms={productonyms}
                 setPostSchedule={setPostSchedule}
-                articleIdeas={articleIdeas}
                 />
 
             <hr />
