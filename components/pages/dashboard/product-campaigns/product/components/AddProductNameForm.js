@@ -6,7 +6,7 @@ import { firebaseDb } from 'utils/firebase'
 import moment from 'moment'
 import { generateEvenlySpacedDates  } from 'utils/helpers'
 
-const AddProductNameForm = ({ articleIdeas, endDate, startDate, productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, setPostSchedule }) => {
+const AddProductNameForm = ({ endDate, startDate, productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, setPostSchedule }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)

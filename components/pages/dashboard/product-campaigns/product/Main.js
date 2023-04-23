@@ -74,7 +74,6 @@ const ProductMain = ({ product, host, lang }) => {
                 campaignLength={campaignLength}
                 productonyms={productonyms}
                 setPostSchedule={setPostSchedule}
-                articleIdeas={articleIdeas}
                 />
 
             <hr />
