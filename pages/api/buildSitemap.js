@@ -10,7 +10,10 @@ export default async function handler(req, res) {
     
     const host = `https://pet-tips-n-tricks.com`
 
-    const links = await petTipsNTricksPostsIndex.search().then(async ({ hits }) => {
+    const searchParams = {
+      };
+
+    const links = await petTipsNTricksPostsIndex.search(searchParams).then(async ({ hits }) => {
         const mappedHits = hits.map(hit => {
             return {
                 url: `/posts/${hit.objectID}`,
