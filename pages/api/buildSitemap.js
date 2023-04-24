@@ -15,15 +15,17 @@ export default async function handler(req, res) {
 
     const links = await petTipsNTricksPostsIndex.search(searchParams).then(async ({ hits }) => {
         const mappedHits = hits.map(hit => {
+            console.log(hit)
+            if(!hit.lastModified) return null
             return {
                 url: `/posts/${hit.objectID}`,
-                lastmod: moment(hit.lastmodified).format('YYYY/MM/DD:HH:mm:ss').toString(),
+                lastmod: moment(hit.lastModified).format('YYYY/MM/DD:HH:mm:ss').toString(),
                 priority: 0.3,
                 changefreq: 'monthly'
             }
         })
 
-        return mappedHits
+        return mappedHits.filter(Boolean)
     })
 
     //query a list of all the posts
