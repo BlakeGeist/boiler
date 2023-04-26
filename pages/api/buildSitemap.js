@@ -18,7 +18,7 @@ export default async function handler(req, res) {
             if(!hit.lastmodified) return null
             return {
                 url: `/posts/${hit.objectID}`,
-                lastmod: moment(hit.lastmodified).format('YYYY/MM/DD:hh:mm:ss').toString(),
+                lastmod: moment(hit.lastmodified).format('YYYY-MM-DD:hh:mm:ss').toString(),
                 priority: 0.3,
                 changefreq: 'monthly'
             }
