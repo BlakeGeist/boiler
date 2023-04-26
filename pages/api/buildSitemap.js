@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         hitsPerPage: 1000
     }
 
-    const links = await petTipsNTricksPostsIndex.search(searchParams).then(async ({ hits }) => {
+    const links = await petTipsNTricksPostsIndex.search('', searchParams).then(async ({ hits }) => {
         const mappedHits = hits.map(hit => {
             if(!hit.lastmodified) return null
             return {
