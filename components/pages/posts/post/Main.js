@@ -28,11 +28,15 @@ const Post = ({ post, recent_posts, categories, site }) => {
     const recentPostsRef = useRef(null)
     const mapRef = useRef(null)
     
-    let splitArticle = post?.articleHtml?.split(/(<p>)/g) || ''
+    let splitArticle = post?.articleHtml
+    //this is hacky, but its how the medium image is injected part way into the post
+    if(post.mediumImageSrc && post.mediumImageSrc.length > 0) {
+        splitArticle = post?.articleHtml?.split(/(<p>)/g) || ''
 
-    splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
+        splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
 
-    splitArticle = splitArticle.length > 1 ? splitArticle.join('') : ''
+        splitArticle = splitArticle.length > 1 ? splitArticle.join('') : ''
+    }
 
     const router = useRouter()
 

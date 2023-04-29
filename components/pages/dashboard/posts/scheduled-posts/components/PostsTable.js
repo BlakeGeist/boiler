@@ -4,8 +4,9 @@ import PostTableRow from './PostTableRow'
 import styled from 'styled-components'
 
 const Table = styled.table`
-    width: 100%;
     border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
 
     th {
         text-align: left
@@ -24,14 +25,26 @@ const Table = styled.table`
     }
 `
 
+const PostHeading = styled.th`
+    width: 375px;
+`
+
+const PostDate = styled.th`
+    width: 150px;
+`
+
+const PostStatus = styled.th`
+    width: 300px; 
+`
+
 const PostsTable = ({ setPosts, posts, lang, host }) => {
     return (
         <Table>
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Publish Date</th>
-                    <th>Status</th>
+                    <PostHeading>Title</PostHeading>
+                    <PostDate>Publish Date</PostDate>
+                    <PostStatus>Status</PostStatus>
                 </tr>
             </thead>
             <tbody>
