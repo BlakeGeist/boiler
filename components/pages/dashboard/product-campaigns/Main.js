@@ -24,7 +24,7 @@ const ProductCampaignMain = ({ host, products }) => {
             await setDoc(doc(firebaseDb, `/sites/${host}/productCampaigns`, productSlug), productObj)
             setProductsArray([productObj, ...productsArray])
         } catch (err) {
-            console.log('err, ', err)
+            console.error('err, ', err)
         }
     }
 

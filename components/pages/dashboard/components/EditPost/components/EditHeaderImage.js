@@ -34,10 +34,10 @@ const EditHeaderImage = ({ post, host }) => {
 
         const addHeaderImage = tryXTimes(axios.get('/api/addHeaderImage',         { params }))
         
-        await addHeaderImage.then(res => {
-            console.log('image added', res)    
+        await addHeaderImage.then(() => {
+            //console.log('image added', res)    
         }).catch(e => {
-            console.log(`there was an error while creating the HeaderImage: ${e}`)
+            console.error(`there was an error while creating the HeaderImage: ${e}`)
         }) 
 
         setIsLoading(false)

@@ -79,7 +79,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             }    
             setPost(posttemp)         
         }).catch(e => {
-            console.log(`there was an error while creating the HeaderImage: ${e}`)
+            console.error(`there was an error while creating the HeaderImage: ${e}`)
         }) 
 
         await addMediumImage.then(res => {
@@ -90,7 +90,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
 
             setPost(posttemp)
         }).catch(e => {
-            console.log(`there was an error while creating the MediumImage: ${e}`)
+            console.error(`there was an error while creating the MediumImage: ${e}`)
         }) 
 
         await addSecondaryPostData.then(res => {
@@ -101,7 +101,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             
             setPost(posttemp)                
         }).catch(e => {
-            console.log(`there was an error while creating the SectiondaryPostData: ${e}`)
+            console.error(`there was an error while creating the SectiondaryPostData: ${e}`)
         })
         await addAndCreateCategories.then(res => {
             posttemp = {
@@ -110,7 +110,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             }                
             setPost(posttemp)
         }).catch(e => {
-            console.log(`there was an error while creating the Categories: ${e}`)
+            console.error(`there was an error while creating the Categories: ${e}`)
         })
 
         await addFaqsToPost.then(res => {
@@ -120,7 +120,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
             }                
             setPost(posttemp)
         }).catch(e => {
-            console.log(`there was an error while creating the Faqs: ${e}`)
+            console.error(`there was an error while creating the Faqs: ${e}`)
         })
 
         await addListicle.then(res => {
@@ -135,7 +135,7 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
 
             setPost(posttemp)
         }).catch(e => {
-            console.log(`there was an error while creating the Listicle: ${e}`)
+            console.error(`there was an error while creating the Listicle: ${e}`)
         })
         return params
     })
@@ -147,6 +147,6 @@ export const submitArticle = async (promptText, e, setStep, setPost, host, setHt
     .catch(e => {
         setLoading(false)
 
-        console.log(`there was an error while creating the inital post, ${e}`)
+        console.error(`there was an error while creating the inital post, ${e}`)
     })
 }

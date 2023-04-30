@@ -35,7 +35,7 @@ const AddAmazonLink = ({ product, host }) => {
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
         } catch (e) {
-            console.log('e, ', e)
+            console.error('e, ', e)
         }
     }
 
@@ -68,7 +68,7 @@ const AddAmazonLink = ({ product, host }) => {
                             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
                             await updateDoc(productCampaginRef, updatedProductCampaign)
                         } catch (e) {
-                            console.log('e, ', e)
+                            console.error('e, ', e)
                         }                    
 
                     }

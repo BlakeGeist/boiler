@@ -36,14 +36,12 @@ export const getServerSideProps = async (ctx) => {
         const productsQuery = query(collection(firebaseDb, productsPath))
         const products = await getDocsFromQuery(productsQuery)
 
-        console.log(products)
-
         return {
             props: { products, user: token, host }
         }
     } catch (err) {
 
-        console.log('err, ', err)
+        console.error('err, ', err)
 
         ctx.res.writeHead(302, { Location: '/dashboard/login' })
         ctx.res.end()

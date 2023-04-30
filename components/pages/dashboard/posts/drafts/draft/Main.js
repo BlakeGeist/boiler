@@ -28,7 +28,7 @@ const DraftPostMain = ({ site, host, post: initalPost, lang }) => {
                 slug: post.slug,
                 lang: languages[i].code
             } }).catch(e => {
-                console.log('Error translating post, ', e)
+                console.error('Error translating post, ', e)
             })
         }
         setIsTranslating(false)
@@ -46,7 +46,7 @@ const DraftPostMain = ({ site, host, post: initalPost, lang }) => {
             .then(() => {
                 router.push(`/dashboard/posts`)
             })
-            .catch(e => console.log('error:, ', e))
+            .catch(e => console.error('error:, ', e))
     }
 
     const handleScheduleUpdate = () => {

@@ -20,7 +20,7 @@ const SignupPage = () => {
       await signUp(data.email, data.password)
       router.push("/dashboard")
     } catch (error) {
-      console.log(error.message)
+      console.error(error.message)
     }
   }
 

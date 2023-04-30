@@ -31,10 +31,10 @@ export default async function handler(req, res) {
                         headerImageSrc = downloadURL
                     })
             
-                }).catch(e => console.log('error:, ', e))
+                }).catch(e => console.error('error:, ', e))
 
             })
-            .catch( e => console.log('error:, ', e))
+            .catch( e => console.error('error:, ', e))
 
         const post = {
             headerImageSrc
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
         return res.status(200).json(post)
     } catch(e) {
         const errorMessage = 'there was an error while running the addHeaderImage api, '
-        console.log(errorMessage, e)
+        console.error(errorMessage, e)
         res.status(500).json(errorMessage, e)
     }
 }

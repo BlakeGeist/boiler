@@ -14,9 +14,7 @@ export const chatPromptResponse = async (propmt) => {
         max_tokens: 3900,
         frequency_penalty: 0.2,
         presence_penalty: 0,
-    }).catch(e => console.log(e.response?.data))
-
-    console.log(response?.data?.choices[0].message.content)
+    }).catch(e => console.error(e.response?.data))
 
     return response?.data?.choices[0].message.content
 }
@@ -30,7 +28,7 @@ export const promptResponse = async (propmt) => {
         top_p: 1,
         frequency_penalty: 0.2,
         presence_penalty: 0,
-    }).catch(e => console.log(e.response?.data))
+    }).catch(e => console.error(e.response?.data))
 
     return response?.data?.choices[0].text
 }
@@ -44,7 +42,7 @@ export const imageResponse = async (propmt, size) => {
         prompt: propmt,
         n: 1,
         size: daSize,
-      }).catch(e => console.log(e.response.data.error))
+      }).catch(e => console.error(e.response.data.error))
 
     return response?.data?.data[0].url
 }
@@ -55,7 +53,7 @@ export const tryXTimes = async (func, x = 3) => {
             const resp = await func
             return resp
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 }

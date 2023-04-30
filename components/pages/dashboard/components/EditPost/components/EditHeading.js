@@ -39,9 +39,9 @@ const Heading = ({ post, host }) => {
 
         await updateDoc(draftRef, updatedPost)
             .then(() => {
-                console.log('after update')
+                //console.log('after update')
             })
-            .catch( e => console.log('there was an error updating this post ', e))
+            .catch( e => console.error('there was an error updating this post ', e))
 
         setIsLoading(false)
 

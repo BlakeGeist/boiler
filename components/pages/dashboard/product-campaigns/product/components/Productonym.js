@@ -39,7 +39,7 @@ const Productonym = ({ product, host, productonym, productonyms, setProductonyms
             await updateDoc(productCampaginRef, updatedProductCampaign)
             setProductonyms(filteredProductonyms)
         } catch (e) {
-            console.log('e, ', e)
+            console.error('e, ', e)
         }   
     }
 

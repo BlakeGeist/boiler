@@ -50,6 +50,6 @@ export const createPostFromName = async (articleIdea, host) => {
 
         return createPostFromHeadingResp.data.slug
     } catch(e) {
-        console.log('there was an error creating the post, ', e)
+        console.error('there was an error creating the post, ', e)
     }
 }

@@ -33,7 +33,7 @@ const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaig
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
         } catch (e) {
-            console.log('e, ', e)
+            console.error('e, ', e)
         }
     }
 
@@ -71,7 +71,7 @@ const SelectedIdeas = ({ product, host, selectedIdeas, setSelectedIdeas, campaig
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
         } catch (e) {
-            console.log('e, ', e)
+            console.error('e, ', e)
         }
     }
 

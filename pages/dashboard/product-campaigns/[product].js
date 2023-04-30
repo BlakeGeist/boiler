@@ -31,7 +31,7 @@ export const getServerSideProps = async (ctx) => {
         }
     } catch (err) {
 
-        console.log('err, ', err)
+        console.error('err, ', err)
         ctx.res.writeHead(302, { Location: '/dashboard/login' })
         ctx.res.end()
 

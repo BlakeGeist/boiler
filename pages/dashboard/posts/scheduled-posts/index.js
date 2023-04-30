@@ -20,7 +20,7 @@ const SchdeduledPosts = ({ user, site, host, scheduledPosts, lang }) => (
 export const getServerSideProps = async (ctx) => {
     try {
         const cookies = nookies.get(ctx)
-        const host = ctx.req.headers.host
+        const host = 'pet-tips-n-tricks.com'
         const lang = ctx.locale
         
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)

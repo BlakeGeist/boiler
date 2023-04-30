@@ -13,7 +13,7 @@ const AdminPageTemplate = ({ site }) => {
         await uploadBytes(dastorageRef, file).then( async (snapshot) => {
             await getDownloadURL(snapshot.ref).then( (downloadURL) => {
                 logoSRC = downloadURL
-                console.log('File available at', downloadURL)
+                //console.log('File available at', downloadURL)
             })
         })
 

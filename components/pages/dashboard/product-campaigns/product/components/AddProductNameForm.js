@@ -34,8 +34,6 @@ const AddProductNameForm = ({ endDate, startDate, productonyms, campaignLength, 
                 return itemInArray
             }
 
-            console.log(await startDate, await endDate, amount)
-
             const schedule = generateEvenlySpacedDates(await startDate, await endDate, amount)
             setPostSchedule(schedule)
 
@@ -62,7 +60,7 @@ const AddProductNameForm = ({ endDate, startDate, productonyms, campaignLength, 
             const productCampaginRef = doc(firebaseDb, `sites/${host}/productCampaigns`, product.slug)
             await updateDoc(productCampaginRef, updatedProductCampaign)
         } catch (e) {
-            console.log('error, ', e)
+            console.error('error, ', e)
         }
 
         setIsLoading(false)
