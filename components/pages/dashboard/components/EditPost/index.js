@@ -2,6 +2,7 @@ import React from 'react'
 import HeaderImage from './components/HeaderImage'
 import Heading from './components/Heading'
 import styled from 'styled-components'
+import BodyImage from './components/BodyImage'
 
 const ArticleContainer = styled.div`
     img {
@@ -15,6 +16,14 @@ const ArticleContainer = styled.div`
     }
 `
 
+const TextImageContainer = styled.div`
+    img {
+        float: left;
+        margin: 0 15px 5px 0;
+        max-width: 250px;
+    }
+`
+
 const EditPost = ({ isEditing, post, host }) => {
     
     
@@ -22,15 +31,26 @@ const EditPost = ({ isEditing, post, host }) => {
 
     splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
 
-    const html = splitArticle.length > 1 ? splitArticle.join('') : ''
+    const html = post?.articleHtml
 
     return (
         <>
-            <HeaderImage post={post} />
+
+            <hr />
+
+            <HeaderImage post={post} host={host} />
+            
+            <hr />
+
             <Heading isEditing={isEditing} host={host} post={post} />
 
-            <ArticleContainer dangerouslySetInnerHTML={{__html: html}} />
+            <TextImageContainer>
 
+                <BodyImage post={post} host={host} />
+
+                <ArticleContainer dangerouslySetInnerHTML={{__html: html}} />
+            
+            </TextImageContainer>
 
         </>
     )

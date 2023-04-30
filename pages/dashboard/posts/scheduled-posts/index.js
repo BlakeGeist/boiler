@@ -26,7 +26,7 @@ export const getServerSideProps = async (ctx) => {
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
         const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
 
-        const scheduledPostsPath = collection(firebaseDb, `sites/pet-tips-n-tricks.com/langs/${lang}/posts`)
+        const scheduledPostsPath = collection(firebaseDb, `sites/${host}/langs/${lang}/posts`)
         const scheduledPostsQuery = query(scheduledPostsPath, where("publishedDate", ">", currentTime), orderBy("publishedDate", "asc"))
         const scheduledPostsDocs = await getDocs(scheduledPostsQuery)
         const scheduledPosts = scheduledPostsDocs?.docs?.map(doc => doc.data())

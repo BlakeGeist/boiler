@@ -6,6 +6,21 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration)
 
+export const chatPromptResponse = async (propmt) => {
+    const response = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [{role: "user", content: propmt}],
+        temperature: 0.3,
+        max_tokens: 3900,
+        frequency_penalty: 0.2,
+        presence_penalty: 0,
+    }).catch(e => console.log(e.response?.data))
+
+    console.log(response?.data?.choices[0].message.content)
+
+    return response?.data?.choices[0].message.content
+}
+
 export const promptResponse = async (propmt) => {
     const response = await openai.createCompletion({
         model: "text-davinci-003",

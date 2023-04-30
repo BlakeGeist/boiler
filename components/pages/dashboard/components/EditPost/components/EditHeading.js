@@ -19,9 +19,9 @@ const HeadingInput = styled.input`
 
 const Heading = ({ post, host }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const [slug, setSlug] = useState(post.slug || '')
+    const [slug, setSlug] = useState(post?.slug || '')
 
-    const [heading, setHeading] = useState(post.heading || '')
+    const [heading, setHeading] = useState(post?.heading || '')
 
     const handleSubmit = async (e) => {
         e.preventDefault()

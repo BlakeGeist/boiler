@@ -27,13 +27,13 @@ export const getServerSideProps = async (ctx) => {
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
         const postPath = `/sites/${host}/langs/${lang}/posts`
-        const post = await getDocFromPathAndSlug(postPath, slug) || null      
+        const post = await getDocFromPathAndSlug(postPath, slug) 
 
         return {
             props: { host, post, lang, user: token }
         }
     } catch (err) {
-        console.log(err)
+        console.error(err)
         return { props: {}}
     }
 }

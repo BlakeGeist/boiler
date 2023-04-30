@@ -1,10 +1,10 @@
-import { promptResponse } from 'utils/apiHelpers'
+import { chatPromptResponse } from 'utils/apiHelpers'
 
 export default async function handler(req, res) {
     const { prompt } = req.query
 
     try {
-        const promptRes = await promptResponse(prompt)
+        const promptRes = await chatPromptResponse(prompt)
 
        return res.status(200).json(promptRes)
     } catch (e) {
