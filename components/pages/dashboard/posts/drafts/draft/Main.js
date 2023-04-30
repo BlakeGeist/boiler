@@ -9,7 +9,7 @@ import { doc, deleteDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 import Scheduling from './components/Scheduling'
 
-const DraftPostMain = ({ site, host, post: initalPost, lang}) => {
+const DraftPostMain = ({ site, host, post: initalPost, lang }) => {
     const router = useRouter()
 
     const [isTranslating, setIsTranslating] = useState(false)
@@ -57,12 +57,12 @@ const DraftPostMain = ({ site, host, post: initalPost, lang}) => {
         <>
             <h1>Draft</h1>
 
-                <Scheduling handleScheduleUpdate={handleScheduleUpdate} postSlug={post.slug} host={host} lang={lang} publishedDate={post.publishedDate} />
+                <Scheduling handleScheduleUpdate={handleScheduleUpdate} postSlug={post?.slug} host={host} lang={lang} publishedDate={post?.publishedDate} />
 
                 <hr />
 
                 <div>
-                    {!post.isTranslated &&
+                    {!post?.isTranslated &&
                         <LoadingButton onClick={e => translatePost(e)} loading={isTranslating} variant="outlined">Translate</LoadingButton>
                     }
                     {isTranslating && 

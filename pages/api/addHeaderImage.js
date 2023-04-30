@@ -9,7 +9,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 export default async function handler(req, res) {
     const { host, slug, headerImagePrompt, lang } = req.query
 
-    const articleIdeaPromotText = headerImagePrompt
+    const articleIdeaPromotText = headerImagePrompt + ' in the style of Frida Kahlo, include no text within the image'
 
     let headerImageSrc
 
