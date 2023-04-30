@@ -3,6 +3,7 @@ import HeaderImage from './components/HeaderImage'
 import Heading from './components/Heading'
 import styled from 'styled-components'
 import BodyImage from './components/BodyImage'
+import Faqs from './components/Faqs'
 
 const ArticleContainer = styled.div`
     img {
@@ -26,12 +27,7 @@ const TextImageContainer = styled.div`
 
 const EditPost = ({ isEditing, post, host }) => {
     
-    
-    let splitArticle = post?.articleHtml?.split(/(<p>)/g) || ''
-
-    splitArticle.length > 1 ? splitArticle?.splice(2, 0, `<img src="${post.mediumImageSrc}" />`).join('') : ''
-
-    const html = post?.articleHtml
+    const html = post?.articleHtml || ''
 
     return (
         <>
@@ -51,6 +47,8 @@ const EditPost = ({ isEditing, post, host }) => {
                 <ArticleContainer dangerouslySetInnerHTML={{__html: html}} />
             
             </TextImageContainer>
+
+            <Faqs post={post} host={host} />
 
         </>
     )
