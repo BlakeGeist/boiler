@@ -4,6 +4,7 @@ import Heading from './components/Heading'
 import styled from 'styled-components'
 import BodyImage from './components/BodyImage'
 import Faqs from './components/Faqs'
+import Listicle from './components/Listicle'
 
 const ArticleContainer = styled.div`
     img {
@@ -49,6 +50,8 @@ const EditPost = ({ isEditing, post, host }) => {
             </TextImageContainer>
 
             <Faqs post={post} host={host} />
+
+            <Listicle post={post} host={host} />
 
         </>
     )
