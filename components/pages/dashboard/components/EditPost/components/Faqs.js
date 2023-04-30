@@ -6,7 +6,7 @@ import axios from 'axios'
 const Faqs = ({ post, host }) => {
 
     const [isLoading, setIsLoading] = useState(false)
-    const [faqs, setFaqs] = useState(post.faqs)
+    const [faqs, setFaqs] = useState(post?.faqs || null)
 
     const handleGenerateFaqs = async (e) => {
         e.preventDefault()
@@ -30,7 +30,7 @@ const Faqs = ({ post, host }) => {
         setIsLoading(false)
     }
 
-    if(!post.faqs) return <LoadingButton onClick={handleGenerateFaqs} loading={isLoading} variant='outlined'>Generate Faqs</LoadingButton>
+    if(!faqs) return <LoadingButton onClick={handleGenerateFaqs} loading={isLoading} variant='outlined'>Generate Faqs</LoadingButton>
 
     return (
         <>
