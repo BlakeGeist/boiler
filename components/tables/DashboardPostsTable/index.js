@@ -26,7 +26,7 @@ const PostsTable = ({ posts, host  }) => {
                             .then(() => {
                                 router.push(`/dashboard/scheduled-posts`)
                             })
-                            .catch(e => console.log('error:, ', e))
+                            .catch(e => console.error('error:, ', e))
 
                     }
 

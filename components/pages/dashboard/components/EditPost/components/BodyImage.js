@@ -3,9 +3,10 @@ import { LoadingButton } from '@mui/lab'
 import axios from 'axios'
 
 const BodyImage = ({ post, host }) => {
+    const [bodyImage, setBodyImage] = useState(post?.mediumImageSrc)
     const [isLoading, setIsLoading] = useState(false)
 
-    if(post.mediumImageSrc && post.mediumImageSrc.length > 0) return <img src={post.mediumImageSrc} />
+    if(bodyImage && bodyImage.length > 0) return <img src={bodyImage} />
 
     const handleGenerateBodyImage = async (e) => {
         e.preventDefault()
@@ -33,12 +34,12 @@ const BodyImage = ({ post, host }) => {
             lang: 'en'        
         }
 
-        const addMediumImage         = axios.get('/api/addMediumImage',         { params })
+        const addMediumImage = axios.get('/api/addMediumImage',         { params })
         
         await addMediumImage.then(res => {
-            console.log('image added', res)    
+            setBodyImage(res.data.mediumImageSrc)
         }).catch(e => {
-            console.log(`there was an error while creating the MediumImage: ${e}`)
+            console.error(`there was an error while creating the MediumImage: ${e}`)
         }) 
 
         setIsLoading(false)

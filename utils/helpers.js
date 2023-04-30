@@ -59,7 +59,7 @@ export const translateString = async (string, TargetLanguageCode) => {
       const resp = await translate.translateText(params).promise()
       return resp.TranslatedText
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
 }
 
@@ -81,7 +81,7 @@ export const translatedStrings = async (string) => {
   
     return translatedStrings
   } catch(e) {
-    console.log(e)
+    console.error(e)
   }
 }
 

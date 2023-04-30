@@ -9,10 +9,10 @@ const AmazonPage = () => {
         const params = {}
 
         await axios.get('/api/getAwsProducts', { params })
-            .then((res) => {
-                console.log(res.data)
+            .then(() => {
+                //console.log(res.data)
             })
-            .catch(e => console.log('error:, ', e))
+            .catch(e => console.error('error:, ', e))
     }
 
     return (

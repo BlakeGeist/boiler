@@ -37,7 +37,7 @@ const PostTableRow = ({ setPosts, posts, host, post, lang }) => {
             .then(async () => {
                 setPosts(posts.filter( fpost => fpost.slug !== post.slug ))
             })
-            .catch(e => console.log('error:, ', e))
+            .catch(e => console.error('error:, ', e))
     }
     return (
 

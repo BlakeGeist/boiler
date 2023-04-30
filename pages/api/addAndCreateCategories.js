@@ -66,7 +66,7 @@ export default async function handler(req, res) {
         return res.status(200).json(post)
     } catch (e) {
         const errorMessage = 'there was an error while running the addAndCreateCategories api, '
-        console.log(errorMessage, e)
+        console.error(errorMessage, e)
         res.status(500).json(errorMessage, e)
     }
 

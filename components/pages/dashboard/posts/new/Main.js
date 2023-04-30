@@ -81,7 +81,7 @@ const NewPostTemplate = ({ site, host, lang }) => {
             .then(() => {
                 router.push(`/dashboard/posts`)
             })
-            .catch(e => console.log('error:, ', e))
+            .catch(e => console.error('error:, ', e))
     }
 
     const translatePost = async (e) => {
@@ -96,7 +96,7 @@ const NewPostTemplate = ({ site, host, lang }) => {
                 slug: post.slug,
                 lang: languages[i].code
             } }).catch(e => {
-                console.log('Error translating post, ', e)
+                console.error('Error translating post, ', e)
             })
         }
         setIsTranslating(false)

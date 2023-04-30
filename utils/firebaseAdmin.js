@@ -38,7 +38,7 @@ export const uploadSitemapToHosting = async (sitemapXml) => {
 
     // Upload the sitemap XML file to Firebase Hosting
     const file = bucket.file('sitemap.xml')
-    await stream.pipe(file.createWriteStream({
+    stream.pipe(file.createWriteStream({
       metadata: {
         contentType: 'application/xml',
         cacheControl: 'public, max-age=86400' // Cache for 1 day
@@ -46,12 +46,12 @@ export const uploadSitemapToHosting = async (sitemapXml) => {
       public: true
     }))
 
-    console.log('Sitemap uploaded successfully')
+    //console.log('Sitemap uploaded successfully')
 
     // Get the download URL for the sitemap XML file
     const [metadata] = await file.getMetadata()
     const downloadUrl = metadata.mediaLink
-    console.log(`Download URL: ${downloadUrl}`)
+    //console.log(`Download URL: ${downloadUrl}`)
 
     return downloadUrl
   } catch (error) {

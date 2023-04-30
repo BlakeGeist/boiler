@@ -66,12 +66,12 @@ const Productonyms = ({ product, host, productonyms, setProductonyms }) => {
                 await updateDoc(productCampaginRef, updatedProductCampaign)
                 setProductonyms(altProductNames)
             } catch (e) {
-                console.log('e, ', e)
+                console.error('e, ', e)
             }
     
 
         } catch (e) {
-            console.log(' there was an error, ', e)
+            console.error(' there was an error, ', e)
         }
 
         setIsLoading(false)
@@ -91,7 +91,7 @@ const Productonyms = ({ product, host, productonyms, setProductonyms }) => {
             await updateDoc(productCampaginRef, updatedProductCampaign)
             setProductonyms(newProductonyms)
         } catch (e) {
-            console.log('e, ', e)
+            console.error('e, ', e)
         }
     }
 

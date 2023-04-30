@@ -34,7 +34,7 @@ const GetArticleIdeas = ({ loading, setLoading, host, setStep, setArticleIdeas }
                 setLoading(false)
                 setArticleIdeas(res.data)
             })
-            .catch(e => console.log('error:, ', e))
+            .catch(e => console.error('error:, ', e))
 
     }
 

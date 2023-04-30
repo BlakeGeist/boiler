@@ -28,7 +28,7 @@ export const getServerSideProps = async (ctx) => {
             props: { host, keyword, locale, user: token }
         }
     } catch (err) {
-        console.log(err)
+        console.error(err)
         return { props: {}}
     }
 }

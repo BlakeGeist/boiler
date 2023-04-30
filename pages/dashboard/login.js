@@ -39,15 +39,14 @@ const LoginPage = ({ site }) => {
         })
         .catch((error) => {
           // Handle Errors here.
-          console.log(error)
           const errorCode = error.code
           const errorMessage = error.message
-          console.log(errorCode, errorMessage)
+          console.error(errorCode, errorMessage)
         })
 
 
     } catch (error) {
-      console.log(error.message)
+      console.error(error.message)
     }
   }
 
