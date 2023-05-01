@@ -1,11 +1,12 @@
 import React from 'react'
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
-import { collection, query, orderBy } from "firebase/firestore"
+import { collection, query, orderBy, limit, where } from "firebase/firestore"
 import Layout from 'components/Layout'
 import DashboardPostsMain from 'components/pages/dashboard/posts/Main'
 import Breadcrumbs from 'components/BreadCrumbs'
 import nookies from 'nookies'
 import { firebaseAdmin } from 'utils/firebaseAdmin'
+import moment from 'moment'
 
 const DashboardPosts = ({ user, site, posts, host, lang }) => (
     <Layout site={site} user={user}>
@@ -18,6 +19,7 @@ const DashboardPosts = ({ user, site, posts, host, lang }) => (
 
 export const getServerSideProps = async (ctx) => {
     try {
+        const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
         const cookies = nookies.get(ctx)
         const host = ctx.req.headers.host
         const lang = ctx.locale
@@ -25,8 +27,8 @@ export const getServerSideProps = async (ctx) => {
         const token  = await firebaseAdmin.auth().verifyIdToken(cookies.token)
 
         const postsPath = `sites/${host}/langs/${lang}/posts`
-        const postsQuery = query(collection(firebaseDb, postsPath), orderBy('createdAt', "desc"))
-        const posts = await getDocsFromQuery(postsQuery) || null
+        const postsQuery = query(collection(firebaseDb, postsPath), where("publishedDate", "<", currentTime), orderBy('publishedDate', "desc"), limit(50))
+        const posts = await getDocsFromQuery(postsQuery) || []
     
         return {
             props: { host, lang, posts, user: token }
