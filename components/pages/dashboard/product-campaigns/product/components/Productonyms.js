@@ -43,11 +43,12 @@ const Productonyms = ({ product, host, productonyms, setProductonyms }) => {
             const resp = await axios.get('/api/getPromptReponse', { params })
 
             const sanitizedData = (data) => {
-                data = data.split(',')
+                data = data.split('\n')
 
                 data = data.map((dataItem, i) => {
+                    dataItem = dataItem.replace(`${i+1}. `, '')
+                    dataItem = dataItem.replace(`${i+1}.`, '')
                     dataItem = dataItem.replace(`${i+1}`, '')
-                    dataItem = dataItem.replace('. ', '')
                     dataItem = dataItem.replace('.', '')
                     dataItem = dataItem.replace('\n', '')
                     return dataItem.trim()

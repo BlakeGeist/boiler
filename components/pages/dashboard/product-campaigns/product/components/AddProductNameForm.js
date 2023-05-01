@@ -6,6 +6,10 @@ import { firebaseDb } from 'utils/firebase'
 import moment from 'moment'
 import { generateEvenlySpacedDates  } from 'utils/helpers'
 
+function onlyUnique(value, index, array) {
+    return array.indexOf(value) === index
+  }
+
 const AddProductNameForm = ({ endDate, startDate, productonyms, campaignLength, host, isLoading, setIsLoading, setArticleIdeas, product, setPostSchedule }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -51,7 +55,7 @@ const AddProductNameForm = ({ endDate, startDate, productonyms, campaignLength, 
                     ]
                 }
                 return newArticleIdea
-            })
+            }).filter(onlyUnique)
 
             setArticleIdeas(articleIdeasObjArray)
             const updatedProductCampaign = {
