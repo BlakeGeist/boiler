@@ -5,7 +5,7 @@ import Head from 'next/head'
 import PostMain from 'components/pages/posts/post/Main'
 import Layout from 'components/Layout'
 
-const Post = ({ post, recent_posts, site }) => {
+const Post = ({ post, recent_posts, site, lang }) => {
     return (
         <>
             <Head>
@@ -19,6 +19,7 @@ const Post = ({ post, recent_posts, site }) => {
                         post={post}
                         recent_posts={recent_posts}
                         categories={post.categories}
+                        lang={lang}
                     />
                 </Layout.Main>
             </Layout>

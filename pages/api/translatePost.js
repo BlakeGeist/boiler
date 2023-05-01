@@ -3,6 +3,7 @@ import { firebaseDb } from 'utils/firebase'
 import { translateString, cleanSlug } from 'utils/helpers'
 import { convertToHTML } from 'draft-convert'
 import { EditorState, ContentState } from 'draft-js'
+import { languages } from 'utils/languages'
 
 export default async function handler(req, res) {
     const { slug, host, lang } = req.query
@@ -29,32 +30,40 @@ export default async function handler(req, res) {
         const editorState = EditorState.createWithContent(content)
         const html = convertToHTML(editorState.getCurrentContent())
 
-        const translatedSlug = post.slugs.filter(slu => slu.lang.code === lang)[0]
+
+        const slugs = await Promise.all(languages.map(async (language) => {
+            const translatedHeading = await translateString(post.heading, language.code)
+            const transltedSlug = cleanSlug(translatedHeading)
+    
+            return { name: language.name, lang: language.code, slug: transltedSlug}
+        }))
+
+        const translatedSlug = slugs.filter(slu => slu.lang === lang)[0]
+
 
         const translatedPost = {
+            ...post,
             slug: translatedSlug?.slug || post.slug,
-            slugs: post.slugs,
+            slugs: slugs,
             rawArticleResponse: await translateString(post.rawArticleResponse, lang),
             metaTitle: await translateString(post.metaTitle, lang),
             categories: categories,
-            map: post.map,
             metaDescription: await translateString(post.metaDescription, lang),
             heading: await translateString(post.heading, lang),
             shortDescription: await translateString(post.shortDescription, lang),
             listicleHeading: await translateString(post.listicleHeading, lang),
             summary: await translateString(post.summary, lang),
             quote: await translateString(post.quote, lang),
-            headerImageSrc: post.headerImageSrc,
-            mediumImageSrc: post.mediumImageSrc,
-            createdAt: post.createdAt,
             isTranslated: true,
             listicleItems,
             faqs,
             lang,
             articleHtml: html
         }
+
+        console.log(translatedPost)
     
-        await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, translatedSlug?.slug || post.slug), translatedPost)
+        await setDoc(doc(firebaseDb, `/sites/${host}/langs/${lang}/posts`, translatedPost.slug), translatedPost)
         return res.status(200).json(translatedPost)
     } catch (e) {
         const errorMessage = 'there was an error while running the translatePost api, '

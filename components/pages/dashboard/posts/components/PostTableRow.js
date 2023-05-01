@@ -51,6 +51,7 @@ const PostTableRow = ({ setPosts, posts, host, post, lang }) => {
                     <PostHasItem hasItem={post.headerImageSrc && post.headerImageSrc.length > 0}>Header Image</PostHasItem>
                     <PostHasItem hasItem={post.mediumImageSrc && post.mediumImageSrc.length > 0}>Body Image</PostHasItem>
                     <PostHasItem hasItem={post.faqs && post.faqs.length > 0}>Faqs</PostHasItem>
+                    <PostHasItem hasItem={post.isTranslated}>Translated</PostHasItem>
                     <PostHasItem hasItem={post.listicleItems && post.listicleItems.length > 0}>Listicle</PostHasItem>
                 </PostHas>
             </td>

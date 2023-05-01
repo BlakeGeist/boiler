@@ -47,7 +47,7 @@ export default async function handler(req, res) {
             const translatedHeading = await translateString(heading, language.code)
             const transltedSlug = cleanSlug(translatedHeading)
     
-            return { lang: language.code, slug:  transltedSlug}
+            return { name: language.name, lang: language.code, slug: transltedSlug}
         }))
         
         const post = {

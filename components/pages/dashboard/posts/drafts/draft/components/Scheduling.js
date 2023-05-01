@@ -6,6 +6,7 @@ import DateTimePicker from 'react-datetime-picker'
 import { doc, updateDoc } from "firebase/firestore"
 import moment from 'moment'
 import { firebaseDb } from 'utils/firebase'
+import Link from 'next/link'
 
 //TODO make it so you cannot translate until the post is scheduled.
 
@@ -34,6 +35,10 @@ const Scheduling = ({ handleScheduleUpdate, postSlug, host, lang, publishedDate 
             <h2>Scheduling</h2>
 
             <div>Published Date: {publishedDate}</div>
+
+            <div>
+                <Link href={`/posts/${postSlug}`}>Go to post</Link>
+            </div>
 
             <DateTimePicker onChange={setDateSlected} value={dateSelected} />
             <button onClick={onClick}>Submit Scheduled Date</button>

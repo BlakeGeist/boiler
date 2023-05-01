@@ -15,9 +15,11 @@ import Map from 'components/pages/posts/post/components/Map'
 import { useRouter } from 'next/router'
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
 
-const Post = ({ post, recent_posts, categories, site }) => {
+const Post = ({ post, recent_posts, categories, site, lang }) => {
 
     if(!post.heading) return null
+
+    console.log(post.slugs)
 
     const topRef = useRef(null)
     const summaryRef = useRef(null)
@@ -41,12 +43,18 @@ const Post = ({ post, recent_posts, categories, site }) => {
     const router = useRouter()
 
     const handleChange = (e) => {
-        const lang = e.target.value
-        const toUrl = post.slugs.filter(s => s.lang.code === lang)[0]
+        const newLang = e.target.value
+        const toUrl = post.slugs.filter(s => {
+            return s.lang === newLang
+        })[0]
+        
+        let redTo = `/${newLang}/posts/${toUrl.slug}`
 
-        const redTo = `/${lang}/posts/${toUrl.slug}`
+        if(newLang === 'en') {
+            redTo = `/posts/${toUrl.slug}`
+        }
 
-        router.push(redTo, redTo, { locale: lang })
+        router.push(redTo, redTo, { locale: newLang })
     }
 
     return (
@@ -75,8 +83,13 @@ const Post = ({ post, recent_posts, categories, site }) => {
                     {post?.slugs &&
                         <select onChange={e => handleChange(e)}>
                             {post?.slugs.map(slug => {
+                                if(slug.lang === lang) {
+                                    return (
+                                        <option selected="selected" key={slug.lang} value={slug.lang}>{slug.name}</option>
+                                    )                                    
+                                }
                                 return (
-                                    <option key={slug.lang.code} value={slug.lang.code}>{slug.lang.name}</option>
+                                    <option key={slug.lang} value={slug.lang}>{slug.name}</option>
                                 )
                             })}
                         </select>                    
