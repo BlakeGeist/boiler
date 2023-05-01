@@ -20,7 +20,7 @@ const DraftPostsPost = ({ user, post, site, host, lang }) => {
 export const getServerSideProps = async (ctx) => {
     try {
         const cookies = nookies.get(ctx)
-        const host = 'pet-tips-n-tricks.com'
+        const host = ctx.req.headers.host
         const lang = ctx.locale
         const slug = ctx.query.post
         
@@ -33,7 +33,7 @@ export const getServerSideProps = async (ctx) => {
             props: { host, post, lang, user: token }
         }
     } catch (err) {
-        console.error(err)
+        console.log(err)
         return { props: {}}
     }
 }
