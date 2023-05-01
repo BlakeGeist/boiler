@@ -10,7 +10,7 @@ import { useRouter } from "next/router"
 
 export function MyCustomApp({ Component, pageProps, site, host }) {
   const router = useRouter()
-  const canonicalUrl = (host + (router.asPath === "/" ? "": router.asPath)).split("?")[0]
+  const canonicalUrl = ('https://' + host + (router.asPath === "/" ? "": router.asPath)).split("?")[0]
 
 
   return (
