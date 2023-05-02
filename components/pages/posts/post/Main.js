@@ -14,8 +14,9 @@ import Quote from 'components/pages/posts/post/components/Quote'
 import Map from 'components/pages/posts/post/components/Map'
 import { useRouter } from 'next/router'
 import { PostContainer, Body, QuoteAndAd } from './post.styles'
+import Head from 'next/head'
 
-const Post = ({ post, recent_posts, categories, site, lang }) => {
+const Post = ({ post, recent_posts, categories, site, lang, host }) => {
 
     if(!post.heading) return null
 
@@ -59,6 +60,17 @@ const Post = ({ post, recent_posts, categories, site, lang }) => {
 
     return (
         <>
+            <Head>
+                {post.isTranslated &&
+                    post.slugs.map(slug => {
+                        console.log(slug)
+                        return (
+                            <link key={slug.name} rel="alternate" hrefLang={slug.lang} href={`https://${host}/${slug.lang}/posts/${slug.slug}`} />
+                        )
+                    })
+
+                }
+            </Head>
             <Header topRef={topRef} headerImageSrc={post.headerImageSrc} />
             <Heading heading={post.heading} />
             <PostContainer>
@@ -81,13 +93,8 @@ const Post = ({ post, recent_posts, categories, site, lang }) => {
                     <RecentPosts recentPostsRef={recentPostsRef} recentPosts={recent_posts} />
                     <Map mapSrc={post.map} mapRef={mapRef} />
                     {post?.slugs &&
-                        <select onChange={e => handleChange(e)}>
+                        <select defaultValue={lang} onChange={e => handleChange(e)}>
                             {post?.slugs.map(slug => {
-                                if(slug.lang === lang) {
-                                    return (
-                                        <option selected="selected" key={slug.lang} value={slug.lang}>{slug.name}</option>
-                                    )                                    
-                                }
                                 return (
                                     <option key={slug.lang} value={slug.lang}>{slug.name}</option>
                                 )
