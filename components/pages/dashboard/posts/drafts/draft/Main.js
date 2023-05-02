@@ -71,7 +71,6 @@ const DraftPostMain = ({ site, host, post: initalPost, lang }) => {
                     <Button onClick={(e) => deletePost(e)} variant="outlined">Delete</Button>
                 </div>
 
-
             <EditPost
                 post={post}
                 host={host}
