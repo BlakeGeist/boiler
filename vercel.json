@@ -3,8 +3,11 @@
       {
         "path": "/api/postsCron",
         "schedule": "*/5 * * * *"
+      },
+      {
+        "path": "/api/buildSitemap",
+        "schedule": "0 0 * * *"
       }
     ]
 }
 
-  
