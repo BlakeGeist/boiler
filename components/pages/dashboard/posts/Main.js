@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PostsTable from './components/PostsTable'
 import PostsSearchForm from './components/PostsSearchForm'
 import styled from 'styled-components'
@@ -20,12 +20,22 @@ const DashboardPostsMain = ({ posts: initialPosts, host, lang }) => {
     const [showLoadMore, setShowLoadMore] = useState(true)
     const [lastVisible, setLastVisible] = useState(null)
     const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
+    const postsPath = `sites/${host}/langs/${lang}/posts`
+
+    useEffect(() => {
+        const fetchInitalPost = async () => {
+            const postsQuery = query(collection(firebaseDb, postsPath), where("publishedDate", "<", currentTime), orderBy('publishedDate', "desc"), limit(50))
+            const postsSnap = await getDocs(postsQuery)
+            setLastVisible(postsSnap.docs[postsSnap.docs.length-1])
+        }
+
+        fetchInitalPost()
+    }, [])
 
     const loadMorePosts = async (e) => {
         e.preventDefault()
         setIsLoading(true)
 
-        const postsPath = `sites/${host}/langs/${lang}/posts`
         const next = query(collection(firebaseDb, postsPath),
             where("publishedDate", "<", currentTime),
             orderBy('publishedDate', "desc"),
