@@ -16,6 +16,21 @@ export default async function handler(req, res) {
 
     const links = await petTipsNTricksPostsIndex.search('', searchParams).then(async ({ hits }) => {
         const mappedHits = hits.map(hit => {
+
+            if(hit.isTranslated) {
+                return hit.slugs.map(slug => {
+                    console.log(slug)
+                    let route = `/${slug.lang}/posts/${slug.slug}`
+                    if(slug.lang === 'en') route = `/posts/${slug.slug}`
+                    return {
+                        url: route,
+                        lastmod: moment(hit.lastmodified).format('YYYY-MM-DD:hh:mm:ss').toString(),
+                        priority: 0.3,
+                        changefreq: 'monthly'
+                    }
+                })
+            }
+
             if(!hit.lastmodified) return null
             return {
                 url: `/posts/${hit.objectID}`,
@@ -25,7 +40,7 @@ export default async function handler(req, res) {
             }
         })
 
-        return mappedHits.filter(Boolean)
+        return mappedHits.filter(Boolean).flat()
     })
 
     //query a list of all the posts
