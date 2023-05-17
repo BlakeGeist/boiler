@@ -1,152 +1,94 @@
 import axios from 'axios'
 import { tryXTimes } from 'utils/apiHelpers'
 
-export const submitArticle = async (promptText, e, setStep, setPost, host, setHtml, setLoading, post, keywords, router) => {
-    e.preventDefault()
-    const mappedKeywords = keywords.map(k => `"${k}"`)
-    const params = {
-        host,
-        prompt: promptText,
-        headingText: promptText,
-        map: e.target.map.value,
-        keywords: `${mappedKeywords}`.replace(",", ", "),
-        lang: 'en'
+const getPromptReponse = async (prompt) => {
+  const params = { prompt }
+  const response = await axios.get('/api/getPromptReponse', { params })
+  return response.data.trim()
+}
+
+const addImagePromptsToParams = async (params, promptText) => {
+  const headerImagePromptParams = {
+    prompt: `You are a professional copy writer, using that experience,
+            please create and return an image description that would describe the header image of a web article titled "${promptText}"`,
+  }
+  const mediumImagePromptParams = {
+    prompt: `You are a professional copy writer, using that experience,
+            please create and return an image description that would describe the secondary or embedded image of a web article titled "${promptText}"`,
+  }
+
+  const headerImagePrompt = await getPromptReponse(headerImagePromptParams)
+  const mediumImagePrompt = await getPromptReponse(mediumImagePromptParams)
+
+  return { ...params, headerImagePrompt, mediumImagePrompt }
+}
+
+const performAdditionalPostOperations = async (params, posttemp, setPost) => {
+  const operations = [
+    { name: 'HeaderImage', endpoint: '/api/addHeaderImage' },
+    { name: 'MediumImage', endpoint: '/api/addMediumImage' },
+    { name: 'SecondaryPostData', endpoint: '/api/addSecondaryPostData' },
+    { name: 'Categories', endpoint: '/api/addAndCreateCategories' },
+    { name: 'Faqs', endpoint: '/api/addFaqsToPost' },
+    { name: 'Listicle', endpoint: '/api/addListicle' },
+  ]
+
+  for (const operation of operations) {
+    try {
+      const res = await tryXTimes(axios.get(operation.endpoint, { params }))
+
+      if (operation.name === 'Faqs') {
+        posttemp = { ...posttemp, faqs: res.data }
+      } else if (operation.name === 'Listicle') {
+        const { listicleHeading, listicleDescription, listicleItems } = res.data
+        posttemp = { ...posttemp, listicleHeading, listicleDescription, listicleItems }
+      } else {
+        posttemp = { ...posttemp, ...res.data }
+      }
+
+      setPost(posttemp)
+    } catch (error) {
+      console.error(`there was an error while creating the ${operation.name}: ${error}`)
     }
+  }
 
-    setStep(3)
-    setLoading(true)
+  return posttemp
+}
 
-    let posttemp = {}
+export const submitArticle = async (
+    promptText, e, setStep, setPost, host, setHtml, setLoading, post, keywords, router
+) => {
+  e.preventDefault()
+  const mappedKeywords = keywords?.map((k) => `"${k}"`)
+  let params = {
+    host,
+    prompt: promptText,
+    headingText: promptText,
+    map: e.target.map.value,
+    keywords: `${mappedKeywords}`.replace(',', ', '),
+    lang: 'en',
+  }
 
-    const createPost = Promise.resolve(await tryXTimes(axios.get('/api/createPost',   { params })))
+  setStep(3)
+  setLoading(true)
 
-    createPost.then(async (res) => {
-        const params = {
-            slug: res.data.slug,
-            prompt: promptText,
-            host,
-            lang: 'en'
-        }
-        setPost(res.data)
-        posttemp = res.data
-        setStep(4)
+  let posttemp = {}
 
-        setHtml(res.data.articleHtml)
+  try {
+    const res = await tryXTimes(axios.get('/api/createPost', { params }))
+    setPost(res.data)
+    posttemp = res.data
+    setStep(4)
+    setHtml(res.data.articleHtml)
+    params = { ...params, slug: res.data.slug }
+    params = await addImagePromptsToParams(params, promptText)
+    posttemp = await performAdditionalPostOperations(params, posttemp, setPost)
 
-        return params
-    })
-    .then(async (params) => {
-
-        const prompt = `
-            You are a proffesional copy writer, using that experience,
-            please create and return an image description that would describe the header image of a web article titled "${promptText}"
-        `
-
-        let headerImagePromptParams = {
-            prompt
-        }
-
-        const resp = await axios.get('/api/getPromptReponse', { params: headerImagePromptParams })
-
-        const mediumPrompt = `
-            You are a proffesional copy writer, using that experience,
-            please create and return an image description that would describe the seeondary or embeded image of a web article titled "${promptText}"
-        `
-
-        let mediumImagePromptParams = {
-            prompt: mediumPrompt
-        }
-
-        const resp2 = await axios.get('/api/getPromptReponse', { params: mediumImagePromptParams })
-
-        params = {
-            ...params,
-            headerImagePrompt: await resp.data.trim(),
-            mediumImagePrompt: await resp2.data.trim()
-        }
-
-        const addSecondaryPostData   = tryXTimes(axios.get('/api/addSecondaryPostData',   { params }))
-        const addAndCreateCategories = tryXTimes(axios.get('/api/addAndCreateCategories', { params }))
-        const addFaqsToPost          = tryXTimes(axios.get('/api/addFaqsToPost',          { params }))
-        const addListicle            = tryXTimes(axios.get('/api/addListicle',            { params }))
-        const addHeaderImage         = tryXTimes(axios.get('/api/addHeaderImage',         { params }))
-        const addMediumImage         = tryXTimes(axios.get('/api/addMediumImage',         { params }))
-
-        await addHeaderImage.then(res => {
-            posttemp = {
-                ...posttemp,
-                ...res.data
-            }    
-            setPost(posttemp)         
-        }).catch(e => {
-            console.error(`there was an error while creating the HeaderImage: ${e}`)
-        }) 
-
-        await addMediumImage.then(res => {
-            posttemp = {
-                ...posttemp,
-                ...res.data
-            }
-
-            setPost(posttemp)
-        }).catch(e => {
-            console.error(`there was an error while creating the MediumImage: ${e}`)
-        }) 
-
-        await addSecondaryPostData.then(res => {
-            posttemp = {
-                ...posttemp,
-                ...res.data
-            }
-            
-            setPost(posttemp)                
-        }).catch(e => {
-            console.error(`there was an error while creating the SectiondaryPostData: ${e}`)
-        })
-        await addAndCreateCategories.then(res => {
-            posttemp = {
-                ...posttemp,
-                ...res.data
-            }                
-            setPost(posttemp)
-        }).catch(e => {
-            console.error(`there was an error while creating the Categories: ${e}`)
-        })
-
-        await addFaqsToPost.then(res => {
-            posttemp = {
-                ...posttemp,
-                faqs: res.data
-            }                
-            setPost(posttemp)
-        }).catch(e => {
-            console.error(`there was an error while creating the Faqs: ${e}`)
-        })
-
-        await addListicle.then(res => {
-            const { listicleHeading, listicleDescription, listicleItems } = res.data
-
-            posttemp = {
-                ...posttemp,
-                listicleHeading,
-                listicleDescription,
-                listicleItems
-            }
-
-            setPost(posttemp)
-        }).catch(e => {
-            console.error(`there was an error while creating the Listicle: ${e}`)
-        })
-        return params
-    })
-    .then(() => { 
-        setPost(posttemp)
-        setLoading(false)
-          router.push(`/dashboard/posts/drafts/${posttemp.slug}`)
-    })
-    .catch(e => {
-        setLoading(false)
-
-        console.error(`there was an error while creating the inital post, ${e}`)
-    })
+    setPost(posttemp)
+    setLoading(false)
+    router.push(`/dashboard/posts/drafts/${posttemp.slug}`)
+} catch (error) {
+    setLoading(false)
+    console.error(`there was an error while creating the initial post: ${error}`)
+    }
 }

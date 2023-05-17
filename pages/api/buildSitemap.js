@@ -2,6 +2,7 @@ const { SitemapStream, streamToPromise } = require( 'sitemap' )
 const { Readable } = require( 'stream' )
 const { petTipsNTricksPostsIndex } = require('utils/searchClient')
 const moment = require('moment')
+import { sortBy } from 'lodash'
 
 const { uploadSitemapToHosting } = require("utils/firebaseAdmin")
 
@@ -15,7 +16,10 @@ export default async function handler(req, res) {
     }
 
     const links = await petTipsNTricksPostsIndex.search('', searchParams).then(async ({ hits }) => {
-        const mappedHits = hits.map(hit => {
+
+        const sortedHits = sortBy(hits, ['lastmodified']).reverse()
+
+        const mappedHits = sortedHits.map(hit => {
 
             if(hit.isTranslated) {
                 return hit.slugs.map(slug => {
