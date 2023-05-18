@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { StyledList } from 'components/pages/dashboard/posts/post/index.styles'
 import { truncateString } from 'utils/helpers'
 import Link from 'next/link'
-import { LoadingButton } from '@mui/lab'
-import { collection, getDocs, limit, query, orderBy, startAfter } from "firebase/firestore"
-import { firebaseDb } from 'utils/firebase'
+
+import Button from '@mui/material/Button'
 
 const Post = styled.div`
     border: 1px solid #ccc;
@@ -64,53 +63,12 @@ const PostsContainer = styled.div`
     margin: 0 auto;
 `
 
-const LoadingButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-`
-
-const PostsTemplate = ({ posts, host, locale }) => {
-    const [postsData, setPostsData] = useState(posts)
-    const [lastVisible, setLastVisible] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
-    const [showLoadMore, setShowLoadMore] = useState(true)
-
-    useEffect(() => {
-        const fetchInitalPost = async () => {
-            const postsQuery = query(collection(firebaseDb, `sites/${host}/langs/${locale}/posts`), orderBy('createdAt', "desc"), limit(10))
-            const postsSnap = await getDocs(postsQuery)
-            setLastVisible(postsSnap.docs[postsSnap.docs.length-1])
-        }
-
-        fetchInitalPost()
-    }, [])
-
-    const loadMorePosts = async (e) => {
-        e.preventDefault()
-        setIsLoading(true)
-
-        const next = query(collection(firebaseDb, `sites/${host}/langs/${locale}/posts`),
-            orderBy("createdAt", "desc"),
-            startAfter(lastVisible),
-            limit(10))
-    
-        const morePostsSnap = await getDocs(next)
-        const morePosts = morePostsSnap.docs.map(doc => doc.data())
-
-        if(morePosts.length < 10) setShowLoadMore(false)
-
-        setLastVisible(morePostsSnap.docs[morePostsSnap.docs.length-1])
-        setPostsData(postsData.concat(morePosts))
-        setIsLoading(false)
-    }
-
+const PostsTemplate = ({ posts, page = 0 }) => {
     return (
         <PostsContainer>
             <h1>Posts</h1>
             <StyledList>
-                {postsData.map((post, i) => {
+                {posts.map((post, i) => {
                     return (
                         <Post key={`${post.slug}-${i}-key`}>
                             <PostImage src={post.mediumImageSrc}>
@@ -131,14 +89,14 @@ const PostsTemplate = ({ posts, host, locale }) => {
                     )
                 })}
 
-                {showLoadMore &&
-                    <LoadingButtonContainer>
-                        <LoadingButton onClick={loadMorePosts} loading={isLoading} loadingIndicator="Loading…" variant="outlined">
-                            Load More
-                        </LoadingButton>
-                    </LoadingButtonContainer>                
+                {parseInt(page) > 0 &&
+                    <>
+                        {parseInt(page) > 1 &&
+                            <Button variant='outlined' href={`/posts/page/${parseInt(page) - 1}`}>Prev</Button>
+                        }
+                        <Button variant='outlined' href={`/posts/page/${parseInt(page) + 1}`}>Next</Button>
+                    </>
                 }
-
             </StyledList>
         </PostsContainer>        
     )
