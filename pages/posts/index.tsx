@@ -4,11 +4,11 @@ import { collection, limit, query, orderBy } from "firebase/firestore"
 import PostsMain from 'components/pages/posts/Main'
 import Layout from 'components/Layout'
 
-const Posts = ({ posts, host, site, locale }) => {
+const Posts = ({ posts, site }) => {
     return (
         <Layout site={site}>
             <Layout.Main>
-                <PostsMain host={host} posts={posts} locale={locale} />
+                <PostsMain posts={posts} />
             </Layout.Main>
         </Layout>
     )
