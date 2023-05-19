@@ -63,7 +63,7 @@ const PostsContainer = styled.div`
     margin: 0 auto;
 `
 
-const PostsTemplate = ({ posts, page = 0 }) => {
+const PostsTemplate = ({ posts, page = 0, hasNextPage }) => {
     return (
         <PostsContainer>
             <h1>Posts</h1>
@@ -94,7 +94,9 @@ const PostsTemplate = ({ posts, page = 0 }) => {
                         {parseInt(page) > 1 &&
                             <Button variant='outlined' href={`/posts/page/${parseInt(page) - 1}`}>Prev</Button>
                         }
-                        <Button variant='outlined' href={`/posts/page/${parseInt(page) + 1}`}>Next</Button>
+                        {hasNextPage &&
+                            <Button variant='outlined' href={`/posts/page/${parseInt(page) + 1}`}>Next</Button>                        
+                        }
                     </>
                 }
             </StyledList>

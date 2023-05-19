@@ -6,11 +6,11 @@ import PostsMain from 'components/pages/posts/Main'
 import Layout from 'components/Layout'
 import moment from 'moment'
 
-const Page = ({ posts, host, site, locale, page }) => {
+const Page = ({ posts, host, site, locale, page, hasNextPage }) => {
     return (
         <Layout site={site}>
             <Layout.Main>
-                <PostsMain host={host} posts={posts} locale={locale} page={page} />
+                <PostsMain host={host} posts={posts} locale={locale} page={page} hasNextPage={hasNextPage} />
             </Layout.Main>
         </Layout>
     )
@@ -28,7 +28,9 @@ export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     
     const posts = await fetchDocumentsByPage(collectionRef, pageNumber, pageSize)
 
-    return { props: { posts: posts || null, host, locale, page } }
+    const hasNextPage = posts.hasNextPage
+
+    return { props: { posts: posts.documents || null, host, locale, page, hasNextPage } }
 }
 
 export default Page
@@ -37,7 +39,9 @@ async function fetchDocumentsByPage(collectionRef, pageNumber, pageSize) {
     const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
 
     try {
-      const documents = []
+      const documents = [];
+      let hasNextPage = false;
+  
       let q = query(
         collectionRef,
         where("publishedDate", "<", currentTime),
@@ -46,21 +50,28 @@ async function fetchDocumentsByPage(collectionRef, pageNumber, pageSize) {
       )
   
       if (pageNumber > 1) {
-        const startAfterDoc = await getStartAfterDocument(collectionRef, pageNumber, pageSize)
-        q = query(q, startAfter(startAfterDoc))
+        const startAfterDoc = await getStartAfterDocument(collectionRef, pageNumber, pageSize);
+        q = query(q, startAfter(startAfterDoc));
       }
   
-      const querySnapshot = await getDocs(q)
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        documents.push({ id: doc.id, ...doc.data() })
+        documents.push({ id: doc.id, ...doc.data() });        
       })
+
+      if(documents.length === pageSize) {
+        hasNextPage = true
+      }
   
-      return documents
+      return {
+        documents,
+        hasNextPage,
+      };
     } catch (error) {
-      console.error('Error fetching documents:', error)
-      throw error
+      console.error('Error fetching documents:', error);
+      throw error;
     }
-  }  
+  }
 
   async function getStartAfterDocument(collectionRef, pageNumber, pageSize) {
     const startAfterQuery = query(collectionRef, orderBy('createdAt'), limit((pageNumber - 1) * pageSize))
