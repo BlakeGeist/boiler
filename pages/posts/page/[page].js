@@ -74,7 +74,14 @@ async function fetchDocumentsByPage(collectionRef, pageNumber, pageSize) {
   }
 
   async function getStartAfterDocument(collectionRef, pageNumber, pageSize) {
-    const startAfterQuery = query(collectionRef, orderBy('createdAt'), limit((pageNumber - 1) * pageSize))
+    const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
+
+    let startAfterQuery = query(
+        collectionRef,
+        where("publishedDate", "<", currentTime),
+        orderBy('publishedDate', "desc"),
+        limit((pageNumber - 1) * pageSize)
+      )
     const querySnapshot = await getDocs(startAfterQuery)
     const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
     return lastDoc
