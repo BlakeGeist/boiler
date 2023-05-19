@@ -8,7 +8,7 @@ const Posts = ({ posts, site }) => {
     return (
         <Layout site={site}>
             <Layout.Main>
-                <PostsMain posts={posts} />
+                <PostsMain posts={posts} page={1} />
             </Layout.Main>
         </Layout>
     )
