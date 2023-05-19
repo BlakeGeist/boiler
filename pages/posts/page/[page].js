@@ -39,8 +39,8 @@ async function fetchDocumentsByPage(collectionRef, pageNumber, pageSize) {
     const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
 
     try {
-      const documents = [];
-      let hasNextPage = false;
+      const documents = []
+      let hasNextPage = false
   
       let q = query(
         collectionRef,
@@ -50,13 +50,13 @@ async function fetchDocumentsByPage(collectionRef, pageNumber, pageSize) {
       )
   
       if (pageNumber > 1) {
-        const startAfterDoc = await getStartAfterDocument(collectionRef, pageNumber, pageSize);
-        q = query(q, startAfter(startAfterDoc));
+        const startAfterDoc = await getStartAfterDocument(collectionRef, pageNumber, pageSize)
+        q = query(q, startAfter(startAfterDoc))
       }
   
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
-        documents.push({ id: doc.id, ...doc.data() });        
+        documents.push({ id: doc.id, ...doc.data() })        
       })
 
       if(documents.length === pageSize) {
@@ -66,10 +66,10 @@ async function fetchDocumentsByPage(collectionRef, pageNumber, pageSize) {
       return {
         documents,
         hasNextPage,
-      };
+      }
     } catch (error) {
-      console.error('Error fetching documents:', error);
-      throw error;
+      console.error('Error fetching documents:', error)
+      throw error
     }
   }
 

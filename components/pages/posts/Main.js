@@ -63,7 +63,7 @@ const PostsContainer = styled.div`
     margin: 0 auto;
 `
 
-const PostsTemplate = ({ posts, page = 0, hasNextPage }) => {
+const PostsTemplate = ({ posts, page = 0, hasNextPage = true }) => {
     return (
         <PostsContainer>
             <h1>Posts</h1>
