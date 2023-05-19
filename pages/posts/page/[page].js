@@ -1,12 +1,12 @@
 import React from 'react'
 import { firebaseDb } from 'utils/firebase'
-import { collection, query, orderBy, limit, startAfter, getDocs } from 'firebase/firestore'
+import { collection, query, orderBy, limit, startAfter, getDocs, where } from 'firebase/firestore'
 
 import PostsMain from 'components/pages/posts/Main'
 import Layout from 'components/Layout'
+import moment from 'moment'
 
 const Page = ({ posts, host, site, locale, page }) => {
-    console.log(page)
     return (
         <Layout site={site}>
             <Layout.Main>
@@ -21,43 +21,50 @@ export const getServerSideProps = async ({ req, locale, query: reqQuery }) => {
     const lang = locale
     const host = req.headers.host
 
-    const posts = await fetchPage(page, host, lang)
+    const pageNumber = parseInt(page) // The page number you want to fetch
+    const pageSize = 10 // The number of documents per page
+    const collectionRef = collection(firebaseDb, `sites/pet-tips-n-tricks.com/langs/${lang}/posts`)
+
+    
+    const posts = await fetchDocumentsByPage(collectionRef, pageNumber, pageSize)
 
     return { props: { posts: posts || null, host, locale, page } }
 }
 
 export default Page
 
+async function fetchDocumentsByPage(collectionRef, pageNumber, pageSize) {
+    const currentTime = moment().format('YYYY/MM/DD:HH:mm:ss').toString()
 
-// Define the page size and target page number
-const pageSize = 10 // Number of documents per page
-
-// Function to fetch a specific page
-async function fetchPage(page, host, lang) {
-    // Calculate the document offset for the target page
-    const offset = (page - 1) * pageSize
+    try {
+      const documents = []
+      let q = query(
+        collectionRef,
+        where("publishedDate", "<", currentTime),
+        orderBy('publishedDate', "desc"),
+        limit(pageSize)
+      )
   
-    // Create a query for the collection, order by a specified field, and limit the result to the pageSize
-    const q = query(collection(firebaseDb, `sites/${host}/langs/${lang}/posts`), orderBy('createdAt'), limit(pageSize))
-  
-    // If it's not the first page, start after the document at the calculated offset
-    if (offset > 0) {
-      const snapshot = await getDocs(q)
-      const startAfterDoc = snapshot.docs[offset - 1]
-  
-      // Check if the document at the offset exists before using startAfter
-      if (startAfterDoc) {
-        const qWithStartAfter = query(q, startAfter(startAfterDoc))
-        const snapshotWithStartAfter = await getDocs(qWithStartAfter)
-        const results = snapshotWithStartAfter.docs.map(doc => doc.data())
-        return results
+      if (pageNumber > 1) {
+        const startAfterDoc = await getStartAfterDocument(collectionRef, pageNumber, pageSize)
+        q = query(q, startAfter(startAfterDoc))
       }
+  
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        documents.push({ id: doc.id, ...doc.data() })
+      })
+  
+      return documents
+    } catch (error) {
+      console.error('Error fetching documents:', error)
+      throw error
     }
-  
-    const snapshot = await getDocs(q)
-    const results = snapshot.docs.map(doc => doc.data())
+  }  
 
-    return results
+  async function getStartAfterDocument(collectionRef, pageNumber, pageSize) {
+    const startAfterQuery = query(collectionRef, orderBy('createdAt'), limit((pageNumber - 1) * pageSize))
+    const querySnapshot = await getDocs(startAfterQuery)
+    const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1]
+    return lastDoc
   }
-  
-
