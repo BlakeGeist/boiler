@@ -31,7 +31,7 @@ export default async function handler(req, res) {
             })
         }
 
-        const randomEftStreamerResp = await fetch(`${host}/api/getRandomEftStreamer`)
+        const randomEftStreamerResp = await fetch(`https://www.tarkov-goon-tracker.com/api/getRandomEftStreamer`)
         const randomEftStreamerObj = await randomEftStreamerResp.json()
         const randomEftStreamer = randomEftStreamerObj.randomEftStreamer
 
