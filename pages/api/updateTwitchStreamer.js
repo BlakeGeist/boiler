@@ -1,13 +1,38 @@
 
 
 import moment from 'moment'
-import { doc, setDoc } from "firebase/firestore"
-import { firebaseDb } from 'utils/firebase'
+import { doc, setDoc, query, collection, orderBy, limit } from "firebase/firestore"
+import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
+
+const host = process.env.NEXT_PUBLIC_HOST || ''
 
 export default async function handler(req, res) {
-    const currentDate = moment().format()
+    const currentDate = moment().utc().format()
     try {
-        const randomEftStreamerResp = await fetch(`https://www.tarkov-goon-tracker.com/api/getRandomEftStreamer`)
+
+        const twitchHighlightsPath = `twitchHighlights`
+        const twitchHighlightsQuery = query(collection(firebaseDb, twitchHighlightsPath), orderBy("currentDate", "desc"), limit(1))
+        const twitchHighlight = await getDocsFromQuery(twitchHighlightsQuery) || []
+        const currentlyFeaturedStreamer = twitchHighlight[0].twitchUser.user_login || twitchHighlight[0].twitchUser.login
+
+        const twitchHighlightUserResp = await fetch(`https://www.tarkov-goon-tracker.com/api/isTwitchUserLive?username=${currentlyFeaturedStreamer}`)
+        const twitchUser = await twitchHighlightUserResp.json()
+
+        if(twitchHighlight[0].endFeatureAt === 'stream end' && twitchUser.userIsOnline) {
+            return res.status(200).json({
+                updateStatus: 'no update, current user is still online',
+                currentlyFeaturedStreamer
+            })
+        }
+
+        if(currentDate < twitchHighlight[0].endFeatureAt) {
+            return res.status(200).json({
+                updateStatus: 'no update, current user is still within their uptime',
+                currentlyFeaturedStreamer
+            })
+        }
+
+        const randomEftStreamerResp = await fetch(`${host}/api/getRandomEftStreamer`)
         const randomEftStreamerObj = await randomEftStreamerResp.json()
         const randomEftStreamer = randomEftStreamerObj.randomEftStreamer
 
