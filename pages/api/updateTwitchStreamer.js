@@ -9,7 +9,6 @@ const host = process.env.NEXT_PUBLIC_HOST || ''
 export default async function handler(req, res) {
     const currentDate = moment().utc().format()
     try {
-
         const twitchHighlightsPath = `twitchHighlights`
         const twitchHighlightsQuery = query(collection(firebaseDb, twitchHighlightsPath), orderBy("currentDate", "desc"), limit(1))
         const twitchHighlight = await getDocsFromQuery(twitchHighlightsQuery) || []
@@ -25,7 +24,7 @@ export default async function handler(req, res) {
             })
         }
 
-        if(currentDate > twitchHighlight[0].endFeatureAt) {
+        if(twitchHighlight[0].endFeatureAt ==! 'stream end' && currentDate < twitchHighlight[0].endFeatureAt) {
             return res.status(200).json({
                 updateStatus: 'no update, current user is still within their uptime',
                 currentlyFeaturedStreamer
