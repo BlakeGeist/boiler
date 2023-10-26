@@ -4,8 +4,6 @@ import moment from 'moment'
 import { doc, setDoc } from "firebase/firestore"
 import { firebaseDb } from 'utils/firebase'
 
-const host = process.env.NEXT_PUBLIC_HOST || ''
-
 export default async function handler(req, res) {
     const currentDate = moment().format()
     try {
