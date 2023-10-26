@@ -4,6 +4,8 @@ import { useRouter }  from 'next/router'
 import UserMenu from './UserMenu'
 
 const UserNav = ({ user }) => {
+    if(!user) return null
+
     const { logOut } = useAuth()
     const router = useRouter()
 
@@ -18,8 +20,6 @@ const UserNav = ({ user }) => {
         }
     } 
 
-
-    if(!user) return null
     return (
         <div>
             <div>

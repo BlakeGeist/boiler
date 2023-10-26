@@ -11,7 +11,6 @@ const LoginPage = ({ site }) => {
   const methods = useForm({ mode: "onBlur" })
   const { logIn } = useAuth()
   const router = useRouter()
-
   const [showLogin] = useState(true)
 
   const {
