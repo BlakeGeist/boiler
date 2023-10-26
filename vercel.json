@@ -10,7 +10,7 @@
       },
       {
         "path": "/api/updateTwitchStreamer",
-        "schedule": "*/20 * * * *"
+        "schedule": "*/3 * * * *"
       }      
     ]
 }
