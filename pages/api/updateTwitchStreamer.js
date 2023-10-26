@@ -9,7 +9,7 @@ const host = process.env.NEXT_PUBLIC_HOST || ''
 export default async function handler(req, res) {
     const currentDate = moment().format()
     try {
-        const randomEftStreamerResp = await fetch(`${host}/api/getRandomEftStreamer`)
+        const randomEftStreamerResp = await fetch(`https://www.tarkov-goon-tracker.com/api/getRandomEftStreamer`)
         const randomEftStreamerObj = await randomEftStreamerResp.json()
         const randomEftStreamer = randomEftStreamerObj.randomEftStreamer
 
