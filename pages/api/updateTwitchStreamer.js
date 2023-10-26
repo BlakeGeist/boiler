@@ -25,7 +25,7 @@ export default async function handler(req, res) {
             })
         }
 
-        if(currentDate < twitchHighlight[0].endFeatureAt) {
+        if(currentDate > twitchHighlight[0].endFeatureAt) {
             return res.status(200).json({
                 updateStatus: 'no update, current user is still within their uptime',
                 currentlyFeaturedStreamer
