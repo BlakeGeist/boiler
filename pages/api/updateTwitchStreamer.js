@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
         const twitchHighlightRef = doc(firebaseDb, `twitchHighlights`, currentDate)
         const twtichHighlight = {
-            twitchUserName: await randomEftStreamer.user_name,
+            twitchChannel: await randomEftStreamer.user_login,
             currentDate,
             twitchUser: await randomEftStreamer
         }
