@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
             updateStatus: 'success',
-            updatedTo: randomEftStreamer
+            updatedTo: twtichHighlight
         })
     } catch (e) {
         console.error('there was an error while running the updateTwitchStreamer Api, ', e)
