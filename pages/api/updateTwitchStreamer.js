@@ -38,7 +38,7 @@ export default async function handler(req, res) {
             twitchChannel: await randomEftStreamer.user_login,
             currentDate,
             twitchUser: await randomEftStreamer
-        }
+        } 
 
         await setDoc(twitchHighlightRef, twtichHighlight)
 
