@@ -3,6 +3,7 @@
 import moment from 'moment'
 import { doc, setDoc, query, collection, orderBy, limit } from "firebase/firestore"
 import { firebaseDb, getDocsFromQuery } from 'utils/firebase'
+import moment from 'moment'
 
 export default async function handler(req, res) {
     const currentDate = moment().utc().format()
@@ -22,7 +23,7 @@ export default async function handler(req, res) {
             })
         }
 
-        if(twitchHighlight[0].endFeatureAt ==! 'stream end' && currentDate < twitchHighlight[0].endFeatureAt) {
+        if(twitchHighlight[0].endFeatureAt !== 'stream end' && currentDate < moment(twitchHighlight[0].endFeatureAt).utc().format()) {
             return res.status(200).json({
                 updateStatus: 'no update, current user is still within their uptime',
                 currentlyFeaturedStreamer
