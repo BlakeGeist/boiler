@@ -7,11 +7,7 @@
       {
         "path": "/api/buildSitemap",
         "schedule": "0 0 * * *"
-      },
-      {
-        "path": "/api/updateTwitchStreamer",
-        "schedule": "*/15 * * * *"
-      }      
+      }     
     ]
 }
 
